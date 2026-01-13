@@ -316,10 +316,33 @@ api.post('/ai/evaluate', async (c) => {
       if (!deal) {
         return c.json({ success: false, error: '标的不存在' }, 404)
       }
+      
+      // 解析财务数据
+      let financialData = null
+      try {
+        financialData = deal.financial_data ? JSON.parse(deal.financial_data) : null
+      } catch (e) {
+        financialData = null
+      }
+      
+      // 精简数据，避免Prompt过长
       dealData = {
-        deal_info: deal,
-        project_documents: deal.project_documents,
-        financial_data: deal.financial_data ? JSON.parse(deal.financial_data) : null
+        deal_id: deal.id,
+        company_name: deal.company_name,
+        industry: deal.industry,
+        main_business: deal.main_business,
+        funding_amount: deal.funding_amount,
+        // 截取项目文档的关键部分（前3000字符）
+        project_summary: deal.project_documents ? deal.project_documents.substring(0, 3000) : '',
+        // 只保留财务数据的关键指标
+        financial_highlights: financialData ? {
+          investment_amount: financialData.investment_amount,
+          revenue_forecast: financialData.revenue_forecast?.total,
+          cost_total: financialData.cost_structure?.total,
+          irr_estimate: financialData.profit_distribution?.investor_return?.irr_estimate,
+          payback_months: financialData.profit_distribution?.investor_return?.payback_months,
+          roi: financialData.profit_distribution?.investor_return?.roi
+        } : null
       }
     }
     
@@ -349,26 +372,98 @@ ${JSON.stringify(dealData, null, 2)}
     
     const startTime = Date.now()
     
-    const completion = await client.chat.completions.create({
-      model: modelConfig.model || 'gpt-5',
-      messages: [
-        { role: 'system', content: agent.system_prompt },
-        { role: 'user', content: fullPrompt }
-      ],
-      temperature: modelConfig.temperature || 0.2,
-      max_tokens: modelConfig.max_tokens || 2000,
-    })
+    let completion
+    let aiResponse = ''
+    try {
+      completion = await client.chat.completions.create({
+        model: modelConfig.model || 'gpt-5',
+        messages: [
+          { role: 'system', content: agent.system_prompt },
+          { role: 'user', content: fullPrompt }
+        ],
+        temperature: modelConfig.temperature || 0.2,
+        max_tokens: modelConfig.max_tokens || 4000,
+      })
+      aiResponse = completion.choices[0]?.message?.content || ''
+    } catch (apiError: any) {
+      console.error('OpenAI API调用失败:', apiError.message)
+      return c.json({
+        success: false,
+        error: 'AI服务调用失败: ' + apiError.message,
+        details: {
+          status: apiError.status,
+          code: apiError.code,
+          type: apiError.type
+        }
+      }, 500)
+    }
     
     const executionTime = Date.now() - startTime
-    const aiResponse = completion.choices[0]?.message?.content || ''
     
     // 解析AI返回的JSON
     let result
     try {
-      // 尝试提取JSON
-      const jsonMatch = aiResponse.match(/\{[\s\S]*\}/)
+      // 尝试提取JSON - 更健壮的解析
+      let jsonStr = aiResponse
+      
+      // 移除markdown代码块标记
+      jsonStr = jsonStr.replace(/```json\s*/g, '').replace(/```\s*/g, '')
+      
+      // 尝试找到JSON对象
+      const jsonMatch = jsonStr.match(/\{[\s\S]*\}/)
       if (jsonMatch) {
-        result = JSON.parse(jsonMatch[0])
+        jsonStr = jsonMatch[0]
+        
+        // 尝试修复截断的JSON
+        try {
+          result = JSON.parse(jsonStr)
+        } catch (e) {
+          // 如果解析失败，尝试修复常见问题
+          // 1. 补全截断的字符串和对象
+          let fixedJson = jsonStr
+          
+          // 统计括号，尝试闭合
+          const openBraces = (fixedJson.match(/\{/g) || []).length
+          const closeBraces = (fixedJson.match(/\}/g) || []).length
+          const openBrackets = (fixedJson.match(/\[/g) || []).length
+          const closeBrackets = (fixedJson.match(/\]/g) || []).length
+          
+          // 如果在字符串中间截断，先闭合字符串
+          const lastQuote = fixedJson.lastIndexOf('"')
+          const colonAfterQuote = fixedJson.indexOf(':', lastQuote)
+          if (colonAfterQuote === -1 && lastQuote > fixedJson.lastIndexOf(':')) {
+            // 可能在值字符串中间截断
+            fixedJson = fixedJson.substring(0, lastQuote + 1)
+          }
+          
+          // 补全括号
+          for (let i = 0; i < openBrackets - closeBrackets; i++) {
+            fixedJson += ']'
+          }
+          for (let i = 0; i < openBraces - closeBraces; i++) {
+            fixedJson += '}'
+          }
+          
+          try {
+            result = JSON.parse(fixedJson)
+          } catch (e2) {
+            // 最后尝试：提取关键字段构建结果
+            const passMatch = jsonStr.match(/"pass"\s*:\s*(true|false)/)
+            const scoreMatch = jsonStr.match(/"score"\s*:\s*(\d+)/)
+            const reasoningMatch = jsonStr.match(/"reasoning"\s*:\s*"([^"]*)"/)
+            const riskMatch = jsonStr.match(/"risk_level"\s*:\s*"([^"]*)"/)
+            
+            result = {
+              pass: passMatch ? passMatch[1] === 'true' : false,
+              score: scoreMatch ? parseInt(scoreMatch[1]) : 0,
+              reasoning: reasoningMatch ? reasoningMatch[1] : '评估完成（JSON解析部分成功）',
+              risk_level: riskMatch ? riskMatch[1] : 'medium',
+              findings: [],
+              recommendation: '请查看原始响应获取详细信息',
+              _partial_parse: true
+            }
+          }
+        }
       } else {
         throw new Error('无法从AI响应中提取JSON')
       }

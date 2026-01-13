@@ -126,7 +126,7 @@ Cardi B（Belcalis Marlenis Almánzar）：
     pass_threshold: 100,
     is_enabled: 1,
     execution_order: 1,
-    model_config: JSON.stringify({ model: "gpt-5", temperature: 0.1, max_tokens: 2000 }),
+    model_config: JSON.stringify({ model: "gpt-5-mini", temperature: 0.1, max_tokens: 2000 }),
     icon: "fas fa-ban",
     icon_color: "#EF4444"
   },
@@ -257,7 +257,7 @@ Cardi B（Belcalis Marlenis Almánzar）：
     pass_threshold: 60,
     is_enabled: 1,
     execution_order: 2,
-    model_config: JSON.stringify({ model: "gpt-5", temperature: 0.2, max_tokens: 2000 }),
+    model_config: JSON.stringify({ model: "gpt-5-mini", temperature: 0.2, max_tokens: 2000 }),
     icon: "fas fa-folder-open",
     icon_color: "#3B82F6"
   },
@@ -377,7 +377,7 @@ Cardi B（Belcalis Marlenis Almánzar）：
     pass_threshold: 60,
     is_enabled: 1,
     execution_order: 3,
-    model_config: JSON.stringify({ model: "gpt-5", temperature: 0.2, max_tokens: 2000 }),
+    model_config: JSON.stringify({ model: "gpt-5-mini", temperature: 0.2, max_tokens: 2000 }),
     icon: "fas fa-handshake",
     icon_color: "#10B981"
   },
@@ -490,7 +490,7 @@ Cardi B（Belcalis Marlenis Almánzar）：
     pass_threshold: 60,
     is_enabled: 1,
     execution_order: 1,
-    model_config: JSON.stringify({ model: "gpt-5", temperature: 0.2, max_tokens: 2500 }),
+    model_config: JSON.stringify({ model: "gpt-5-mini", temperature: 0.2, max_tokens: 2500 }),
     icon: "fas fa-chart-line",
     icon_color: "#F59E0B"
   },
@@ -586,7 +586,7 @@ Cardi B（Belcalis Marlenis Almánzar）：
     pass_threshold: 60,
     is_enabled: 1,
     execution_order: 2,
-    model_config: JSON.stringify({ model: "gpt-5", temperature: 0.2, max_tokens: 2000 }),
+    model_config: JSON.stringify({ model: "gpt-5-mini", temperature: 0.2, max_tokens: 2000 }),
     icon: "fas fa-gears",
     icon_color: "#8B5CF6"
   },
@@ -696,7 +696,7 @@ Cardi B（Belcalis Marlenis Almánzar）：
     pass_threshold: 60,
     is_enabled: 1,
     execution_order: 3,
-    model_config: JSON.stringify({ model: "gpt-5", temperature: 0.2, max_tokens: 2000 }),
+    model_config: JSON.stringify({ model: "gpt-5-mini", temperature: 0.2, max_tokens: 2000 }),
     icon: "fas fa-scale-balanced",
     icon_color: "#3B82F6"
   },
@@ -788,7 +788,7 @@ Cardi B（Belcalis Marlenis Almánzar）：
     pass_threshold: 60,
     is_enabled: 1,
     execution_order: 4,
-    model_config: JSON.stringify({ model: "gpt-5", temperature: 0.2, max_tokens: 2000 }),
+    model_config: JSON.stringify({ model: "gpt-5-mini", temperature: 0.2, max_tokens: 2000 }),
     icon: "fas fa-shield-halved",
     icon_color: "#EF4444"
   },
@@ -869,7 +869,7 @@ Cardi B（Belcalis Marlenis Almánzar）：
     pass_threshold: 60,
     is_enabled: 1,
     execution_order: 5,
-    model_config: JSON.stringify({ model: "gpt-5", temperature: 0.2, max_tokens: 2000 }),
+    model_config: JSON.stringify({ model: "gpt-5-mini", temperature: 0.2, max_tokens: 2000 }),
     icon: "fas fa-handshake-angle",
     icon_color: "#10B981"
   },
@@ -958,7 +958,7 @@ Cardi B（Belcalis Marlenis Almánzar）：
     pass_threshold: 60,
     is_enabled: 1,
     execution_order: 6,
-    model_config: JSON.stringify({ model: "gpt-5", temperature: 0.2, max_tokens: 2000 }),
+    model_config: JSON.stringify({ model: "gpt-5-mini", temperature: 0.2, max_tokens: 2000 }),
     icon: "fas fa-calculator",
     icon_color: "#F59E0B"
   },
@@ -1056,7 +1056,7 @@ Cardi B（Belcalis Marlenis Almánzar）：
     pass_threshold: 60,
     is_enabled: 1,
     execution_order: 7,
-    model_config: JSON.stringify({ model: "gpt-5", temperature: 0.3, max_tokens: 3000 }),
+    model_config: JSON.stringify({ model: "gpt-5-mini", temperature: 0.3, max_tokens: 3000 }),
     icon: "fas fa-ranking-star",
     icon_color: "#8B5CF6"
   }
