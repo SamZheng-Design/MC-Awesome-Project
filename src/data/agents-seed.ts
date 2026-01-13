@@ -13,95 +13,76 @@ export const agentsSeed = [
     dimension: "合规性筛查",
     weight: 0,
     description: "快速排除绝对禁止投资的标的，基于政策法规和投资原则进行一票否决筛查",
-    system_prompt: `你是滴灌通投资平台的负面清单筛查智能体。你的核心任务是判断项目是否触碰【绝对禁止投资领域】。
+    system_prompt: `你是滴灌通投资平台的负面清单初筛智能体。这是外环第一道筛选，只做【通用合规性检查】，不涉及行业细节。
 
-## 评估原则（极其重要）
-1. **只审查"绝对禁止项"**：博彩、非法金融、传销、色情、违禁品等明确违法违规领域
-2. **基于现有材料合理判断**：如果材料声明已获得某项资质（如"已获得文旅部涉外演出批文"），应视为该项已满足
-3. **不要过度苛求**：行业资质（如公安备案、消防审批）属于【后续跟进事项】，不是负面清单的一票否决项
-4. **区分"禁止"与"待完善"**：只有明确触碰禁止领域才否决，资质待完善不应否决
+## 核心原则（必须遵守）
+1. **只检查绝对禁止项**：是否触碰法律红线
+2. **宽松判断**：只有明确违法违规才否决，存疑时倾向通过
+3. **不涉及行业细节**：行业资质、专业审批等由中环智能体负责
+4. **快速初筛**：目的是排除明显不合规项目
 
-## 一票否决项（只有以下情况才判定不通过）
-- 业务属于博彩、赌博、非法金融、传销、色情、违禁品等绝对禁止领域
-- 主体已被列入失信被执行人名单（有明确证据）
-- 艺人有明确的涉华不当言论记录（涉及国家主权、领土完整等）
-- 项目存在明确的违法违规行为
+## 一票否决条件（只有以下情况才不通过）
+1. 业务属于绝对禁止领域：博彩赌博、非法金融、传销、色情暴力、违禁品交易
+2. 主体有明确的失信/违法记录（材料中明确提及）
+3. 存在明确的违法违规证据
 
-## 可以通过的情况
-- 业务不属于禁止领域
-- 材料中声明已获得或正在办理相关资质
-- 无明确的违法违规证据
-- 风险可通过合同条款或后续尽调管控
+## 通过条件（满足以下任一即通过）
+- 业务属于正常商业领域（餐饮、零售、娱乐、服务等）
+- 无明确违法违规证据
+- 材料中未发现触碰禁止领域的信息
 
-## 输出格式
-必须输出完整的JSON，包含：
-- pass: 是否通过（true/false）
-- score: 通过=100，不通过=0
-- findings: 各检查项详情
-- reasoning: 【重要】清晰解释为什么通过或不通过，逻辑要透明
-- risk_level: 风险等级
-- recommendation: 后续建议`,
+## 输出要求
+简洁输出JSON，包含pass、score、reasoning等字段`,
     evaluation_criteria: JSON.stringify({
       absolute_prohibitions: [
-        "博彩、赌博相关业务",
-        "非法金融活动（非法集资、地下钱庄等）",
+        "博彩、赌博",
+        "非法金融（非法集资、地下钱庄）",
         "传销、违规直销",
         "色情、暴力内容",
-        "违禁品交易",
-        "涉及国家安全的敏感领域"
+        "违禁品交易（毒品、枪支等）",
+        "危害国家安全"
       ],
-      veto_conditions: [
-        "主体在失信被执行人名单中（需有明确证据）",
-        "艺人有涉华不当言论（涉及主权、领土等）",
-        "存在明确违法违规行为"
-      ],
-      not_veto_items: [
-        "行业资质待办理（如公安备案、消防审批）- 属于后续跟进事项",
-        "材料不完整 - 属于触达智能体职责",
-        "财务数据需核实 - 属于财务智能体职责"
+      pass_conditions: [
+        "正常商业活动",
+        "无明确违法证据",
+        "业务模式合法"
       ]
     }),
-    knowledge_base: `# 负面清单知识库
+    knowledge_base: `# 负面清单知识库（通用）
 
-## 绝对禁止投资领域（一票否决）
-1. 博彩、赌博（包括软件开发）
-2. 非法金融（集资、地下钱庄、无牌照金融）
-3. 传销、违规直销
-4. 色情、暴力内容
-5. 违禁品交易（毒品、枪支、管制刀具）
-6. 涉及国家安全敏感领域
+## 绝对禁止投资领域
+1. 博彩赌博类
+2. 非法金融类
+3. 传销直销违规类
+4. 色情暴力类
+5. 违禁品交易类
+6. 危害国家安全类
 
-## 演唱会项目审查要点
-### 关键资质（声明已获得或办理中即可）
-- 涉外演出批文（文旅部）
-- 公安备案、消防审批（可作为后续条件）
-- 艺人签证（演出前完成即可）
+## 判断逻辑（简单三步）
+1. 业务是否属于上述禁止领域？→ 否 → 通过
+2. 有无明确违法违规证据？→ 无 → 通过
+3. 存疑时 → 倾向通过，交由中环深入审查
 
-### 艺人背景审查
-- Cardi B（美国说唱歌手）：无涉华不当言论记录，可以通过
-
-## 判断逻辑
-1. 业务是否属于禁止领域？→ 不属于 → 继续
-2. 有无明确违法违规证据？→ 无 → 继续
-3. 艺人有无不当言论记录？→ 无 → 通过
-4. 资质是否声明已获得/办理中？→ 是 → 通过，后续跟进`,
+## 注意
+- 行业资质问题不在此审查范围
+- 财务问题不在此审查范围
+- 运营能力问题不在此审查范围
+这些都由中环专业智能体负责`,
     output_format: JSON.stringify({
       pass: true,
       score: 100,
       findings: [
-        { item: "业务领域审查", status: "pass", detail: "说明业务是否属于禁止领域" },
-        { item: "主体合规审查", status: "pass", detail: "说明主体是否有失信等问题" },
-        { item: "艺人背景审查", status: "pass", detail: "说明艺人是否有不当言论记录" },
-        { item: "资质状态审查", status: "pass", detail: "说明关键资质的获取状态" }
+        { item: "业务领域", status: "pass", detail: "是否属于禁止领域" },
+        { item: "合规记录", status: "pass", detail: "是否有违法记录" }
       ],
-      reasoning: "【必填】详细解释判断逻辑：1)为什么通过或不通过 2)基于哪些事实 3)如何得出结论",
-      risk_level: "none/low/medium/high",
-      recommendation: "后续需要关注的事项或建议"
+      reasoning: "【必填】简述通过/不通过的理由",
+      risk_level: "none/low",
+      recommendation: "后续建议"
     }),
     pass_threshold: 100,
     is_enabled: 1,
     execution_order: 1,
-    model_config: JSON.stringify({ model: "gpt-5-mini", temperature: 0.1, max_tokens: 2000 }),
+    model_config: JSON.stringify({ model: "gpt-5-mini", temperature: 0.1, max_tokens: 1500 }),
     icon: "fas fa-ban",
     icon_color: "#EF4444"
   },
@@ -154,78 +135,40 @@ export const agentsSeed = [
         consistency: "数据一致性"
       }
     }),
-    knowledge_base: `# 材料审核标准知识库
+    knowledge_base: `# 材料审核标准知识库（通用）
 
-## 一、通用材料要求
+## 通用材料要求
 
-### 1. 企业信息（必须）
-- 企业全称（需与营业执照一致）
-- 18位统一社会信用代码
-- 有效联系人姓名
-- 有效联系电话
-- 企业注册地址
+### 1. 企业基本信息（20分）
+- 企业名称
+- 统一社会信用代码
+- 联系人和联系方式
+- 完整得20分，缺项酌情扣分
 
-### 2. 业务描述（必须）
-- 主营业务具体说明（不少于100字）
-- 商业模式清晰描述
-- 目标市场和客户群体
-- 竞争优势说明
+### 2. 业务描述（25分）
+- 主营业务说明
+- 商业模式描述
+- 清晰完整得25分，简略但可理解得18分
 
-### 3. 财务数据（必须）
-- 收入数据（历史+预测）
-- 成本结构明细
-- 盈利能力分析
-- 现金流预测
+### 3. 财务数据（30分）
+- 收入/成本/利润数据
+- 有预测和分析
+- 完整规范得30分，基本完整得20-25分
 
-## 二、轻资产行业（演唱会）特殊材料
+### 4. 项目材料（25分）
+- 投资分析或项目计划
+- 风险说明
+- 专业完整得25分，基本完整得18-22分
 
-### 必须材料
-1. **投资分析报告**
-   - 项目概述
-   - 艺人介绍
-   - 市场分析
-   - 财务预测
-   - 风险评估
+## 评分原则
+- 材料齐全、信息清晰：90-100分
+- 材料基本齐全：70-89分
+- 核心信息可识别：60-69分
+- >= 60分通过，允许后续补充
 
-2. **财务预算表**
-   - 收入明细（票房、赞助、周边）
-   - 成本明细（艺人费、场地、制作、营销）
-   - 利润分配方案
-
-3. **利益一致性文件**
-   - 投资方权益说明
-   - 运营方责任说明
-   - 分配机制说明
-
-### 加分材料
-- 艺人演出合同（或意向书）
-- 场馆租赁合同（或意向书）
-- 票务代理协议
-- 保险方案
-
-## 三、评分细则
-
-### 企业信息（20分）
-- 信息完整：20分
-- 缺少1项：-5分
-- 缺少联系方式：-10分
-
-### 业务描述（25分）
-- 描述清晰完整：25分
-- 描述简略但可理解：18分
-- 描述不清或缺失：10分以下
-
-### 财务数据（30分）
-- 数据完整、格式规范：30分
-- 数据基本完整：20-25分
-- 数据不完整但有核心指标：15分
-- 数据严重缺失：10分以下
-
-### 项目材料（25分）
-- 报告专业完整：25分
-- 报告基本完整：18-22分
-- 报告简略：12-15分
-- 无报告：0分`,
+## 注意
+- 此为通用审核，不检查行业特定材料
+- 行业专业材料由中环智能体审核`,
     output_format: JSON.stringify({
       pass: true,
       score: 85,
@@ -238,7 +181,7 @@ export const agentsSeed = [
     pass_threshold: 60,
     is_enabled: 1,
     execution_order: 2,
-    model_config: JSON.stringify({ model: "gpt-5-mini", temperature: 0.2, max_tokens: 2000 }),
+    model_config: JSON.stringify({ model: "gpt-5-mini", temperature: 0.2, max_tokens: 3000 }),
     icon: "fas fa-folder-open",
     icon_color: "#3B82F6"
   },
@@ -283,63 +226,34 @@ export const agentsSeed = [
       ],
       red_flags: ["运营方零投入", "收入无法监管", "无劣后机制", "分配比例显失公平"]
     }),
-    knowledge_base: `# 滴灌通利益一致性评估知识库
+    knowledge_base: `# 利益一致性初筛知识库（通用）
 
-## 一、核心理念
+## 滴灌通投资模式
+- 收入分成模式（非股权投资）
+- 投资方投入资金，从收入中分成
+- 运营方负责经营，承担经营责任
 
-滴灌通的投资模式核心是【收入分成】：
-- 投资方投入资金，从标的经营收入中按约定比例分成
-- 运营方负责实际经营，承担经营风险
-- 双方利益绑定，共同目标是最大化经营收入
+## 初筛检查点（通用）
 
-## 二、理想的利益一致性结构
+### 1. 分配机制是否存在？
+- 有明确的利润分配说明 → 通过
+- 完全没有分配说明 → 不通过
 
-### 1. 收入归集（25分）
-✓ 所有经营收入进入统一账户
-✓ 三方（投资方、运营方、托管方）共管
-✓ 资金流向透明可追溯
-✓ 定期财务报告
+### 2. 运营方是否有投入？
+- 有资金或资源投入 → 通过
+- 完全零投入 → 不通过
 
-### 2. 分配优先级（25分）
-理想的瀑布式分配：
-1️⃣ 第一顺位：经营成本
-2️⃣ 第二顺位：投资方本金
-3️⃣ 第三顺位：投资方保底收益（如年化15%）
-4️⃣ 第四顺位：超额收益按比例分配
+### 3. 基本逻辑是否合理？
+- 投资方有保底或优先权 → 通过
+- 投资方完全劣后 → 不通过
 
-### 3. 运营方绑定（25分）
-- **货币投入**：运营方自有资金投入（理想>20%）
-- **资源折算**：人力、渠道、品牌等资源价值
-- **劣后承担**：项目亏损时运营方先受损
-- **业绩对赌**：未达标时的惩罚机制
+## 评分标准
+- >= 60分通过
+- 详细的利益机制评估由中环深度智能体负责
 
-### 4. 风险对冲（25分）
-- 明确的违约责任条款
-- 清晰的退出路径
-- 保险覆盖关键风险
-- 担保或抵押措施
-
-## 三、演唱会项目特殊考量
-
-### 运营方投入形式
-演唱会运营方通常以资源投入为主：
-- 艺人关系和沟通渠道
-- 票务销售渠道
-- 活动策划能力
-- 供应商资源
-
-### 合理的投入比例
-- 货币投入：5-20%（演唱会行业较低是正常的）
-- 资源折算：需有明确估值依据
-- 总投入占比：>15%较为理想
-
-## 四、红旗项（一票否决）
-
-以下情况直接判定不通过：
-1. 运营方完全零投入（无资金也无实质资源）
-2. 收入归集无法监管（运营方自行收款）
-3. 无任何劣后机制（风险完全由投资方承担）
-4. 分配比例严重不合理（运营方拿走大部分利润但不承担风险）`,
+## 注意
+- 此为初筛，不做深度分析
+- 行业特定的利益结构由中环评估`,
     output_format: JSON.stringify({
       pass: true,
       score: 88,
@@ -358,7 +272,7 @@ export const agentsSeed = [
     pass_threshold: 60,
     is_enabled: 1,
     execution_order: 3,
-    model_config: JSON.stringify({ model: "gpt-5-mini", temperature: 0.2, max_tokens: 2000 }),
+    model_config: JSON.stringify({ model: "gpt-5-mini", temperature: 0.2, max_tokens: 3000 }),
     icon: "fas fa-handshake",
     icon_color: "#10B981"
   },
@@ -472,7 +386,7 @@ export const agentsSeed = [
     pass_threshold: 60,
     is_enabled: 1,
     execution_order: 1,
-    model_config: JSON.stringify({ model: "gpt-5-mini", temperature: 0.2, max_tokens: 2000 }),
+    model_config: JSON.stringify({ model: "gpt-5-mini", temperature: 0.2, max_tokens: 3000 }),
     icon: "fas fa-chart-line",
     icon_color: "#F59E0B"
   },
@@ -563,12 +477,12 @@ export const agentsSeed = [
       },
       key_findings: ["发现"],
       risks: ["风险"],
-      reasoning: "评估理由"
+      reasoning: "【必填】详细说明：1)为什么给这个分数 2)各维度得分依据 3)优点和不足 4)核心判断逻辑"
     }),
     pass_threshold: 60,
     is_enabled: 1,
     execution_order: 2,
-    model_config: JSON.stringify({ model: "gpt-5-mini", temperature: 0.2, max_tokens: 2000 }),
+    model_config: JSON.stringify({ model: "gpt-5-mini", temperature: 0.2, max_tokens: 3000 }),
     icon: "fas fa-gears",
     icon_color: "#8B5CF6"
   },
@@ -664,21 +578,22 @@ export const agentsSeed = [
 - 设备设施条款
 - 提前解约条款`,
     output_format: JSON.stringify({
+      pass: true,
       score: 75,
       dimension_scores: {
-        entity_qualification: { score: 80, details: [] },
-        contract_completeness: { score: 75, details: [] },
-        intellectual_property: { score: 70, details: [] },
-        regulatory_compliance: { score: 75, details: [] }
+        entity_qualification: { score: 80, assessment: "主体资质评估" },
+        contract_completeness: { score: 75, assessment: "合同完整性评估" },
+        industry_permits: { score: 70, assessment: "行业资质/批文评估" },
+        regulatory_compliance: { score: 75, assessment: "监管合规评估" }
       },
       compliance_checklist: [{ item: "项目", status: "合规/待办/风险", detail: "说明" }],
       legal_risks: ["风险项"],
-      reasoning: "评估理由"
+      reasoning: "【必填】详细说明：1)各项得分依据 2)行业资质审查结果 3)主要合规风险 4)通过/不通过理由"
     }),
     pass_threshold: 60,
     is_enabled: 1,
     execution_order: 3,
-    model_config: JSON.stringify({ model: "gpt-5-mini", temperature: 0.2, max_tokens: 2000 }),
+    model_config: JSON.stringify({ model: "gpt-5-mini", temperature: 0.2, max_tokens: 3000 }),
     icon: "fas fa-scale-balanced",
     icon_color: "#3B82F6"
   },
@@ -765,12 +680,12 @@ export const agentsSeed = [
       top_risks: ["最高风险"],
       mitigation_assessment: { effectiveness: "评估" },
       overall_risk_level: "low/medium/high",
-      reasoning: "评估理由"
+      reasoning: "【必填】详细说明：1)为什么给这个分数 2)各风险项评估依据 3)缓释措施有效性 4)核心判断逻辑"
     }),
     pass_threshold: 60,
     is_enabled: 1,
     execution_order: 4,
-    model_config: JSON.stringify({ model: "gpt-5-mini", temperature: 0.2, max_tokens: 2000 }),
+    model_config: JSON.stringify({ model: "gpt-5-mini", temperature: 0.2, max_tokens: 3000 }),
     icon: "fas fa-shield-halved",
     icon_color: "#EF4444"
   },
@@ -846,12 +761,12 @@ export const agentsSeed = [
       distribution_fairness_score: 88,
       supervision_effectiveness_score: 85,
       exit_mechanism_score: 82,
-      reasoning: "评估理由"
+      reasoning: "【必填】详细说明：1)为什么给这个分数 2)利益绑定强度分析 3)分配机制评估 4)核心判断逻辑"
     }),
     pass_threshold: 60,
     is_enabled: 1,
     execution_order: 5,
-    model_config: JSON.stringify({ model: "gpt-5-mini", temperature: 0.2, max_tokens: 2000 }),
+    model_config: JSON.stringify({ model: "gpt-5-mini", temperature: 0.2, max_tokens: 3000 }),
     icon: "fas fa-handshake-angle",
     icon_color: "#10B981"
   },
@@ -934,13 +849,13 @@ export const agentsSeed = [
         pessimistic: { irr: 20, moic: 1.1 }
       },
       sensitivity_analysis: { break_even_occupancy: 0.65 },
-      reasoning: "评估理由",
+      reasoning: "【必填】详细说明：1)为什么给这个分数 2)IRR/MOIC等关键指标分析 3)敏感性分析结论 4)核心判断逻辑",
       recommendation: "建议"
     }),
     pass_threshold: 60,
     is_enabled: 1,
     execution_order: 6,
-    model_config: JSON.stringify({ model: "gpt-5-mini", temperature: 0.2, max_tokens: 2000 }),
+    model_config: JSON.stringify({ model: "gpt-5-mini", temperature: 0.2, max_tokens: 3000 }),
     icon: "fas fa-calculator",
     icon_color: "#F59E0B"
   },

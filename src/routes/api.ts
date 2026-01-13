@@ -450,13 +450,36 @@ ${JSON.stringify(dealData, null, 2)}
             // 最后尝试：提取关键字段构建结果
             const passMatch = jsonStr.match(/"pass"\s*:\s*(true|false)/)
             const scoreMatch = jsonStr.match(/"score"\s*:\s*(\d+)/)
-            const reasoningMatch = jsonStr.match(/"reasoning"\s*:\s*"([^"]*)"/)
             const riskMatch = jsonStr.match(/"risk_level"\s*:\s*"([^"]*)"/)
+            
+            // 更健壮的reasoning提取 - 支持包含引号的内容
+            let reasoning = '评估完成（JSON解析部分成功）'
+            const reasoningStart = jsonStr.indexOf('"reasoning"')
+            if (reasoningStart !== -1) {
+              // 找到reasoning后的冒号和第一个引号
+              const colonPos = jsonStr.indexOf(':', reasoningStart)
+              if (colonPos !== -1) {
+                const firstQuote = jsonStr.indexOf('"', colonPos + 1)
+                if (firstQuote !== -1) {
+                  // 找到结束引号（跳过转义的引号）
+                  let endQuote = firstQuote + 1
+                  while (endQuote < jsonStr.length) {
+                    if (jsonStr[endQuote] === '"' && jsonStr[endQuote - 1] !== '\\') {
+                      break
+                    }
+                    endQuote++
+                  }
+                  if (endQuote < jsonStr.length) {
+                    reasoning = jsonStr.substring(firstQuote + 1, endQuote)
+                  }
+                }
+              }
+            }
             
             result = {
               pass: passMatch ? passMatch[1] === 'true' : false,
               score: scoreMatch ? parseInt(scoreMatch[1]) : 0,
-              reasoning: reasoningMatch ? reasoningMatch[1] : '评估完成（JSON解析部分成功）',
+              reasoning: reasoning,
               risk_level: riskMatch ? riskMatch[1] : 'medium',
               findings: [],
               recommendation: '请查看原始响应获取详细信息',
@@ -491,13 +514,19 @@ ${JSON.stringify(dealData, null, 2)}
       ).run()
     }
     
+    // 确保reasoning字段存在（从result中提取或使用默认值）
+    const finalResult = {
+      ...result,
+      reasoning: result.reasoning || result.rationale || result.assessment || '详见评估结果'
+    }
+    
     return c.json({
       success: true,
       data: {
         agentId,
         agentName: agent.name,
         ringType: agent.ring_type,
-        result,
+        result: finalResult,
         executionTime,
         pass: result.pass !== undefined ? result.pass : (result.score >= agent.pass_threshold)
       }
