@@ -21,6 +21,7 @@ app.use('/api/*', cors())
 
 // Serve static files
 app.use('/static/*', serveStatic())
+app.use('/favicon.ico', serveStatic({ path: '/favicon.ico' }))
 
 // API Routes
 app.route('/api', apiRoutes)

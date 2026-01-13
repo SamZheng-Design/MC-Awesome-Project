@@ -1,5 +1,5 @@
 import { Hono } from 'hono'
-import { html } from 'hono/html'
+import { html, raw } from 'hono/html'
 import { agentsPageContent } from './pages-agents'
 import { demoPageContent } from './pages-demo'
 import { workflowPageContent, submitPageContent, dealsPageContent } from './pages-other'
@@ -95,7 +95,7 @@ const baseLayout = (title: string, content: string, activeNav: string = '') => h
 
   <!-- 主内容 -->
   <main class="max-w-7xl mx-auto px-4 py-6">
-    ${content}
+    ${raw(content)}
   </main>
 
   <!-- Toast通知 -->

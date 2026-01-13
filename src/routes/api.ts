@@ -23,6 +23,21 @@ const getOpenAIClient = (env: Bindings) => {
 
 const api = new Hono<{ Bindings: Bindings }>()
 
+// 调试端点 - 检查环境变量
+api.get('/debug-env', (c) => {
+  const hasApiKey = !!c.env.OPENAI_API_KEY
+  const hasBaseUrl = !!c.env.OPENAI_BASE_URL
+  const apiKeyPrefix = c.env.OPENAI_API_KEY ? c.env.OPENAI_API_KEY.substring(0, 5) + '...' : 'NOT_SET'
+  const baseUrl = c.env.OPENAI_BASE_URL || 'NOT_SET'
+  
+  return c.json({
+    hasApiKey,
+    hasBaseUrl,
+    apiKeyPrefix,
+    baseUrl
+  })
+})
+
 // ============================================
 // 数据库初始化和种子数据
 // ============================================
