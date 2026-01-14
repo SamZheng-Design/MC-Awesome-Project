@@ -3,11 +3,26 @@ export const workflowPageContent = `
 <div class="flex items-center justify-between mb-6">
   <div>
     <h1 class="text-2xl font-bold text-[#49754D]">工作流编排</h1>
-    <p class="text-gray-500">可视化配置多智能体评估流程</p>
+    <p class="text-gray-500">可视化配置多智能体评估流程 · 选择赛道查看专属智能体群</p>
   </div>
 </div>
 
 <div class="bg-white rounded-xl card-shadow p-6">
+  <!-- 赛道选择器 -->
+  <div class="mb-6 pb-6 border-b">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="font-semibold text-gray-700">
+        <i class="fas fa-layer-group mr-2 text-[#00D29E]"></i>选择赛道查看对应智能体群
+      </h3>
+      <span id="selected-track-badge" class="px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-600">
+        <i class="fas fa-globe mr-1"></i>全部赛道
+      </span>
+    </div>
+    <div id="workflow-track-selector" class="flex flex-wrap gap-2">
+      <!-- 动态加载 -->
+    </div>
+  </div>
+
   <!-- 流程图 -->
   <div class="flex items-center justify-center py-8 overflow-x-auto">
     <div class="flex items-center space-x-4 min-w-max">
@@ -44,15 +59,36 @@ export const workflowPageContent = `
       </div>
 
       <!-- 中环评估 -->
-      <div class="bg-[#D9EDDF] border-2 border-[#00D29E] rounded-xl p-4 min-w-80">
-        <div class="flex items-center mb-3">
-          <i class="fas fa-bullseye text-[#629C85] mr-2"></i>
-          <span class="font-semibold text-[#49754D]">中环评估</span>
-          <span class="ml-2 text-xs bg-[#00D29E] text-white px-2 py-0.5 rounded">并行</span>
+      <div class="bg-[#D9EDDF] border-2 border-[#00D29E] rounded-xl p-4 min-w-96">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center">
+            <i class="fas fa-bullseye text-[#629C85] mr-2"></i>
+            <span class="font-semibold text-[#49754D]">中环评估</span>
+            <span class="ml-2 text-xs bg-[#00D29E] text-white px-2 py-0.5 rounded">并行</span>
+          </div>
+          <span id="inner-agent-count" class="text-xs text-[#629C85]"></span>
         </div>
-        <div id="inner-flow" class="grid grid-cols-2 gap-2">
-          <!-- 动态加载 -->
+        
+        <!-- 通用智能体 -->
+        <div id="inner-flow-general" class="mb-3">
+          <div class="text-xs text-gray-500 mb-2 flex items-center">
+            <i class="fas fa-globe mr-1"></i>通用智能体
+          </div>
+          <div class="grid grid-cols-2 gap-2" id="inner-flow-general-list">
+            <!-- 动态加载 -->
+          </div>
         </div>
+        
+        <!-- 专属智能体 -->
+        <div id="inner-flow-specific" class="hidden">
+          <div class="text-xs mb-2 flex items-center" id="inner-flow-specific-title">
+            <i class="fas fa-tag mr-1"></i>专属智能体
+          </div>
+          <div class="grid grid-cols-2 gap-2" id="inner-flow-specific-list">
+            <!-- 动态加载 -->
+          </div>
+        </div>
+        
         <div class="mt-3 text-xs text-[#49754D]">
           <i class="fas fa-calculator mr-1"></i>
           加权评分：各维度按权重计算
@@ -100,7 +136,10 @@ export const workflowPageContent = `
 
   <!-- 权重配置 -->
   <div class="mt-8 pt-8 border-t">
-    <h3 class="font-semibold mb-4">中环权重配置</h3>
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="font-semibold">中环权重配置</h3>
+      <span id="weight-track-label" class="text-sm text-gray-500">当前赛道智能体权重分配</span>
+    </div>
     <div id="weight-config" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
       <!-- 动态加载 -->
     </div>
@@ -109,37 +148,148 @@ export const workflowPageContent = `
 </div>
 
 <script>
+  let workflowAgents = [];
+  let workflowTracks = [];
+  let selectedWorkflowTrack = 'all';
+
+  // 默认赛道数据
+  const defaultTracks = [
+    { id: 'all', name: '全部', icon: 'fas fa-globe', icon_color: '#6B7280' },
+    { id: 'catering', name: '餐饮', icon: 'fas fa-utensils', icon_color: '#F59E0B' },
+    { id: 'retail', name: '零售', icon: 'fas fa-store', icon_color: '#10B981' },
+    { id: 'ecommerce', name: '电商', icon: 'fas fa-shopping-cart', icon_color: '#3B82F6' },
+    { id: 'education', name: '教育培训', icon: 'fas fa-graduation-cap', icon_color: '#EC4899' },
+    { id: 'service', name: '生活服务', icon: 'fas fa-concierge-bell', icon_color: '#14B8A6' },
+    { id: 'light-asset', name: '文娱轻资产', icon: 'fas fa-film', icon_color: '#8B5CF6' }
+  ];
+
   async function loadWorkflow() {
     try {
       const { data: agents } = await apiCall('/api/agents');
+      workflowAgents = agents;
       
-      // 外环智能体
-      const outerAgents = agents.filter(a => a.ring_type === 'outer').sort((a, b) => a.execution_order - b.execution_order);
-      document.getElementById('outer-flow').innerHTML = outerAgents.map((a, i) => \`
-        <div class="flex items-center">
-          <span class="w-5 h-5 rounded-full bg-red-500 text-white text-xs flex items-center justify-center mr-2">\${i + 1}</span>
-          <span class="text-sm">\${a.name}</span>
-        </div>
-      \`).join('');
+      // 尝试加载赛道数据
+      try {
+        const { data: tracks } = await apiCall('/api/tracks');
+        workflowTracks = tracks || defaultTracks;
+      } catch (e) {
+        workflowTracks = defaultTracks;
+      }
+      
+      renderWorkflowTrackSelector();
+      renderWorkflow();
+    } catch (e) {}
+  }
 
-      // 中环智能体
-      const innerAgents = agents.filter(a => a.ring_type === 'inner' && a.id !== 'comprehensive-scoring-agent');
-      document.getElementById('inner-flow').innerHTML = innerAgents.map(a => \`
-        <div class="flex items-center text-sm">
+  // 渲染赛道选择器
+  function renderWorkflowTrackSelector() {
+    const container = document.getElementById('workflow-track-selector');
+    
+    container.innerHTML = workflowTracks.map(t => {
+      const isActive = selectedWorkflowTrack === t.id;
+      const count = t.id === 'all' 
+        ? workflowAgents.filter(a => a.ring_type === 'inner').length
+        : workflowAgents.filter(a => a.ring_type === 'inner' && a.industry === t.id).length;
+      
+      return \`
+        <button onclick="selectWorkflowTrack('\${t.id}')" 
+          class="px-4 py-2 rounded-lg text-sm font-medium transition flex items-center space-x-2 \${isActive ? 'text-white shadow-md' : 'bg-white text-gray-600 hover:bg-gray-100 border'}"
+          style="\${isActive ? 'background:' + t.icon_color : ''}">
+          <i class="\${t.icon}"></i>
+          <span>\${t.name}</span>
+          \${count > 0 ? \`<span class="bg-white/20 px-1.5 rounded text-xs">\${count}</span>\` : ''}
+        </button>
+      \`;
+    }).join('');
+  }
+
+  // 选择赛道
+  function selectWorkflowTrack(trackId) {
+    selectedWorkflowTrack = trackId;
+    renderWorkflowTrackSelector();
+    renderWorkflow();
+    
+    // 更新赛道标签
+    const track = workflowTracks.find(t => t.id === trackId);
+    const badge = document.getElementById('selected-track-badge');
+    if (track) {
+      badge.innerHTML = \`<i class="\${track.icon} mr-1"></i>\${track.name}赛道\`;
+      badge.style.background = track.icon_color + '20';
+      badge.style.color = track.icon_color;
+    }
+  }
+
+  // 渲染工作流
+  function renderWorkflow() {
+    // 外环智能体（不受赛道影响）
+    const outerAgents = workflowAgents.filter(a => a.ring_type === 'outer').sort((a, b) => a.execution_order - b.execution_order);
+    document.getElementById('outer-flow').innerHTML = outerAgents.map((a, i) => \`
+      <div class="flex items-center">
+        <span class="w-5 h-5 rounded-full bg-red-500 text-white text-xs flex items-center justify-center mr-2">\${i + 1}</span>
+        <span class="text-sm">\${a.name}</span>
+      </div>
+    \`).join('');
+
+    // 中环智能体（按赛道筛选）
+    const generalAgents = workflowAgents.filter(a => a.ring_type === 'inner' && a.industry === 'all' && a.id !== 'comprehensive-scoring-agent');
+    let specificAgents = [];
+    
+    if (selectedWorkflowTrack !== 'all') {
+      specificAgents = workflowAgents.filter(a => a.ring_type === 'inner' && a.industry === selectedWorkflowTrack);
+    }
+    
+    // 通用智能体列表
+    document.getElementById('inner-flow-general-list').innerHTML = generalAgents.map(a => \`
+      <div class="flex items-center text-sm bg-white/50 rounded px-2 py-1">
+        <i class="\${a.icon} mr-1" style="color: \${a.icon_color}"></i>
+        <span class="truncate">\${a.name.replace('智能体', '')}</span>
+      </div>
+    \`).join('');
+    
+    // 专属智能体列表
+    const specificSection = document.getElementById('inner-flow-specific');
+    const specificTitle = document.getElementById('inner-flow-specific-title');
+    const specificList = document.getElementById('inner-flow-specific-list');
+    
+    if (selectedWorkflowTrack !== 'all' && specificAgents.length > 0) {
+      const track = workflowTracks.find(t => t.id === selectedWorkflowTrack);
+      specificSection.classList.remove('hidden');
+      specificTitle.innerHTML = \`<i class="\${track?.icon || 'fas fa-tag'} mr-1" style="color: \${track?.icon_color}"></i>\${track?.name || ''}专属智能体\`;
+      specificTitle.style.color = track?.icon_color;
+      specificList.innerHTML = specificAgents.map(a => \`
+        <div class="flex items-center text-sm rounded px-2 py-1" style="background: \${a.icon_color}15">
           <i class="\${a.icon} mr-1" style="color: \${a.icon_color}"></i>
           <span class="truncate">\${a.name.replace('智能体', '')}</span>
         </div>
       \`).join('');
+    } else {
+      specificSection.classList.add('hidden');
+    }
+    
+    // 更新智能体数量
+    const totalCount = generalAgents.length + specificAgents.length;
+    document.getElementById('inner-agent-count').textContent = \`\${totalCount}个智能体\`;
 
-      // 权重配置
-      document.getElementById('weight-config').innerHTML = innerAgents.map(a => \`
-        <div class="bg-gray-50 rounded-lg p-3 text-center">
+    // 权重配置
+    const allInnerAgents = selectedWorkflowTrack === 'all' 
+      ? workflowAgents.filter(a => a.ring_type === 'inner' && a.id !== 'comprehensive-scoring-agent')
+      : [...generalAgents, ...specificAgents];
+    
+    document.getElementById('weight-config').innerHTML = allInnerAgents.map(a => {
+      const track = workflowTracks.find(t => t.id === a.industry);
+      return \`
+        <div class="bg-gray-50 rounded-lg p-3 text-center border-2 border-transparent hover:border-[#00D29E] transition cursor-pointer">
           <i class="\${a.icon} text-xl mb-2" style="color: \${a.icon_color}"></i>
           <p class="text-sm font-medium truncate">\${a.dimension}</p>
           <p class="text-2xl font-bold text-[#00D29E]">\${a.weight}%</p>
+          <p class="text-xs mt-1 px-2 py-0.5 rounded-full inline-block" style="background: \${track?.icon_color || '#6B7280'}20; color: \${track?.icon_color || '#6B7280'}">\${a.industry === 'all' ? '通用' : (track?.name || a.industry)}</p>
         </div>
-      \`).join('');
-    } catch (e) {}
+      \`;
+    }).join('');
+    
+    // 更新权重标签
+    const trackLabel = selectedWorkflowTrack === 'all' ? '全部赛道' : (workflowTracks.find(t => t.id === selectedWorkflowTrack)?.name + '赛道');
+    document.getElementById('weight-track-label').textContent = trackLabel + '智能体权重分配';
   }
 
   document.addEventListener('DOMContentLoaded', () => setTimeout(loadWorkflow, 500));

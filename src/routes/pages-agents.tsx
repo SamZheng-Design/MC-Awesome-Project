@@ -29,23 +29,64 @@ export const agentsPageContent = `
           <i class="fas fa-bullseye mr-2"></i>中环智能体 <span class="ml-2 bg-blue-500 text-white text-xs px-2 py-0.5 rounded-full">加权评分</span>
         </button>
       </div>
-      <!-- 展示模式切换（仅中环显示） -->
-      <div id="view-mode-toggle" class="hidden pr-4 flex items-center space-x-2">
-        <span class="text-sm text-gray-500">展示：</span>
-        <button onclick="setViewMode('track')" id="btn-view-track" class="px-3 py-1 text-sm rounded bg-[#00D29E] text-white">
-          <i class="fas fa-layer-group mr-1"></i>按赛道
+    </div>
+  </div>
+
+  <!-- 赛道选择卡片（仅中环显示） -->
+  <div id="track-selector" class="hidden">
+    <div class="p-6 bg-gradient-to-br from-slate-50 to-gray-100">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h3 class="font-semibold text-gray-800">选择赛道查看专属智能体</h3>
+          <p class="text-sm text-gray-500">不同赛道拥有专属的评估智能体群</p>
+        </div>
+        <button onclick="showAllAgentsPage()" class="px-4 py-2 bg-gradient-to-r from-[#00D29E] to-[#00B88A] text-white rounded-lg hover:opacity-90 transition text-sm">
+          <i class="fas fa-th-large mr-2"></i>全部智能体
         </button>
-        <button onclick="setViewMode('all')" id="btn-view-all" class="px-3 py-1 text-sm rounded bg-gray-100 text-gray-600 hover:bg-gray-200">
-          <i class="fas fa-list mr-1"></i>全部
-        </button>
+      </div>
+      <div id="track-cards" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <!-- 动态加载赛道卡片 -->
       </div>
     </div>
   </div>
 
-  <!-- 赛道筛选标签（仅中环显示） -->
-  <div id="track-tags" class="hidden px-6 py-3 bg-gradient-to-r from-gray-50 to-white border-b overflow-x-auto">
-    <div class="flex space-x-2 items-center" id="track-tags-container">
-      <!-- 动态加载赛道标签 -->
+  <!-- 当前赛道标题（选择赛道后显示） -->
+  <div id="current-track-header" class="hidden px-6 py-4 bg-gradient-to-r from-gray-50 to-white border-b">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <button onclick="backToTrackSelector()" class="w-8 h-8 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600 transition">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <div id="current-track-icon" class="w-10 h-10 rounded-lg flex items-center justify-center"></div>
+        <div>
+          <h3 id="current-track-name" class="font-bold text-lg text-gray-800"></h3>
+          <p id="current-track-desc" class="text-sm text-gray-500"></p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span id="current-track-count" class="px-3 py-1 rounded-full text-sm text-white"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 全部智能体页面标题（显示全部时） -->
+  <div id="all-agents-header" class="hidden px-6 py-4 bg-gradient-to-r from-purple-50 to-indigo-50 border-b">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <button onclick="backToTrackSelector()" class="w-8 h-8 rounded-lg bg-white hover:bg-gray-100 flex items-center justify-center text-gray-600 transition shadow-sm">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-indigo-500 flex items-center justify-center">
+          <i class="fas fa-th-large text-white"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-lg text-gray-800">全部智能体</h3>
+          <p class="text-sm text-gray-500">所有中环评估智能体一览，按特性标签分类</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span id="all-agents-count" class="px-3 py-1 rounded-full text-sm bg-purple-500 text-white"></span>
+      </div>
     </div>
   </div>
 
@@ -365,9 +406,36 @@ export const agentsPageContent = `
   let currentRingType = 'outer';
   let currentAgent = null;
   let isKnowledgeEditing = false;
-  let currentTrackFilter = 'all';
-  let currentViewMode = 'track'; // 'track' 按赛道分组, 'all' 平铺显示
+  let selectedTrack = null;  // 当前选中的赛道（null表示显示赛道选择器）
+  let showAllAgents = false; // 是否显示全部智能体页面
   let industryTracks = [];
+
+  // 智能体特性标签定义
+  const agentTags = {
+    'financial-health-agent': ['财务分析', '数据驱动', '定量评估'],
+    'operational-capability-agent': ['运营评估', '效率分析', '流程优化'],
+    'legal-compliance-agent': ['合规审查', '风险预警', '资质验证'],
+    'risk-control-agent': ['风险管控', '预警机制', '损失控制'],
+    'alignment-deep-agent': ['利益分析', '激励机制', '博弈评估'],
+    'economic-analysis-agent': ['经济测算', 'ROI分析', '投资回报'],
+    'comprehensive-scoring-agent': ['综合评分', '多维汇总', '决策支持'],
+    'catering-location-agent': ['选址分析', '商圈评估', '人流预测'],
+    'catering-food-safety-agent': ['食品安全', '资质审查', '卫生监管'],
+    'catering-unit-model-agent': ['单店模型', '坪效分析', '翻台率'],
+    'retail-inventory-agent': ['库存管理', '周转分析', '损耗控制'],
+    'retail-supply-chain-agent': ['供应链', '物流效率', '成本优化'],
+    'retail-community-agent': ['社区分析', '消费画像', '需求预测'],
+    'ecommerce-gmv-agent': ['GMV评估', '增长分析', '质量验证'],
+    'ecommerce-platform-agent': ['平台关系', '依赖度', '多元化'],
+    'ecommerce-kol-agent': ['主播矩阵', '头部风险', 'MCN评估'],
+    'education-qualification-agent': ['资质审查', '合规办学', '政策风险'],
+    'education-employment-agent': ['就业保障', '薪资追踪', '转化率'],
+    'service-qualification-agent': ['服务资质', '执业认证', '安全合规'],
+    'service-customer-agent': ['客户分析', '复购率', 'LTV评估'],
+    'service-standardization-agent': ['服务标准化', 'SOP评估', '可复制性'],
+    'light-asset-ip-agent': ['IP评估', '版权价值', '商业潜力'],
+    'light-asset-execution-agent': ['执行能力', '活动经验', '团队评估']
+  };
 
   // 加载赛道数据
   async function loadTracks() {
@@ -378,84 +446,298 @@ export const agentsPageContent = `
     } catch (e) {
       // 使用默认赛道
       industryTracks = [
-        { id: 'all', name: '通用', icon: 'fas fa-globe', icon_color: '#6B7280' },
-        { id: 'catering', name: '餐饮', icon: 'fas fa-utensils', icon_color: '#F59E0B' },
-        { id: 'retail', name: '零售', icon: 'fas fa-store', icon_color: '#10B981' },
-        { id: 'ecommerce', name: '电商', icon: 'fas fa-shopping-cart', icon_color: '#3B82F6' },
-        { id: 'education', name: '教育培训', icon: 'fas fa-graduation-cap', icon_color: '#EC4899' },
-        { id: 'service', name: '生活服务', icon: 'fas fa-concierge-bell', icon_color: '#14B8A6' },
-        { id: 'light-asset', name: '文娱轻资产', icon: 'fas fa-film', icon_color: '#8B5CF6' }
+        { id: 'all', name: '通用', icon: 'fas fa-globe', icon_color: '#6B7280', description: '适用于所有赛道的基础评估' },
+        { id: 'catering', name: '餐饮', icon: 'fas fa-utensils', icon_color: '#F59E0B', description: '餐厅、茶饮、快餐等' },
+        { id: 'retail', name: '零售', icon: 'fas fa-store', icon_color: '#10B981', description: '生鲜、便利店、专业零售' },
+        { id: 'ecommerce', name: '电商', icon: 'fas fa-shopping-cart', icon_color: '#3B82F6', description: '直播电商、MCN、品牌电商' },
+        { id: 'education', name: '教育培训', icon: 'fas fa-graduation-cap', icon_color: '#EC4899', description: '职业培训、技能教育' },
+        { id: 'service', name: '生活服务', icon: 'fas fa-concierge-bell', icon_color: '#14B8A6', description: '宠物、健身、医美、民宿' },
+        { id: 'light-asset', name: '文娱轻资产', icon: 'fas fa-film', icon_color: '#8B5CF6', description: '演出、活动、IP运营' }
       ];
       updateTrackSelects();
     }
   }
 
-  // 更新赛道选择器
+  // 更新赛道选择器（用于新建智能体）
   function updateTrackSelects() {
-    // 更新新建智能体的赛道选择
     const newTrackSelect = document.getElementById('new-agent-track');
-    newTrackSelect.innerHTML = '<option value="all">通用（适用所有赛道）</option>' + 
-      industryTracks.filter(t => t.id !== 'all').map(t => 
-        \`<option value="\${t.id}">\${t.name}</option>\`
-      ).join('');
-    
-    // 更新赛道标签
-    updateTrackTags();
+    if (newTrackSelect) {
+      newTrackSelect.innerHTML = '<option value="all">通用（适用所有赛道）</option>' + 
+        industryTracks.filter(t => t.id !== 'all').map(t => 
+          \`<option value="\${t.id}">\${t.name}</option>\`
+        ).join('');
+    }
+    renderTrackCards();
   }
 
-  // 更新赛道标签显示
-  function updateTrackTags() {
-    const container = document.getElementById('track-tags-container');
+  // 渲染赛道选择卡片
+  function renderTrackCards() {
+    const container = document.getElementById('track-cards');
+    if (!container) return;
     
     // 统计各赛道智能体数量
     const trackCounts = {};
+    let generalCount = 0;
     currentAgents.filter(a => a.ring_type === 'inner').forEach(a => {
-      trackCounts[a.industry] = (trackCounts[a.industry] || 0) + 1;
+      if (a.industry === 'all') {
+        generalCount++;
+      } else {
+        trackCounts[a.industry] = (trackCounts[a.industry] || 0) + 1;
+      }
+    });
+    
+    // 渲染赛道卡片（不包括通用）
+    container.innerHTML = industryTracks.filter(t => t.id !== 'all').map(t => {
+      const count = trackCounts[t.id] || 0;
+      const totalCount = count + generalCount; // 专属 + 通用
+      return \`
+        <div onclick="selectTrack('\${t.id}')" 
+          class="cursor-pointer p-4 rounded-xl border-2 border-transparent bg-white hover:border-gray-200 hover:shadow-lg transition group">
+          <div class="flex flex-col items-center text-center">
+            <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition" 
+              style="background: linear-gradient(135deg, \${t.icon_color}20, \${t.icon_color}40)">
+              <i class="\${t.icon} text-2xl" style="color: \${t.icon_color}"></i>
+            </div>
+            <h4 class="font-semibold text-gray-800 mb-1">\${t.name}</h4>
+            <p class="text-xs text-gray-500 mb-2 line-clamp-1">\${t.description || ''}</p>
+            <div class="flex items-center space-x-2 text-xs">
+              <span class="px-2 py-0.5 rounded-full text-white" style="background: \${t.icon_color}">\${count}个专属</span>
+              <span class="px-2 py-0.5 bg-gray-100 rounded-full text-gray-500">+\${generalCount}通用</span>
+            </div>
+          </div>
+        </div>
+      \`;
+    }).join('');
+  }
+
+  // 选择赛道
+  function selectTrack(trackId) {
+    selectedTrack = trackId;
+    showAllAgents = false;
+    updateInnerView();
+  }
+
+  // 返回赛道选择器
+  function backToTrackSelector() {
+    selectedTrack = null;
+    showAllAgents = false;
+    updateInnerView();
+  }
+
+  // 显示全部智能体页面
+  function showAllAgentsPage() {
+    showAllAgents = true;
+    selectedTrack = null;
+    updateInnerView();
+  }
+
+  // 更新中环视图
+  function updateInnerView() {
+    const trackSelector = document.getElementById('track-selector');
+    const currentTrackHeader = document.getElementById('current-track-header');
+    const allAgentsHeader = document.getElementById('all-agents-header');
+    
+    if (currentRingType !== 'inner') return;
+    
+    if (showAllAgents) {
+      // 显示全部智能体页面
+      trackSelector.classList.add('hidden');
+      currentTrackHeader.classList.add('hidden');
+      allAgentsHeader.classList.remove('hidden');
+      
+      const totalCount = currentAgents.filter(a => a.ring_type === 'inner').length;
+      document.getElementById('all-agents-count').textContent = totalCount + '个智能体';
+      
+      renderAllAgentsWithTags();
+    } else if (selectedTrack) {
+      // 显示选中赛道的智能体
+      trackSelector.classList.add('hidden');
+      allAgentsHeader.classList.add('hidden');
+      currentTrackHeader.classList.remove('hidden');
+      
+      const track = industryTracks.find(t => t.id === selectedTrack);
+      if (track) {
+        document.getElementById('current-track-icon').innerHTML = \`<i class="\${track.icon} text-xl" style="color: \${track.icon_color}"></i>\`;
+        document.getElementById('current-track-icon').style.background = track.icon_color + '20';
+        document.getElementById('current-track-name').textContent = track.name + '赛道智能体';
+        document.getElementById('current-track-desc').textContent = track.description || '专属评估智能体群';
+        
+        const specificAgents = currentAgents.filter(a => a.ring_type === 'inner' && a.industry === selectedTrack);
+        const generalAgents = currentAgents.filter(a => a.ring_type === 'inner' && a.industry === 'all');
+        const totalCount = specificAgents.length + generalAgents.length;
+        
+        document.getElementById('current-track-count').textContent = totalCount + '个智能体';
+        document.getElementById('current-track-count').style.background = track.icon_color;
+      }
+      
+      renderTrackAgents();
+    } else {
+      // 显示赛道选择器
+      trackSelector.classList.remove('hidden');
+      currentTrackHeader.classList.add('hidden');
+      allAgentsHeader.classList.add('hidden');
+      
+      renderTrackCards();
+      document.getElementById('agents-list').innerHTML = '';
+    }
+  }
+
+  // 渲染选中赛道的智能体
+  function renderTrackAgents() {
+    const container = document.getElementById('agents-list');
+    const track = industryTracks.find(t => t.id === selectedTrack);
+    
+    const specificAgents = currentAgents.filter(a => a.ring_type === 'inner' && a.industry === selectedTrack);
+    const generalAgents = currentAgents.filter(a => a.ring_type === 'inner' && a.industry === 'all');
+    
+    let html = '';
+    
+    // 专属智能体
+    if (specificAgents.length > 0) {
+      html += \`
+        <div class="mb-8">
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: \${track?.icon_color}20">
+              <i class="\${track?.icon}" style="color: \${track?.icon_color}"></i>
+            </div>
+            <h3 class="font-bold text-gray-800">\${track?.name}赛道专属</h3>
+            <span class="px-2 py-1 rounded-full text-xs text-white" style="background: \${track?.icon_color}">\${specificAgents.length}个</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            \${specificAgents.map(renderAgentCard).join('')}
+          </div>
+        </div>
+      \`;
+    }
+    
+    // 通用智能体
+    if (generalAgents.length > 0) {
+      html += \`
+        <div class="mb-8">
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-gray-100">
+              <i class="fas fa-globe text-gray-500"></i>
+            </div>
+            <h3 class="font-bold text-gray-800">通用评估智能体</h3>
+            <span class="px-2 py-1 bg-gray-200 rounded-full text-xs text-gray-600">\${generalAgents.length}个</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            \${generalAgents.map(renderAgentCard).join('')}
+          </div>
+        </div>
+      \`;
+    }
+    
+    if (html === '') {
+      html = \`
+        <div class="text-center py-12 text-gray-500">
+          <i class="fas fa-robot text-4xl mb-4 opacity-30"></i>
+          <p>该赛道暂无智能体</p>
+          <button onclick="openAddAgentModal()" class="mt-4 text-[#00D29E] hover:text-[#629C85]">
+            <i class="fas fa-plus mr-1"></i>添加智能体
+          </button>
+        </div>
+      \`;
+    }
+    
+    container.innerHTML = html;
+  }
+
+  // 渲染全部智能体（带标签）
+  function renderAllAgentsWithTags() {
+    const container = document.getElementById('agents-list');
+    const innerAgents = currentAgents.filter(a => a.ring_type === 'inner');
+    
+    if (innerAgents.length === 0) {
+      container.innerHTML = \`
+        <div class="text-center py-12 text-gray-500">
+          <i class="fas fa-robot text-4xl mb-4 opacity-30"></i>
+          <p>暂无中环智能体</p>
+        </div>
+      \`;
+      return;
+    }
+    
+    // 收集所有标签
+    const allTags = new Set();
+    innerAgents.forEach(a => {
+      const tags = agentTags[a.id] || ['通用'];
+      tags.forEach(t => allTags.add(t));
     });
     
     container.innerHTML = \`
-      <button onclick="filterByTrack('all')" class="px-4 py-2 rounded-lg text-sm font-medium transition flex items-center space-x-2 \${currentTrackFilter === 'all' ? 'bg-[#00D29E] text-white shadow-md' : 'bg-white text-gray-600 hover:bg-gray-100 border'}">
-        <i class="fas fa-globe"></i>
-        <span>全部赛道</span>
-        <span class="bg-white/20 px-1.5 rounded text-xs">\${currentAgents.filter(a => a.ring_type === 'inner').length}</span>
-      </button>
-    \` + industryTracks.filter(t => t.id !== 'all').map(t => {
-      const count = trackCounts[t.id] || 0;
-      const isActive = currentTrackFilter === t.id;
-      return \`
-      <button onclick="filterByTrack('\${t.id}')" 
-        class="px-4 py-2 rounded-lg text-sm font-medium transition flex items-center space-x-2 \${isActive ? 'text-white shadow-md' : 'bg-white text-gray-600 hover:bg-gray-100 border'}" 
-        style="\${isActive ? 'background:' + t.icon_color : ''}">
-        <i class="\${t.icon || 'fas fa-tag'}"></i>
-        <span>\${t.name}</span>
-        \${count > 0 ? \`<span class="bg-white/20 px-1.5 rounded text-xs">\${count}</span>\` : ''}
-      </button>
-    \`}).join('');
+      <div class="mb-6">
+        <div class="flex flex-wrap gap-2 items-center">
+          <span class="text-sm text-gray-500 mr-2">特性标签：</span>
+          \${Array.from(allTags).slice(0, 12).map(tag => \`
+            <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs cursor-pointer hover:bg-purple-200 transition" onclick="filterByTag('\${tag}')">\${tag}</span>
+          \`).join('')}
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        \${innerAgents.map(a => renderAgentCardWithTags(a)).join('')}
+      </div>
+    \`;
   }
 
-  // 设置展示模式
-  function setViewMode(mode) {
-    currentViewMode = mode;
-    document.getElementById('btn-view-track').className = mode === 'track' 
-      ? 'px-3 py-1 text-sm rounded bg-[#00D29E] text-white'
-      : 'px-3 py-1 text-sm rounded bg-gray-100 text-gray-600 hover:bg-gray-200';
-    document.getElementById('btn-view-all').className = mode === 'all'
-      ? 'px-3 py-1 text-sm rounded bg-[#00D29E] text-white'
-      : 'px-3 py-1 text-sm rounded bg-gray-100 text-gray-600 hover:bg-gray-200';
-    renderAgents();
+  // 渲染带标签的智能体卡片
+  function renderAgentCardWithTags(agent) {
+    const track = industryTracks.find(t => t.id === agent.industry);
+    const trackLabel = agent.industry === 'all' ? '通用' : (track?.name || agent.industry);
+    const trackColor = track?.icon_color || '#6B7280';
+    const tags = agentTags[agent.id] || ['通用'];
+    
+    return \`
+      <div class="agent-card bg-white rounded-xl p-4 cursor-pointer hover:shadow-lg transition relative group border border-gray-100" onclick="openAgentModal('\${agent.id}')">
+        <button onclick="event.stopPropagation(); confirmDeleteAgent('\${agent.id}', '\${agent.name}')" 
+          class="absolute top-2 right-2 w-7 h-7 rounded-full bg-red-100 text-red-500 opacity-0 group-hover:opacity-100 transition flex items-center justify-center hover:bg-red-200">
+          <i class="fas fa-trash text-xs"></i>
+        </button>
+        
+        <div class="flex items-start justify-between mb-3 pr-8">
+          <div class="flex items-center space-x-3">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center shadow-sm" style="background: linear-gradient(135deg, \${agent.icon_color}20, \${agent.icon_color}40)">
+              <i class="\${agent.icon} text-lg" style="color: \${agent.icon_color}"></i>
+            </div>
+            <div>
+              <h4 class="font-semibold text-gray-800">\${agent.name}</h4>
+              <p class="text-xs text-gray-500">\${agent.dimension}</p>
+            </div>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer" onclick="event.stopPropagation()">
+            <input type="checkbox" class="sr-only peer" \${agent.is_enabled ? 'checked' : ''} onchange="toggleAgent('\${agent.id}', this.checked)">
+            <div class="w-9 h-5 bg-gray-200 peer-focus:ring-2 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#00D29E]"></div>
+          </label>
+        </div>
+        
+        <p class="text-sm text-gray-600 line-clamp-2 mb-3">\${agent.description}</p>
+        
+        <!-- 特性标签 -->
+        <div class="flex flex-wrap gap-1 mb-3">
+          \${tags.map(tag => \`<span class="px-2 py-0.5 bg-indigo-50 text-indigo-600 rounded text-xs">\${tag}</span>\`).join('')}
+        </div>
+        
+        <div class="flex items-center justify-between text-xs">
+          <div class="flex items-center space-x-2">
+            <span class="px-2 py-1 bg-gray-100 rounded text-gray-600">权重 \${agent.weight}%</span>
+            <span class="px-2 py-1 rounded text-white" style="background: \${trackColor}">\${trackLabel}</span>
+          </div>
+          <span class="text-gray-500">阈值 \${agent.pass_threshold}</span>
+        </div>
+      </div>
+    \`;
   }
 
-  // 按赛道筛选
-  function filterByTrack(trackId) {
-    currentTrackFilter = trackId;
-    updateTrackTags();
-    renderAgents();
+  // 按标签筛选（简单提示）
+  function filterByTag(tag) {
+    showToast(\`标签筛选: \${tag}\`);
   }
 
   // 切换环类型Tab
   function switchRingTab(type) {
     currentRingType = type;
-    currentTrackFilter = 'all';
+    selectedTrack = null;
+    showAllAgents = false;
     
     document.getElementById('tab-outer').className = type === 'outer' 
       ? 'px-6 py-4 font-medium text-[#00D29E] border-b-2 border-[#00D29E] bg-[#D9EDDF]'
@@ -464,11 +746,16 @@ export const agentsPageContent = `
       ? 'px-6 py-4 font-medium text-[#00D29E] border-b-2 border-[#00D29E] bg-[#D9EDDF]'
       : 'px-6 py-4 font-medium text-gray-500 hover:text-[#629C85] transition';
     
-    // 显示/隐藏赛道筛选和展示模式切换（仅中环显示）
-    document.getElementById('track-tags').classList.toggle('hidden', type !== 'inner');
-    document.getElementById('view-mode-toggle').classList.toggle('hidden', type !== 'inner');
+    // 显示/隐藏赛道选择器
+    document.getElementById('track-selector').classList.toggle('hidden', type !== 'inner');
+    document.getElementById('current-track-header').classList.add('hidden');
+    document.getElementById('all-agents-header').classList.add('hidden');
     
-    renderAgents();
+    if (type === 'inner') {
+      updateInnerView();
+    } else {
+      renderAgents();
+    }
   }
 
   // 加载智能体数据
@@ -476,7 +763,7 @@ export const agentsPageContent = `
     try {
       const { data } = await apiCall('/api/agents');
       currentAgents = data;
-      updateTrackTags();
+      renderTrackCards();
       renderAgents();
     } catch (e) {}
   }
@@ -495,7 +782,6 @@ export const agentsPageContent = `
     
     return \`
       <div class="agent-card bg-white rounded-xl p-4 cursor-pointer hover:shadow-lg transition relative group border border-gray-100" onclick="openAgentModal('\${agent.id}')">
-        <!-- 删除按钮 -->
         <button onclick="event.stopPropagation(); confirmDeleteAgent('\${agent.id}', '\${agent.name}')" 
           class="absolute top-2 right-2 w-7 h-7 rounded-full bg-red-100 text-red-500 opacity-0 group-hover:opacity-100 transition flex items-center justify-center hover:bg-red-200">
           <i class="fas fa-trash text-xs"></i>
@@ -528,110 +814,25 @@ export const agentsPageContent = `
     \`;
   }
 
-  // 渲染智能体列表
+  // 渲染智能体列表（外环）
   function renderAgents() {
     const container = document.getElementById('agents-list');
-    let filtered = currentAgents.filter(a => a.ring_type === currentRingType);
     
     // 外环直接显示列表
     if (currentRingType === 'outer') {
+      const filtered = currentAgents.filter(a => a.ring_type === 'outer');
       if (filtered.length === 0) {
         container.innerHTML = \`
           <div class="text-center py-12 text-gray-500">
             <i class="fas fa-robot text-4xl mb-4 opacity-30"></i>
             <p>暂无外环智能体</p>
-            <button onclick="openAddAgentModal()" class="mt-4 text-primary-500 hover:text-primary-600">
+            <button onclick="openAddAgentModal()" class="mt-4 text-[#00D29E] hover:text-[#629C85]">
               <i class="fas fa-plus mr-1"></i>添加智能体
             </button>
           </div>
         \`;
         return;
       }
-      
-      container.innerHTML = \`<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">\${filtered.map(renderAgentCard).join('')}</div>\`;
-      return;
-    }
-    
-    // 中环按赛道筛选
-    if (currentTrackFilter !== 'all') {
-      filtered = filtered.filter(a => a.industry === currentTrackFilter || a.industry === 'all');
-    }
-    
-    if (filtered.length === 0) {
-      container.innerHTML = \`
-        <div class="text-center py-12 text-gray-500">
-          <i class="fas fa-robot text-4xl mb-4 opacity-30"></i>
-          <p>该赛道暂无专属智能体</p>
-          <button onclick="openAddAgentModal()" class="mt-4 text-primary-500 hover:text-primary-600">
-            <i class="fas fa-plus mr-1"></i>添加智能体
-          </button>
-        </div>
-      \`;
-      return;
-    }
-    
-    // 按赛道分组展示
-    if (currentViewMode === 'track' && currentTrackFilter === 'all') {
-      // 先显示通用智能体
-      const generalAgents = filtered.filter(a => a.industry === 'all');
-      // 按赛道分组其他智能体
-      const trackGroups = {};
-      filtered.filter(a => a.industry !== 'all').forEach(a => {
-        if (!trackGroups[a.industry]) trackGroups[a.industry] = [];
-        trackGroups[a.industry].push(a);
-      });
-      
-      let html = '';
-      
-      // 通用智能体组
-      if (generalAgents.length > 0) {
-        html += \`
-          <div class="mb-8">
-            <div class="flex items-center space-x-3 mb-4">
-              <div class="w-10 h-10 rounded-lg flex items-center justify-center bg-gray-100">
-                <i class="fas fa-globe text-gray-500"></i>
-              </div>
-              <div>
-                <h3 class="font-bold text-lg text-gray-800">通用评估智能体</h3>
-                <p class="text-sm text-gray-500">适用于所有赛道的基础评估能力</p>
-              </div>
-              <span class="px-3 py-1 bg-gray-100 rounded-full text-sm text-gray-600">\${generalAgents.length}个</span>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              \${generalAgents.map(renderAgentCard).join('')}
-            </div>
-          </div>
-        \`;
-      }
-      
-      // 各赛道专属智能体组
-      Object.keys(trackGroups).forEach(trackId => {
-        const track = industryTracks.find(t => t.id === trackId);
-        const agents = trackGroups[trackId];
-        if (agents.length > 0) {
-          html += \`
-            <div class="mb-8">
-              <div class="flex items-center space-x-3 mb-4">
-                <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background: \${track?.icon_color}20">
-                  <i class="\${track?.icon || 'fas fa-tag'}" style="color: \${track?.icon_color}"></i>
-                </div>
-                <div>
-                  <h3 class="font-bold text-lg text-gray-800">\${track?.name || trackId}赛道专属智能体</h3>
-                  <p class="text-sm text-gray-500">\${track?.description || '针对该赛道的专业评估能力'}</p>
-                </div>
-                <span class="px-3 py-1 rounded-full text-sm text-white" style="background: \${track?.icon_color}">\${agents.length}个</span>
-              </div>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                \${agents.map(renderAgentCard).join('')}
-              </div>
-            </div>
-          \`;
-        }
-      });
-      
-      container.innerHTML = html;
-    } else {
-      // 平铺显示
       container.innerHTML = \`<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">\${filtered.map(renderAgentCard).join('')}</div>\`;
     }
   }
