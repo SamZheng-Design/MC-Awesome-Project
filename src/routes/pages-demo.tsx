@@ -580,6 +580,44 @@ export const demoPageContent = `
     return div.innerHTML;
   }
 
+  // 格式化finding项（处理对象或字符串）
+  function formatFinding(f) {
+    if (typeof f === 'string') {
+      return f;
+    } else if (typeof f === 'object' && f !== null) {
+      // 处理 {item, status, detail} 格式
+      if (f.item && f.detail) {
+        return \`【\${f.item}】\${f.detail}\`;
+      } else if (f.detail) {
+        return f.detail;
+      } else if (f.item) {
+        return f.item;
+      } else if (f.message) {
+        return f.message;
+      } else if (f.content) {
+        return f.content;
+      } else {
+        // 尝试转换为可读字符串
+        return Object.values(f).filter(v => typeof v === 'string').join(' - ') || JSON.stringify(f);
+      }
+    }
+    return String(f);
+  }
+
+  // 获取finding的状态图标
+  function getFindingIcon(f) {
+    if (typeof f === 'object' && f !== null && f.status) {
+      if (f.status === 'pass' || f.status === 'ok' || f.status === 'success') {
+        return 'fa-check-circle text-green-500';
+      } else if (f.status === 'fail' || f.status === 'error') {
+        return 'fa-times-circle text-red-500';
+      } else if (f.status === 'warning' || f.status === 'warn') {
+        return 'fa-exclamation-circle text-yellow-500';
+      }
+    }
+    return 'fa-check-circle text-amber-500';
+  }
+
   // 更新评估步骤显示（优化版）
   function updateAgentSteps(agentId, status, result = null, agent = null) {
     const stepsEl = document.getElementById(\`steps-\${agentId}\`);
@@ -670,8 +708,8 @@ export const demoPageContent = `
               <ul class="space-y-1 text-sm">
                 \${findings.slice(0, 3).map(f => \`
                   <li class="flex items-start space-x-2">
-                    <i class="fas fa-check-circle text-amber-500 mt-0.5 text-xs"></i>
-                    <span class="text-gray-600">\${f}</span>
+                    <i class="fas \${getFindingIcon(f)} mt-0.5 text-xs"></i>
+                    <span class="text-gray-600">\${formatFinding(f)}</span>
                   </li>
                 \`).join('')}
                 \${findings.length > 3 ? \`<li class="text-gray-400 text-xs ml-4">...还有 \${findings.length - 3} 项</li>\` : ''}
@@ -805,7 +843,7 @@ export const demoPageContent = `
             \${findings.map((f, i) => \`
               <div class="flex items-start space-x-3 bg-white p-3 rounded-lg">
                 <span class="w-6 h-6 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center text-xs font-bold flex-shrink-0">\${i + 1}</span>
-                <span class="text-sm text-gray-700">\${f}</span>
+                <span class="text-sm text-gray-700">\${formatFinding(f)}</span>
               </div>
             \`).join('')}
           </div>
@@ -954,8 +992,9 @@ export const demoPageContent = `
       // 从findings中提取需要改进的项
       if (r.result?.findings) {
         r.result.findings.forEach(f => {
-          if (f.includes('缺') || f.includes('不足') || f.includes('需要') || f.includes('建议') || f.includes('应') || f.includes('未')) {
-            improvements.add(f);
+          const findingText = formatFinding(f);
+          if (findingText.includes('缺') || findingText.includes('不足') || findingText.includes('需要') || findingText.includes('建议') || findingText.includes('应') || findingText.includes('未')) {
+            improvements.add(findingText);
           }
         });
       }
@@ -1177,10 +1216,11 @@ export const demoPageContent = `
       Object.values(evaluationResults).forEach(r => {
         if (r.result?.findings) {
           r.result.findings.forEach(f => {
-            if (f.includes('优') || f.includes('强') || f.includes('好') || f.includes('完善') || f.includes('齐全') || f.includes('丰富')) {
-              if (strengths.length < 4) strengths.push(f);
-            } else if (f.includes('风险') || f.includes('缺') || f.includes('不足') || f.includes('需要') || f.includes('关注') || f.includes('较')) {
-              if (risks.length < 4) risks.push(f);
+            const findingText = formatFinding(f);
+            if (findingText.includes('优') || findingText.includes('强') || findingText.includes('好') || findingText.includes('完善') || findingText.includes('齐全') || findingText.includes('丰富') || findingText.includes('pass')) {
+              if (strengths.length < 4) strengths.push(findingText);
+            } else if (findingText.includes('风险') || findingText.includes('缺') || findingText.includes('不足') || findingText.includes('需要') || findingText.includes('关注') || findingText.includes('较')) {
+              if (risks.length < 4) risks.push(findingText);
             }
           });
         }
@@ -1188,11 +1228,17 @@ export const demoPageContent = `
       
       document.getElementById('rec-strengths').innerHTML = (strengths.length > 0 ? strengths : [
         '首次中国巡演，市场稀缺性强', '三城联动分散风险', '运营方经验丰富'
-      ]).slice(0, 3).map(s => \`<li>• \${s.length > 35 ? s.substring(0, 35) + '...' : s}</li>\`).join('');
+      ]).slice(0, 3).map(s => {
+        const text = typeof s === 'string' ? s : formatFinding(s);
+        return \`<li>• \${text.length > 40 ? text.substring(0, 40) + '...' : text}</li>\`;
+      }).join('');
       
       document.getElementById('rec-risks').innerHTML = (risks.length > 0 ? risks : [
         '艺人取消风险需关注', '票房预测依赖市场反应', '涉外审批进度需跟踪'
-      ]).slice(0, 3).map(r => \`<li>• \${r.length > 35 ? r.substring(0, 35) + '...' : r}</li>\`).join('');
+      ]).slice(0, 3).map(r => {
+        const text = typeof r === 'string' ? r : formatFinding(r);
+        return \`<li>• \${text.length > 40 ? text.substring(0, 40) + '...' : text}</li>\`;
+      }).join('');
 
       // 生成综合改进建议
       generateImprovementSuggestions();

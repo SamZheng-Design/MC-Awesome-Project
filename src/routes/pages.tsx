@@ -128,21 +128,33 @@ const baseLayout = (title: string, content: string, activeNav: string = '') => h
           ...options
         });
         const data = await response.json();
-        if (!data.success) throw new Error(data.error || '请求失败');
+        if (!data.success) {
+          // 提供更友好的错误信息
+          const errorMsg = data.error || '请求失败';
+          console.error('API错误:', url, errorMsg);
+          throw new Error(errorMsg);
+        }
         return data;
       } catch (error) {
-        showToast(error.message, 'error');
+        // 只有非静默模式才显示toast
+        if (!options.silent) {
+          showToast(error.message, 'error');
+        }
         throw error;
       }
     }
 
-    // 初始化数据库
+    // 初始化数据库（静默模式，不显示错误）
     async function initDB() {
       try {
-        const result = await apiCall('/api/init-db', { method: 'POST' });
-        console.log('数据库初始化:', result);
+        const result = await fetch('/api/init-db', { method: 'POST' });
+        const data = await result.json();
+        if (data.success) {
+          console.log('数据库初始化:', data.message);
+        }
       } catch (e) {
-        console.log('数据库可能已初始化');
+        // 静默处理，数据库可能已初始化
+        console.log('数据库检查完成');
       }
     }
     
