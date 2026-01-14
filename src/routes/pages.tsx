@@ -6,47 +6,101 @@ import { workflowPageContent, submitPageContent, dealsPageContent } from './page
 
 const pages = new Hono()
 
-// 通用页面模板
+// 通用页面模板 - 滴灌通品牌色彩版
 const baseLayout = (title: string, content: string, activeNav: string = '') => html`
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${title} - 滴灌通智能体筛选系统</title>
+  <title>${title} - 滴灌通智能评估系统</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-    body { font-family: 'Inter', sans-serif; }
-    .gradient-bg { background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%); }
-    .card-shadow { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
+    body { font-family: 'Noto Sans SC', 'Inter', sans-serif; }
+    
+    /* 滴灌通品牌色彩 */
+    :root {
+      --mc-primary: #00D29E;      /* 主色-薄荷绿 */
+      --mc-primary-dark: #00B88A; /* 主色深 */
+      --mc-secondary: #629C85;    /* 辅助色-深绿 */
+      --mc-accent: #49754D;       /* 强调色-墨绿 */
+      --mc-light: #D9EDDF;        /* 浅色背景 */
+      --mc-cream: #F3EED9;        /* 米黄高亮 */
+      --mc-bg: #F5F9F7;           /* 页面背景 */
+    }
+    
+    .gradient-bg { 
+      background: linear-gradient(135deg, #00D29E 0%, #00B88A 50%, #629C85 100%); 
+    }
+    .mc-bg { background-color: var(--mc-bg); }
+    .mc-primary { color: var(--mc-primary); }
+    .mc-primary-bg { background-color: var(--mc-primary); }
+    .mc-light-bg { background-color: var(--mc-light); }
+    .mc-cream-bg { background-color: var(--mc-cream); }
+    .mc-accent { color: var(--mc-accent); }
+    
+    .card-shadow { 
+      box-shadow: 0 4px 12px -2px rgba(0, 210, 158, 0.08), 0 2px 6px -2px rgba(0, 0, 0, 0.04); 
+    }
+    .card-shadow:hover {
+      box-shadow: 0 8px 24px -4px rgba(0, 210, 158, 0.15), 0 4px 8px -2px rgba(0, 0, 0, 0.06);
+    }
     .agent-card:hover { transform: translateY(-2px); transition: all 0.2s; }
     .pulse-dot { animation: pulse 2s infinite; }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
     .progress-ring { transition: stroke-dashoffset 0.5s; }
-    .markdown-content h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; }
-    .markdown-content h2 { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.75rem; margin-top: 1rem; }
+    
+    /* Markdown样式 - 滴灌通配色 */
+    .markdown-content h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: #1f2937; }
+    .markdown-content h2 { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.75rem; margin-top: 1rem; color: var(--mc-accent); }
     .markdown-content h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; }
-    .markdown-content p { margin-bottom: 0.75rem; line-height: 1.6; }
+    .markdown-content p { margin-bottom: 0.75rem; line-height: 1.7; }
     .markdown-content ul, .markdown-content ol { margin-left: 1.5rem; margin-bottom: 0.75rem; }
     .markdown-content li { margin-bottom: 0.25rem; }
-    .markdown-content code { background: #f3f4f6; padding: 0.125rem 0.375rem; border-radius: 0.25rem; font-size: 0.875rem; }
-    .markdown-content pre { background: #1f2937; color: #f9fafb; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin-bottom: 1rem; }
+    .markdown-content code { background: var(--mc-light); padding: 0.125rem 0.375rem; border-radius: 0.25rem; font-size: 0.875rem; color: var(--mc-accent); }
+    .markdown-content pre { background: #1a2e23; color: #f0fdf4; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin-bottom: 1rem; }
     .markdown-content table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
-    .markdown-content th, .markdown-content td { border: 1px solid #e5e7eb; padding: 0.5rem; text-align: left; }
-    .markdown-content th { background: #f9fafb; font-weight: 600; }
+    .markdown-content th, .markdown-content td { border: 1px solid var(--mc-light); padding: 0.5rem; text-align: left; }
+    .markdown-content th { background: var(--mc-light); font-weight: 600; color: var(--mc-accent); }
     .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    
+    /* 滴灌通Logo样式 */
+    .mc-logo { height: 32px; width: auto; }
+    
+    /* 导航栏激活状态 */
+    .nav-active { background: rgba(255,255,255,0.2); border-bottom: 2px solid white; }
   </style>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            primary: { 50: '#eef2ff', 100: '#e0e7ff', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca' },
-            success: '#10B981',
+            primary: { 
+              50: '#ecfdf5', 
+              100: '#d1fae5', 
+              200: '#a7f3d0',
+              300: '#6ee7b7',
+              400: '#34d399',
+              500: '#00D29E',  /* 滴灌通主色 */
+              600: '#00B88A', 
+              700: '#047857',
+              800: '#065f46',
+              900: '#064e3b'
+            },
+            mc: {
+              primary: '#00D29E',
+              secondary: '#629C85',
+              accent: '#49754D',
+              light: '#D9EDDF',
+              cream: '#F3EED9',
+              bg: '#F5F9F7'
+            },
+            success: '#00D29E',
             danger: '#EF4444',
             warning: '#F59E0B'
           }
@@ -55,39 +109,40 @@ const baseLayout = (title: string, content: string, activeNav: string = '') => h
     }
   </script>
 </head>
-<body class="bg-gray-50 min-h-screen">
-  <!-- 导航栏 -->
+<body class="mc-bg min-h-screen">
+  <!-- 导航栏 - 滴灌通风格 -->
   <nav class="gradient-bg text-white shadow-lg sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4">
       <div class="flex items-center justify-between h-16">
         <div class="flex items-center space-x-8">
-          <a href="/" class="flex items-center space-x-2">
-            <i class="fas fa-robot text-2xl"></i>
-            <span class="font-bold text-lg">DGT Intelligence</span>
+          <!-- 滴灌通Logo -->
+          <a href="/" class="flex items-center space-x-3">
+            <img src="https://www.genspark.ai/api/files/s/rrqrjPA0" alt="滴灌通" class="h-8 w-auto brightness-0 invert">
+            <span class="font-semibold text-sm hidden sm:inline border-l border-white/30 pl-3">智能评估</span>
           </a>
           <div class="hidden md:flex space-x-1">
-            <a href="/" class="px-4 py-2 rounded-lg hover:bg-white/10 transition ${activeNav === 'dashboard' ? 'bg-white/20' : ''}">
-              <i class="fas fa-chart-pie mr-2"></i>Dashboard
+            <a href="/" class="px-4 py-2 rounded-lg hover:bg-white/10 transition text-sm font-medium ${activeNav === 'dashboard' ? 'nav-active' : ''}">
+              <i class="fas fa-chart-pie mr-2"></i>工作台
             </a>
-            <a href="/agents" class="px-4 py-2 rounded-lg hover:bg-white/10 transition ${activeNav === 'agents' ? 'bg-white/20' : ''}">
+            <a href="/agents" class="px-4 py-2 rounded-lg hover:bg-white/10 transition text-sm font-medium ${activeNav === 'agents' ? 'nav-active' : ''}">
               <i class="fas fa-robot mr-2"></i>智能体
             </a>
-            <a href="/workflow" class="px-4 py-2 rounded-lg hover:bg-white/10 transition ${activeNav === 'workflow' ? 'bg-white/20' : ''}">
+            <a href="/workflow" class="px-4 py-2 rounded-lg hover:bg-white/10 transition text-sm font-medium ${activeNav === 'workflow' ? 'nav-active' : ''}">
               <i class="fas fa-project-diagram mr-2"></i>工作流
             </a>
-            <a href="/deals" class="px-4 py-2 rounded-lg hover:bg-white/10 transition ${activeNav === 'deals' ? 'bg-white/20' : ''}">
+            <a href="/deals" class="px-4 py-2 rounded-lg hover:bg-white/10 transition text-sm font-medium ${activeNav === 'deals' ? 'nav-active' : ''}">
               <i class="fas fa-folder-open mr-2"></i>标的管理
             </a>
-            <a href="/submit" class="px-4 py-2 rounded-lg hover:bg-white/10 transition ${activeNav === 'submit' ? 'bg-white/20' : ''}">
+            <a href="/submit" class="px-4 py-2 rounded-lg hover:bg-white/10 transition text-sm font-medium ${activeNav === 'submit' ? 'nav-active' : ''}">
               <i class="fas fa-plus-circle mr-2"></i>提交申请
             </a>
-            <a href="/demo" class="px-4 py-2 rounded-lg hover:bg-white/10 transition ${activeNav === 'demo' ? 'bg-white/20' : ''}">
+            <a href="/demo" class="px-4 py-2 rounded-lg hover:bg-white/10 transition text-sm font-medium ${activeNav === 'demo' ? 'nav-active' : ''}">
               <i class="fas fa-play-circle mr-2"></i>演示
             </a>
           </div>
         </div>
         <div class="flex items-center space-x-4">
-          <span class="text-sm opacity-75">v1.0.0</span>
+          <span class="text-xs opacity-75 bg-white/10 px-2 py-1 rounded">v2.0</span>
         </div>
       </div>
     </div>
@@ -102,11 +157,11 @@ const baseLayout = (title: string, content: string, activeNav: string = '') => h
   <div id="toast-container" class="fixed bottom-4 right-4 z-50 space-y-2"></div>
 
   <script>
-    // Toast通知函数
+    // Toast通知函数 - 滴灌通配色
     function showToast(message, type = 'success') {
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
-      const bgColor = type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-yellow-500';
+      const bgColor = type === 'success' ? 'bg-[#00D29E]' : type === 'error' ? 'bg-red-500' : type === 'info' ? 'bg-[#629C85]' : 'bg-amber-500';
       const icon = type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
       
       toast.className = bgColor + ' text-white px-6 py-3 rounded-lg shadow-lg flex items-center space-x-2 transform translate-x-full transition-transform duration-300';
@@ -170,49 +225,62 @@ const baseLayout = (title: string, content: string, activeNav: string = '') => h
 // ============================================
 pages.get('/', (c) => {
   const content = `
-    <!-- 统计卡片 -->
+    <!-- 欢迎横幅 - 滴灌通风格 -->
+    <div class="bg-gradient-to-r from-[#00D29E] to-[#629C85] rounded-2xl p-6 mb-8 text-white">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-bold mb-2">欢迎使用滴灌通智能评估系统</h1>
+          <p class="opacity-90">AI驱动的投资标的全流程风险评估解决方案</p>
+        </div>
+        <div class="hidden md:block">
+          <img src="https://www.genspark.ai/api/files/s/rrqrjPA0" alt="滴灌通" class="h-12 brightness-0 invert opacity-80">
+        </div>
+      </div>
+    </div>
+
+    <!-- 统计卡片 - 滴灌通配色 -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-      <div class="bg-white rounded-xl p-6 card-shadow">
+      <div class="bg-white rounded-xl p-6 card-shadow border-l-4 border-[#00D29E]">
         <div class="flex items-center justify-between">
           <div>
             <p class="text-gray-500 text-sm">标的总数</p>
             <p class="text-3xl font-bold text-gray-800" id="stat-total">-</p>
           </div>
-          <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-            <i class="fas fa-folder text-blue-500 text-xl"></i>
+          <div class="w-12 h-12 bg-[#D9EDDF] rounded-xl flex items-center justify-center">
+            <i class="fas fa-folder text-[#00D29E] text-xl"></i>
           </div>
         </div>
       </div>
-      <div class="bg-white rounded-xl p-6 card-shadow">
+      <div class="bg-white rounded-xl p-6 card-shadow border-l-4 border-[#629C85]">
         <div class="flex items-center justify-between">
           <div>
             <p class="text-gray-500 text-sm">已通过</p>
-            <p class="text-3xl font-bold text-green-600" id="stat-passed">-</p>
+            <p class="text-3xl font-bold text-[#00D29E]" id="stat-passed">-</p>
           </div>
-          <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-            <i class="fas fa-check-circle text-green-500 text-xl"></i>
+          <div class="w-12 h-12 bg-[#D9EDDF] rounded-xl flex items-center justify-center">
+            <i class="fas fa-check-circle text-[#629C85] text-xl"></i>
           </div>
         </div>
       </div>
-      <div class="bg-white rounded-xl p-6 card-shadow">
+      <div class="bg-white rounded-xl p-6 card-shadow border-l-4 border-[#F3EED9]">
         <div class="flex items-center justify-between">
           <div>
             <p class="text-gray-500 text-sm">处理中</p>
-            <p class="text-3xl font-bold text-yellow-600" id="stat-pending">-</p>
+            <p class="text-3xl font-bold text-amber-600" id="stat-pending">-</p>
           </div>
-          <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
-            <i class="fas fa-clock text-yellow-500 text-xl"></i>
+          <div class="w-12 h-12 bg-[#F3EED9] rounded-xl flex items-center justify-center">
+            <i class="fas fa-clock text-amber-500 text-xl"></i>
           </div>
         </div>
       </div>
-      <div class="bg-white rounded-xl p-6 card-shadow">
+      <div class="bg-white rounded-xl p-6 card-shadow border-l-4 border-[#49754D]">
         <div class="flex items-center justify-between">
           <div>
             <p class="text-gray-500 text-sm">智能体数量</p>
-            <p class="text-3xl font-bold text-purple-600" id="stat-agents">10</p>
+            <p class="text-3xl font-bold text-[#49754D]" id="stat-agents">10</p>
           </div>
-          <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-            <i class="fas fa-robot text-purple-500 text-xl"></i>
+          <div class="w-12 h-12 bg-[#D9EDDF] rounded-xl flex items-center justify-center">
+            <i class="fas fa-robot text-[#49754D] text-xl"></i>
           </div>
         </div>
       </div>
@@ -222,18 +290,18 @@ pages.get('/', (c) => {
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
       <!-- 快速操作 -->
       <div class="bg-white rounded-xl p-6 card-shadow">
-        <h3 class="text-lg font-semibold mb-4 flex items-center">
-          <i class="fas fa-bolt text-yellow-500 mr-2"></i>
+        <h3 class="text-lg font-semibold mb-4 flex items-center text-[#49754D]">
+          <i class="fas fa-bolt text-[#00D29E] mr-2"></i>
           快速操作
         </h3>
         <div class="space-y-3">
-          <a href="/submit" class="block w-full bg-primary-500 text-white py-3 px-4 rounded-lg hover:bg-primary-600 transition text-center">
+          <a href="/submit" class="block w-full bg-gradient-to-r from-[#00D29E] to-[#00B88A] text-white py-3 px-4 rounded-lg hover:opacity-90 transition text-center font-medium">
             <i class="fas fa-plus mr-2"></i>提交新标的
           </a>
-          <a href="/demo" class="block w-full bg-green-500 text-white py-3 px-4 rounded-lg hover:bg-green-600 transition text-center">
-            <i class="fas fa-play mr-2"></i>运行Cardi B演示
+          <a href="/demo" class="block w-full bg-[#629C85] text-white py-3 px-4 rounded-lg hover:bg-[#49754D] transition text-center font-medium">
+            <i class="fas fa-play mr-2"></i>运行演示评估
           </a>
-          <a href="/agents" class="block w-full border border-gray-300 text-gray-700 py-3 px-4 rounded-lg hover:bg-gray-50 transition text-center">
+          <a href="/agents" class="block w-full border-2 border-[#D9EDDF] text-[#49754D] py-3 px-4 rounded-lg hover:bg-[#D9EDDF] transition text-center font-medium">
             <i class="fas fa-cog mr-2"></i>配置智能体
           </a>
         </div>
@@ -241,8 +309,8 @@ pages.get('/', (c) => {
 
       <!-- 智能体状态 -->
       <div class="lg:col-span-2 bg-white rounded-xl p-6 card-shadow">
-        <h3 class="text-lg font-semibold mb-4 flex items-center">
-          <i class="fas fa-robot text-purple-500 mr-2"></i>
+        <h3 class="text-lg font-semibold mb-4 flex items-center text-[#49754D]">
+          <i class="fas fa-robot text-[#00D29E] mr-2"></i>
           智能体状态
         </h3>
         <div id="agents-status" class="grid grid-cols-2 md:grid-cols-5 gap-3">
@@ -253,8 +321,8 @@ pages.get('/', (c) => {
 
     <!-- 最近标的 -->
     <div class="bg-white rounded-xl p-6 card-shadow">
-      <h3 class="text-lg font-semibold mb-4 flex items-center">
-        <i class="fas fa-history text-blue-500 mr-2"></i>
+      <h3 class="text-lg font-semibold mb-4 flex items-center text-[#49754D]">
+        <i class="fas fa-history text-[#00D29E] mr-2"></i>
         最近标的
       </h3>
       <div id="recent-deals" class="overflow-x-auto">

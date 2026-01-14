@@ -209,7 +209,7 @@ export const agentsPageContent = `
               </button>
             </div>
           </div>
-          <textarea id="edit-prompt" class="w-full h-96 border rounded-lg p-4 font-mono text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent" placeholder="输入System Prompt..."></textarea>
+          <textarea id="edit-prompt" class="w-full h-96 border rounded-lg p-4 font-mono text-sm focus:ring-2 focus:ring-[#00D29E] focus:border-transparent border-[#D9EDDF]" placeholder="输入System Prompt..."></textarea>
         </div>
 
         <!-- 知识库 Tab -->
@@ -217,7 +217,7 @@ export const agentsPageContent = `
           <div class="mb-4 flex justify-between items-center">
             <label class="font-medium text-gray-700">知识库内容</label>
             <div class="space-x-2">
-              <button onclick="toggleKnowledgeEdit()" id="btn-edit-knowledge" class="px-3 py-1 bg-primary-100 text-primary-700 rounded text-sm hover:bg-primary-200">
+              <button onclick="toggleKnowledgeEdit()" id="btn-edit-knowledge" class="px-3 py-1 bg-[#D9EDDF] text-[#49754D] rounded text-sm hover:bg-[#c5e6ce]">
                 <i class="fas fa-edit mr-1"></i>编辑
               </button>
               <label class="px-3 py-1 bg-green-100 text-green-700 rounded text-sm hover:bg-green-200 cursor-pointer">
@@ -227,7 +227,7 @@ export const agentsPageContent = `
             </div>
           </div>
           <div id="knowledge-view" class="border rounded-lg p-4 bg-gray-50 h-96 overflow-y-auto markdown-content"></div>
-          <textarea id="knowledge-edit" class="hidden w-full h-96 border rounded-lg p-4 font-mono text-sm focus:ring-2 focus:ring-primary-500"></textarea>
+          <textarea id="knowledge-edit" class="hidden w-full h-96 border rounded-lg p-4 font-mono text-sm focus:ring-2 focus:ring-[#00D29E] border-[#D9EDDF]"></textarea>
           <div id="knowledge-mode" class="mt-2 hidden">
             <label class="inline-flex items-center mr-4">
               <input type="radio" name="upload-mode" value="replace" checked class="mr-2"> 替换现有内容
@@ -288,7 +288,7 @@ export const agentsPageContent = `
               <label class="font-medium text-gray-700 mb-2 block">启用状态</label>
               <label class="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" id="config-enabled" class="sr-only peer">
-                <div class="w-11 h-6 bg-gray-200 peer-focus:ring-4 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
+                <div class="w-11 h-6 bg-gray-200 peer-focus:ring-4 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#00D29E]"></div>
                 <span class="ml-3 text-sm text-gray-700">启用</span>
               </label>
             </div>
@@ -416,7 +416,7 @@ export const agentsPageContent = `
   function updateTrackTags() {
     const container = document.getElementById('track-tags-container');
     container.innerHTML = \`
-      <button onclick="filterByTrack('all')" class="px-3 py-1.5 rounded-full text-sm font-medium transition \${currentTrackFilter === 'all' ? 'bg-primary-500 text-white' : 'bg-white text-gray-600 hover:bg-gray-100 border'}">
+      <button onclick="filterByTrack('all')" class="px-3 py-1.5 rounded-full text-sm font-medium transition \${currentTrackFilter === 'all' ? 'bg-[#00D29E] text-white' : 'bg-white text-gray-600 hover:bg-gray-100 border'}">
         全部
       </button>
     \` + industryTracks.filter(t => t.id !== 'all').map(t => \`
@@ -443,11 +443,11 @@ export const agentsPageContent = `
     currentTrackFilter = 'all';
     
     document.getElementById('tab-outer').className = type === 'outer' 
-      ? 'px-6 py-4 font-medium text-primary-600 border-b-2 border-primary-500 bg-primary-50'
-      : 'px-6 py-4 font-medium text-gray-500 hover:text-gray-700 transition';
+      ? 'px-6 py-4 font-medium text-[#00D29E] border-b-2 border-[#00D29E] bg-[#D9EDDF]'
+      : 'px-6 py-4 font-medium text-gray-500 hover:text-[#629C85] transition';
     document.getElementById('tab-inner').className = type === 'inner'
-      ? 'px-6 py-4 font-medium text-primary-600 border-b-2 border-primary-500 bg-primary-50'
-      : 'px-6 py-4 font-medium text-gray-500 hover:text-gray-700 transition';
+      ? 'px-6 py-4 font-medium text-[#00D29E] border-b-2 border-[#00D29E] bg-[#D9EDDF]'
+      : 'px-6 py-4 font-medium text-gray-500 hover:text-[#629C85] transition';
     
     // 显示/隐藏赛道筛选（仅中环显示）
     document.getElementById('track-filter').classList.toggle('hidden', type !== 'inner');
@@ -519,7 +519,7 @@ export const agentsPageContent = `
           </div>
           <label class="relative inline-flex items-center cursor-pointer" onclick="event.stopPropagation()">
             <input type="checkbox" class="sr-only peer" \${agent.is_enabled ? 'checked' : ''} onchange="toggleAgent('\${agent.id}', this.checked)">
-            <div class="w-9 h-5 bg-gray-200 peer-focus:ring-2 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary-600"></div>
+            <div class="w-9 h-5 bg-gray-200 peer-focus:ring-2 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#00D29E]"></div>
           </label>
         </div>
         <p class="text-sm text-gray-600 line-clamp-2 mb-3">\${agent.description}</p>
@@ -702,8 +702,8 @@ export const agentsPageContent = `
   function switchDetailTab(tab) {
     ['prompt', 'knowledge', 'criteria', 'config', 'test'].forEach(t => {
       document.getElementById(\`detail-tab-\${t}\`).className = t === tab
-        ? 'py-3 px-4 font-medium text-primary-600 border-b-2 border-primary-500'
-        : 'py-3 px-4 font-medium text-gray-500 hover:text-gray-700';
+        ? 'py-3 px-4 font-medium text-[#00D29E] border-b-2 border-[#00D29E]'
+        : 'py-3 px-4 font-medium text-gray-500 hover:text-[#629C85]';
       document.getElementById(\`panel-\${t}\`).classList.toggle('hidden', t !== tab);
     });
   }

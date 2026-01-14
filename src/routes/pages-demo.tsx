@@ -3,7 +3,7 @@ export const demoPageContent = `
 <!-- 页面标题 -->
 <div class="flex items-center justify-between mb-6">
   <div>
-    <h1 class="text-2xl font-bold text-gray-800">Cardi B 演唱会项目演示</h1>
+    <h1 class="text-2xl font-bold text-[#49754D]">Cardi B 演唱会项目演示</h1>
     <p class="text-gray-500">完整展示多智能体评估流程（含详细推理过程）</p>
   </div>
   <div class="flex space-x-2">
@@ -13,7 +13,7 @@ export const demoPageContent = `
     <button onclick="resetDemo()" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition">
       <i class="fas fa-redo mr-2"></i>重置
     </button>
-    <button onclick="startDemo()" id="btn-start" class="px-6 py-2 bg-gradient-to-r from-primary-500 to-purple-500 text-white rounded-lg hover:opacity-90 transition">
+    <button onclick="startDemo()" id="btn-start" class="px-6 py-2 bg-gradient-to-r from-[#00D29E] to-[#629C85] text-white rounded-lg hover:opacity-90 transition">
       <i class="fas fa-play mr-2"></i>开始评估
     </button>
   </div>
@@ -24,8 +24,8 @@ export const demoPageContent = `
   <div class="flex items-center justify-between">
     <div class="flex items-center space-x-4">
       <div id="step-1" class="flex items-center space-x-2">
-        <div class="w-8 h-8 rounded-full bg-primary-500 text-white flex items-center justify-center font-bold">1</div>
-        <span class="font-medium text-primary-600">项目材料</span>
+        <div class="w-8 h-8 rounded-full bg-[#00D29E] text-white flex items-center justify-center font-bold">1</div>
+        <span class="font-medium text-[#00D29E]">项目材料</span>
       </div>
       <div class="w-16 h-0.5 bg-gray-200" id="line-1"></div>
       <div id="step-2" class="flex items-center space-x-2 opacity-50">
@@ -75,7 +75,7 @@ export const demoPageContent = `
           </div>
           <div class="flex justify-between">
             <span class="text-gray-500">融资金额</span>
-            <span class="font-medium text-primary-600">3,000万</span>
+            <span class="font-medium text-[#00D29E]">3,000万</span>
           </div>
           <div class="flex justify-between">
             <span class="text-gray-500">预期IRR</span>
@@ -136,15 +136,15 @@ export const demoPageContent = `
     <div id="inner-section" class="bg-white rounded-xl card-shadow p-6 opacity-50">
       <div class="flex items-center justify-between mb-4">
         <h3 class="font-semibold text-lg flex items-center">
-          <i class="fas fa-bullseye text-blue-500 mr-2"></i>
+          <i class="fas fa-bullseye text-[#629C85] mr-2"></i>
           中环评估
-          <span class="ml-2 text-xs bg-blue-100 text-blue-600 px-2 py-0.5 rounded">加权评分</span>
+          <span class="ml-2 text-xs bg-[#D9EDDF] text-[#49754D] px-2 py-0.5 rounded">加权评分</span>
         </h3>
         <span id="inner-status" class="text-sm text-gray-500">等待外环完成</span>
       </div>
       
       <!-- 中环说明 -->
-      <div class="mb-4 p-3 bg-blue-50 rounded-lg text-sm text-blue-800">
+      <div class="mb-4 p-3 bg-[#D9EDDF] rounded-lg text-sm text-[#49754D]">
         <i class="fas fa-info-circle mr-2"></i>
         中环采用<strong>并行执行</strong>，多个智能体同时评估，按权重计算加权评分
       </div>
@@ -158,7 +158,7 @@ export const demoPageContent = `
     <div id="final-section" class="bg-white rounded-xl card-shadow p-6 opacity-50">
       <div class="flex items-center justify-between mb-4">
         <h3 class="font-semibold text-lg flex items-center">
-          <i class="fas fa-ranking-star text-purple-500 mr-2"></i>
+          <i class="fas fa-ranking-star text-[#00D29E] mr-2"></i>
           综合评分
         </h3>
         <span id="final-status" class="text-sm text-gray-500">等待评估完成</span>
@@ -182,7 +182,7 @@ export const demoPageContent = `
 
     <!-- 投资建议 -->
     <div id="recommendation-section" class="hidden">
-      <div class="bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl p-6 text-white">
+      <div class="bg-gradient-to-r from-[#00D29E] to-[#629C85] rounded-xl p-6 text-white">
         <div class="flex items-center justify-between">
           <div>
             <h3 class="text-xl font-bold mb-2" id="rec-title">投资建议</h3>
@@ -334,7 +334,7 @@ export const demoPageContent = `
 <!-- 评估详情弹窗（优化版） -->
 <div id="detail-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4" onclick="if(event.target === this) closeDetailModal()">
   <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl">
-    <div class="p-4 border-b flex items-center justify-between bg-gradient-to-r from-primary-500 to-purple-500 text-white">
+    <div class="p-4 border-b flex items-center justify-between bg-gradient-to-r from-[#00D29E] to-[#629C85] text-white">
       <h3 id="modal-title" class="font-bold text-lg">评估详情</h3>
       <button onclick="closeDetailModal()" class="w-8 h-8 rounded-full hover:bg-white/20 flex items-center justify-center transition">
         <i class="fas fa-times"></i>
@@ -349,13 +349,13 @@ export const demoPageContent = `
 <!-- AI推理内容浮窗 -->
 <div id="reasoning-popup" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4" onclick="if(event.target === this) closeReasoningPopup()">
   <div class="bg-white rounded-xl max-w-2xl w-full max-h-[80vh] overflow-hidden shadow-2xl">
-    <div class="p-4 border-b flex items-center justify-between bg-purple-50">
-      <h3 class="font-bold text-purple-800 flex items-center">
+    <div class="p-4 border-b flex items-center justify-between bg-[#D9EDDF]">
+      <h3 class="font-bold text-[#49754D] flex items-center">
         <i class="fas fa-brain mr-2"></i>
         <span id="popup-title">AI推理过程</span>
       </h3>
-      <button onclick="closeReasoningPopup()" class="w-8 h-8 rounded-full hover:bg-purple-100 flex items-center justify-center transition">
-        <i class="fas fa-times text-purple-600"></i>
+      <button onclick="closeReasoningPopup()" class="w-8 h-8 rounded-full hover:bg-[#c5e6ce] flex items-center justify-center transition">
+        <i class="fas fa-times text-[#49754D]"></i>
       </button>
     </div>
     <div id="popup-content" class="p-6 overflow-y-auto max-h-[70vh]">
