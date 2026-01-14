@@ -111,14 +111,17 @@ export const demoPageContent = `
   <!-- 右侧：评估过程 -->
   <div class="lg:col-span-2 space-y-6">
     <!-- 外环漏斗体系 -->
-    <div id="outer-section" class="bg-white rounded-xl card-shadow p-6">
+    <div id="outer-section" class="bg-white rounded-xl card-shadow p-6 border-2 border-dashed border-gray-200">
       <div class="flex items-center justify-between mb-4">
         <h3 class="font-semibold text-lg flex items-center">
           <i class="fas fa-funnel-dollar text-red-500 mr-2"></i>
           外环漏斗体系
           <span class="ml-2 text-xs bg-red-100 text-red-600 px-2 py-0.5 rounded">一票否决</span>
+          <span id="outer-step-badge" class="ml-2 text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded">第1步</span>
         </h3>
-        <span id="outer-status" class="text-sm text-gray-500">等待开始</span>
+        <span id="outer-status" class="text-sm text-gray-500 flex items-center">
+          <i class="fas fa-clock mr-1"></i>等待开始
+        </span>
       </div>
       
       <!-- 外环漏斗体系说明 -->
@@ -133,15 +136,18 @@ export const demoPageContent = `
     </div>
 
     <!-- 中环筛子体系 -->
-    <div id="inner-section" class="bg-white rounded-xl card-shadow p-6 opacity-50">
+    <div id="inner-section" class="bg-white rounded-xl card-shadow p-6 opacity-40 border-2 border-dashed border-gray-200">
       <div class="flex items-center justify-between mb-4">
         <h3 class="font-semibold text-lg flex items-center">
           <i class="fas fa-filter text-[#629C85] mr-2"></i>
           中环筛子体系
           <span id="inner-track-badge" class="ml-2 text-xs bg-purple-100 text-purple-600 px-2 py-0.5 rounded">文娱轻资产</span>
           <span id="inner-agent-count" class="ml-2 text-xs bg-[#D9EDDF] text-[#49754D] px-2 py-0.5 rounded">加权评分</span>
+          <span id="inner-step-badge" class="ml-2 text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded">第2步</span>
         </h3>
-        <span id="inner-status" class="text-sm text-gray-500">等待外环漏斗体系完成</span>
+        <span id="inner-status" class="text-sm text-gray-400 flex items-center">
+          <i class="fas fa-lock mr-1"></i>等待外环漏斗体系完成
+        </span>
       </div>
       
       <!-- 中环筛子体系说明 -->
@@ -156,13 +162,16 @@ export const demoPageContent = `
     </div>
 
     <!-- 综合评分 -->
-    <div id="final-section" class="bg-white rounded-xl card-shadow p-6 opacity-50">
+    <div id="final-section" class="bg-white rounded-xl card-shadow p-6 opacity-40 border-2 border-dashed border-gray-200">
       <div class="flex items-center justify-between mb-4">
         <h3 class="font-semibold text-lg flex items-center">
           <i class="fas fa-ranking-star text-[#00D29E] mr-2"></i>
           综合评分
+          <span id="final-step-badge" class="ml-2 text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded">第3步</span>
         </h3>
-        <span id="final-status" class="text-sm text-gray-500">等待评估完成</span>
+        <span id="final-status" class="text-sm text-gray-400 flex items-center">
+          <i class="fas fa-lock mr-1"></i>等待评估完成
+        </span>
       </div>
       
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -1473,9 +1482,13 @@ export const demoPageContent = `
     try {
       // 步骤2：外环漏斗体系
       updateStep(2, 'active');
-      document.getElementById('outer-section').classList.remove('opacity-50');
-      document.getElementById('outer-status').textContent = '执行中...';
-      document.getElementById('outer-status').className = 'text-sm text-primary-600';
+      const outerSection = document.getElementById('outer-section');
+      outerSection.classList.remove('opacity-40', 'border-dashed', 'border-gray-200');
+      outerSection.classList.add('border-solid', 'border-red-300', 'ring-2', 'ring-red-100');
+      document.getElementById('outer-step-badge').className = 'ml-2 text-xs bg-red-500 text-white px-2 py-0.5 rounded animate-pulse';
+      document.getElementById('outer-step-badge').textContent = '执行中';
+      document.getElementById('outer-status').innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i>串行执行中...';
+      document.getElementById('outer-status').className = 'text-sm text-red-600 font-medium';
 
       // 使用筛选后的外环智能体ID列表
       const outerAgentIds = filteredOuterAgents.map(a => a.id);
@@ -1497,25 +1510,39 @@ export const demoPageContent = `
         updateAgentStatus(agentId, pass ? 'pass' : 'fail', score, response.data.result);
         
         if (!pass) {
-          document.getElementById('outer-status').textContent = '未通过';
-          document.getElementById('outer-status').className = 'text-sm text-red-600';
+          document.getElementById('outer-status').innerHTML = '<i class="fas fa-times-circle mr-1"></i>未通过';
+          document.getElementById('outer-status').className = 'text-sm text-red-600 font-medium';
+          document.getElementById('outer-step-badge').className = 'ml-2 text-xs bg-red-500 text-white px-2 py-0.5 rounded';
+          document.getElementById('outer-step-badge').textContent = '已否决';
+          const outerSectionFail = document.getElementById('outer-section');
+          outerSectionFail.classList.remove('ring-2', 'ring-red-100');
+          outerSectionFail.classList.add('border-red-500');
           updateStep(2, 'error');
-          document.getElementById('overall-status').textContent = '外环漏斗体系未通过';
-          showToast('外环漏斗体系未通过', 'error');
+          document.getElementById('overall-status').textContent = '外环漏斗体系未通过 - 一票否决';
+          showToast('外环漏斗体系未通过，项目被否决', 'error');
           generateImprovementSuggestions();
           return;
         }
       }
 
-      document.getElementById('outer-status').textContent = '全部通过';
-      document.getElementById('outer-status').className = 'text-sm text-green-600';
+      document.getElementById('outer-status').innerHTML = '<i class="fas fa-check-circle mr-1"></i>全部通过';
+      document.getElementById('outer-status').className = 'text-sm text-green-600 font-medium';
+      document.getElementById('outer-step-badge').className = 'ml-2 text-xs bg-green-500 text-white px-2 py-0.5 rounded';
+      document.getElementById('outer-step-badge').textContent = '已完成';
+      const outerSectionDone = document.getElementById('outer-section');
+      outerSectionDone.classList.remove('ring-2', 'ring-red-100', 'border-red-300');
+      outerSectionDone.classList.add('border-green-300');
       updateStep(2, 'complete');
 
       // 步骤3：中环筛子体系
       updateStep(3, 'active');
-      document.getElementById('inner-section').classList.remove('opacity-50');
-      document.getElementById('inner-status').textContent = '并行评估中...';
-      document.getElementById('inner-status').className = 'text-sm text-primary-600';
+      const innerSection = document.getElementById('inner-section');
+      innerSection.classList.remove('opacity-40', 'border-dashed', 'border-gray-200');
+      innerSection.classList.add('border-solid', 'border-[#629C85]', 'ring-2', 'ring-green-100');
+      document.getElementById('inner-step-badge').className = 'ml-2 text-xs bg-[#629C85] text-white px-2 py-0.5 rounded animate-pulse';
+      document.getElementById('inner-step-badge').textContent = '执行中';
+      document.getElementById('inner-status').innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i>并行评估中...';
+      document.getElementById('inner-status').className = 'text-sm text-[#629C85] font-medium';
 
       // 使用筛选后的中环智能体ID列表（根据项目赛道筛选）
       const innerAgentIds = filteredInnerAgents.map(a => a.id);
@@ -1539,15 +1566,24 @@ export const demoPageContent = `
         updateAgentStatus(r.agentId, r.pass ? 'pass' : 'fail', score, r.result);
       });
 
-      document.getElementById('inner-status').textContent = '评估完成';
-      document.getElementById('inner-status').className = 'text-sm text-green-600';
+      document.getElementById('inner-status').innerHTML = '<i class="fas fa-check-circle mr-1"></i>评估完成';
+      document.getElementById('inner-status').className = 'text-sm text-green-600 font-medium';
+      document.getElementById('inner-step-badge').className = 'ml-2 text-xs bg-green-500 text-white px-2 py-0.5 rounded';
+      document.getElementById('inner-step-badge').textContent = '已完成';
+      const innerSectionDone = document.getElementById('inner-section');
+      innerSectionDone.classList.remove('ring-2', 'ring-green-100', 'border-[#629C85]');
+      innerSectionDone.classList.add('border-green-300');
       updateStep(3, 'complete');
 
       // 步骤4：综合评分
       updateStep(4, 'active');
-      document.getElementById('final-section').classList.remove('opacity-50');
-      document.getElementById('final-status').textContent = '计算中...';
-      document.getElementById('final-status').className = 'text-sm text-primary-600';
+      const finalSection = document.getElementById('final-section');
+      finalSection.classList.remove('opacity-40', 'border-dashed', 'border-gray-200');
+      finalSection.classList.add('border-solid', 'border-[#00D29E]', 'ring-2', 'ring-emerald-100');
+      document.getElementById('final-step-badge').className = 'ml-2 text-xs bg-[#00D29E] text-white px-2 py-0.5 rounded animate-pulse';
+      document.getElementById('final-step-badge').textContent = '计算中';
+      document.getElementById('final-status').innerHTML = '<i class="fas fa-calculator fa-spin mr-1"></i>计算综合评分...';
+      document.getElementById('final-status').className = 'text-sm text-[#00D29E] font-medium';
 
       // 动态构建权重（使用筛选后的中环智能体的权重）
       const weights = {};
@@ -1597,8 +1633,13 @@ export const demoPageContent = `
         </div>
       \`;
 
-      document.getElementById('final-status').textContent = '评分完成';
-      document.getElementById('final-status').className = 'text-sm text-green-600';
+      document.getElementById('final-status').innerHTML = '<i class="fas fa-check-circle mr-1"></i>评分完成';
+      document.getElementById('final-status').className = 'text-sm text-green-600 font-medium';
+      document.getElementById('final-step-badge').className = 'ml-2 text-xs bg-green-500 text-white px-2 py-0.5 rounded';
+      document.getElementById('final-step-badge').textContent = '已完成';
+      const finalSectionDone = document.getElementById('final-section');
+      finalSectionDone.classList.remove('ring-2', 'ring-emerald-100', 'border-[#00D29E]');
+      finalSectionDone.classList.add('border-green-300');
       updateStep(4, 'complete');
 
       // 显示投资建议
