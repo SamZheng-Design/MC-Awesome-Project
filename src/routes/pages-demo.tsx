@@ -1222,49 +1222,62 @@ export const demoPageContent = `
       contentHtml = \`
         <p class="text-sm text-gray-500 mb-4">以下材料需要补充完善，以便进行更准确的评估：</p>
         
-        <!-- 上传区域 -->
-        <div class="mb-6 p-4 bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl border-2 border-dashed border-amber-300">
-          <div class="text-center mb-4">
-            <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-3">
-              <i class="fas fa-cloud-upload-alt text-2xl text-amber-500"></i>
+        <!-- 文件上传区域 -->
+        <div class="mb-6">
+          <!-- 拖拽上传区 -->
+          <div id="drop-zone" 
+            class="p-6 bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl border-2 border-dashed border-amber-300 transition-all cursor-pointer hover:border-amber-400 hover:bg-amber-100/50"
+            onclick="document.getElementById('file-input').click()"
+            ondrop="handleFileDrop(event)" 
+            ondragover="handleDragOver(event)" 
+            ondragleave="handleDragLeave(event)">
+            <div class="text-center">
+              <div class="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-cloud-upload-alt text-3xl text-amber-500"></i>
+              </div>
+              <h4 class="font-semibold text-amber-800 mb-2">上传补充材料</h4>
+              <p class="text-sm text-amber-600 mb-3">拖拽文件到此处，或点击选择文件</p>
+              <p class="text-xs text-gray-500">支持 TXT、PDF、DOC、DOCX、图片等格式，单个文件最大 10MB</p>
             </div>
-            <h4 class="font-semibold text-amber-800 mb-1">上传补充材料</h4>
-            <p class="text-xs text-amber-600">支持文本描述方式上传材料内容</p>
+            <input type="file" id="file-input" class="hidden" multiple 
+              accept=".txt,.pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.gif,.md"
+              onchange="handleFileSelect(event)">
           </div>
           
-          <!-- 上传表单 -->
-          <div class="space-y-3">
-            <div>
-              <label class="block text-xs font-medium text-gray-700 mb-1">材料名称 *</label>
-              <input type="text" id="material-name" placeholder="例如：艺人合同补充条款" 
-                class="w-full px-3 py-2 text-sm border border-amber-200 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent">
-            </div>
-            <div>
-              <label class="block text-xs font-medium text-gray-700 mb-1">材料分类</label>
-              <select id="material-category" 
-                class="w-full px-3 py-2 text-sm border border-amber-200 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent">
-                <option value="合同文件">合同文件</option>
-                <option value="审批文件">审批文件</option>
-                <option value="财务文件">财务文件</option>
-                <option value="保险文件">保险文件</option>
-                <option value="其他">其他</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-xs font-medium text-gray-700 mb-1">材料内容 *</label>
-              <textarea id="material-content" rows="4" placeholder="请粘贴或输入材料的具体内容..."
-                class="w-full px-3 py-2 text-sm border border-amber-200 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent resize-none"></textarea>
-            </div>
-            <div class="flex space-x-3">
-              <button onclick="uploadMaterial()" id="btn-upload" 
-                class="flex-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white py-2 px-4 rounded-lg font-medium text-sm hover:opacity-90 transition flex items-center justify-center">
-                <i class="fas fa-upload mr-2"></i>上传材料
+          <!-- 已选择文件列表 -->
+          <div id="selected-files-section" class="mt-4 hidden">
+            <h5 class="font-medium text-sm text-gray-700 mb-2 flex items-center justify-between">
+              <span><i class="fas fa-paperclip mr-2"></i>已选择文件</span>
+              <button onclick="clearSelectedFiles()" class="text-xs text-red-500 hover:text-red-600">
+                <i class="fas fa-trash mr-1"></i>清空
               </button>
-              <button onclick="uploadAndRerun()" id="btn-upload-rerun"
-                class="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white py-2 px-4 rounded-lg font-medium text-sm hover:opacity-90 transition flex items-center justify-center">
-                <i class="fas fa-play mr-2"></i>上传并重新评估
-              </button>
-            </div>
+            </h5>
+            <div id="selected-files-list" class="space-y-2 max-h-40 overflow-y-auto"></div>
+          </div>
+          
+          <!-- 材料分类选择 -->
+          <div class="mt-4 flex items-center space-x-3">
+            <label class="text-sm text-gray-600 whitespace-nowrap">材料分类:</label>
+            <select id="material-category" 
+              class="flex-1 px-3 py-2 text-sm border border-amber-200 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent">
+              <option value="合同文件">合同文件</option>
+              <option value="审批文件">审批文件</option>
+              <option value="财务文件">财务文件</option>
+              <option value="保险文件">保险文件</option>
+              <option value="其他">其他</option>
+            </select>
+          </div>
+          
+          <!-- 上传按钮 -->
+          <div class="mt-4 flex space-x-3">
+            <button onclick="uploadSelectedFiles()" id="btn-upload" 
+              class="flex-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white py-2.5 px-4 rounded-lg font-medium text-sm hover:opacity-90 transition flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed">
+              <i class="fas fa-upload mr-2"></i>上传材料
+            </button>
+            <button onclick="uploadFilesAndRerun()" id="btn-upload-rerun"
+              class="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white py-2.5 px-4 rounded-lg font-medium text-sm hover:opacity-90 transition flex items-center justify-center">
+              <i class="fas fa-play mr-2"></i>上传并重新评估
+            </button>
           </div>
         </div>
         
@@ -1273,7 +1286,7 @@ export const demoPageContent = `
           <h5 class="font-medium text-sm text-green-700 mb-2 flex items-center">
             <i class="fas fa-check-circle mr-2"></i>已上传材料
           </h5>
-          <div id="uploaded-materials-list" class="space-y-2"></div>
+          <div id="uploaded-materials-list" class="space-y-2 max-h-48 overflow-y-auto"></div>
         </div>
         
         <!-- 待补充材料清单 -->
@@ -1282,12 +1295,12 @@ export const demoPageContent = `
         </h5>
         <div class="space-y-3">
           \${improvementData.missing.map((m, i) => \`
-            <div class="flex items-start space-x-3 p-3 bg-amber-50 rounded-lg border border-amber-100 group hover:bg-amber-100 transition cursor-pointer" onclick="quickFillMaterial('\${escapeQuotes(m)}')">
+            <div class="flex items-start space-x-3 p-3 bg-amber-50 rounded-lg border border-amber-100">
               <span class="w-6 h-6 rounded-full bg-amber-200 text-amber-700 flex items-center justify-center text-xs font-bold flex-shrink-0">\${i + 1}</span>
               <div class="flex-1">
                 <p class="text-sm text-gray-800">\${m}</p>
               </div>
-              <span class="text-xs bg-amber-100 text-amber-600 px-2 py-0.5 rounded group-hover:bg-amber-200 transition">点击填写</span>
+              <span class="text-xs bg-amber-100 text-amber-600 px-2 py-0.5 rounded">待上传</span>
             </div>
           \`).join('')}
         </div>
@@ -1634,39 +1647,191 @@ export const demoPageContent = `
   });
 
   // ============================================
-  // 材料上传功能
+  // 文件上传功能
   // ============================================
   
   let uploadedMaterials = []; // 存储已上传的材料
+  let selectedFiles = []; // 存储待上传的文件
   
   // 转义引号用于HTML属性
   function escapeQuotes(str) {
     return str.replace(/'/g, "\\\\'").replace(/"/g, '\\\\"');
   }
   
-  // 快速填充材料名称
-  function quickFillMaterial(materialName) {
-    const nameInput = document.getElementById('material-name');
-    if (nameInput) {
-      nameInput.value = materialName;
-      nameInput.focus();
-      // 滚动到上传区域
-      nameInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  // 获取文件图标
+  function getFileIcon(filename) {
+    const ext = filename.split('.').pop().toLowerCase();
+    const icons = {
+      'pdf': 'fa-file-pdf text-red-500',
+      'doc': 'fa-file-word text-blue-500',
+      'docx': 'fa-file-word text-blue-500',
+      'xls': 'fa-file-excel text-green-500',
+      'xlsx': 'fa-file-excel text-green-500',
+      'txt': 'fa-file-lines text-gray-500',
+      'md': 'fa-file-code text-purple-500',
+      'png': 'fa-file-image text-pink-500',
+      'jpg': 'fa-file-image text-pink-500',
+      'jpeg': 'fa-file-image text-pink-500',
+      'gif': 'fa-file-image text-pink-500'
+    };
+    return icons[ext] || 'fa-file text-gray-400';
+  }
+  
+  // 格式化文件大小
+  function formatFileSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+  }
+  
+  // 处理拖拽进入
+  function handleDragOver(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    const dropZone = document.getElementById('drop-zone');
+    dropZone.classList.add('border-amber-500', 'bg-amber-100');
+  }
+  
+  // 处理拖拽离开
+  function handleDragLeave(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    const dropZone = document.getElementById('drop-zone');
+    dropZone.classList.remove('border-amber-500', 'bg-amber-100');
+  }
+  
+  // 处理文件拖放
+  function handleFileDrop(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    const dropZone = document.getElementById('drop-zone');
+    dropZone.classList.remove('border-amber-500', 'bg-amber-100');
+    
+    const files = Array.from(e.dataTransfer.files);
+    addFilesToSelection(files);
+  }
+  
+  // 处理文件选择
+  function handleFileSelect(e) {
+    const files = Array.from(e.target.files);
+    addFilesToSelection(files);
+    e.target.value = ''; // 清空input以便再次选择相同文件
+  }
+  
+  // 添加文件到选择列表
+  function addFilesToSelection(files) {
+    const maxSize = 10 * 1024 * 1024; // 10MB
+    const validTypes = ['txt', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'png', 'jpg', 'jpeg', 'gif', 'md'];
+    
+    files.forEach(file => {
+      const ext = file.name.split('.').pop().toLowerCase();
+      
+      if (!validTypes.includes(ext)) {
+        showToast(\`不支持的文件格式: \${file.name}\`, 'error');
+        return;
+      }
+      
+      if (file.size > maxSize) {
+        showToast(\`文件过大: \${file.name} (\${formatFileSize(file.size)})\`, 'error');
+        return;
+      }
+      
+      // 检查是否已添加
+      if (!selectedFiles.find(f => f.name === file.name && f.size === file.size)) {
+        selectedFiles.push(file);
+      }
+    });
+    
+    updateSelectedFilesList();
+  }
+  
+  // 更新已选择文件列表
+  function updateSelectedFilesList() {
+    const section = document.getElementById('selected-files-section');
+    const list = document.getElementById('selected-files-list');
+    
+    if (!section || !list) return;
+    
+    if (selectedFiles.length > 0) {
+      section.classList.remove('hidden');
+      list.innerHTML = selectedFiles.map((file, index) => \`
+        <div class="flex items-center justify-between p-2 bg-white rounded-lg border border-gray-200 shadow-sm">
+          <div class="flex items-center space-x-3 flex-1 min-w-0">
+            <i class="fas \${getFileIcon(file.name)} text-lg"></i>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-medium text-gray-700 truncate">\${file.name}</p>
+              <p class="text-xs text-gray-400">\${formatFileSize(file.size)}</p>
+            </div>
+          </div>
+          <button onclick="removeSelectedFile(\${index})" class="ml-2 w-6 h-6 rounded-full hover:bg-red-100 flex items-center justify-center text-red-400 hover:text-red-600 transition">
+            <i class="fas fa-times text-xs"></i>
+          </button>
+        </div>
+      \`).join('');
+    } else {
+      section.classList.add('hidden');
     }
   }
   
-  // 上传单个材料
-  async function uploadMaterial() {
-    const name = document.getElementById('material-name')?.value?.trim();
-    const category = document.getElementById('material-category')?.value || '其他';
-    const content = document.getElementById('material-content')?.value?.trim();
-    
-    if (!name) {
-      showToast('请输入材料名称', 'error');
-      return false;
-    }
-    if (!content) {
-      showToast('请输入材料内容', 'error');
+  // 移除选中的文件
+  function removeSelectedFile(index) {
+    selectedFiles.splice(index, 1);
+    updateSelectedFilesList();
+  }
+  
+  // 清空已选文件
+  function clearSelectedFiles() {
+    selectedFiles = [];
+    updateSelectedFilesList();
+  }
+  
+  // 读取文件内容
+  async function readFileContent(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      const ext = file.name.split('.').pop().toLowerCase();
+      
+      reader.onload = (e) => {
+        const result = e.target.result;
+        
+        // 文本文件直接返回内容
+        if (['txt', 'md'].includes(ext)) {
+          resolve({ type: 'text', content: result });
+        }
+        // 图片转为base64描述
+        else if (['png', 'jpg', 'jpeg', 'gif'].includes(ext)) {
+          resolve({ type: 'image', content: \`[图片文件: \${file.name}, 大小: \${formatFileSize(file.size)}]\` });
+        }
+        // PDF和Office文档提取基本信息
+        else if (['pdf', 'doc', 'docx', 'xls', 'xlsx'].includes(ext)) {
+          // 对于二进制文件，我们记录文件信息
+          // 实际内容需要后端处理或使用专门的库
+          resolve({ 
+            type: 'document', 
+            content: \`[文档文件: \${file.name}, 格式: \${ext.toUpperCase()}, 大小: \${formatFileSize(file.size)}]\\n\\n注：文档内容需要专业工具解析，请确保文件内容与待补充材料相关。\`
+          });
+        }
+        else {
+          resolve({ type: 'unknown', content: \`[文件: \${file.name}]\` });
+        }
+      };
+      
+      reader.onerror = () => reject(new Error('文件读取失败'));
+      
+      // 文本类型文件用文本方式读取
+      if (['txt', 'md'].includes(ext)) {
+        reader.readAsText(file);
+      } else {
+        // 其他文件用ArrayBuffer读取（用于后续处理）
+        reader.readAsArrayBuffer(file);
+      }
+    });
+  }
+  
+  // 上传选中的文件
+  async function uploadSelectedFiles() {
+    if (selectedFiles.length === 0) {
+      showToast('请先选择文件', 'error');
       return false;
     }
     
@@ -1675,26 +1840,45 @@ export const demoPageContent = `
     btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>上传中...';
     btn.disabled = true;
     
+    const category = document.getElementById('material-category')?.value || '其他';
+    
     try {
-      const response = await apiCall('/api/deals/DGT-2026-CARDIB/materials', {
-        method: 'POST',
-        body: JSON.stringify({
-          materials: [{
-            name: name,
+      // 读取所有文件内容
+      const materialsToUpload = [];
+      
+      for (const file of selectedFiles) {
+        try {
+          const { type, content } = await readFileContent(file);
+          materialsToUpload.push({
+            name: file.name,
             category: category,
             content: content,
+            fileType: type,
+            fileSize: file.size,
             uploadedAt: new Date().toISOString()
-          }]
-        })
+          });
+        } catch (err) {
+          showToast(\`读取文件失败: \${file.name}\`, 'error');
+        }
+      }
+      
+      if (materialsToUpload.length === 0) {
+        showToast('没有可上传的文件', 'error');
+        return false;
+      }
+      
+      // 调用API上传
+      const response = await apiCall('/api/deals/DGT-2026-CARDIB/materials', {
+        method: 'POST',
+        body: JSON.stringify({ materials: materialsToUpload })
       });
       
       if (response.success) {
         uploadedMaterials = response.data || [];
-        showToast('材料上传成功！', 'success');
+        showToast(\`成功上传 \${materialsToUpload.length} 个文件！\`, 'success');
         
-        // 清空输入框
-        document.getElementById('material-name').value = '';
-        document.getElementById('material-content').value = '';
+        // 清空已选文件
+        clearSelectedFiles();
         
         // 更新已上传材料显示
         updateUploadedMaterialsList();
@@ -1713,14 +1897,11 @@ export const demoPageContent = `
     }
   }
   
-  // 上传并重新评估
-  async function uploadAndRerun() {
-    const name = document.getElementById('material-name')?.value?.trim();
-    const content = document.getElementById('material-content')?.value?.trim();
-    
-    // 如果有内容则先上传
-    if (name && content) {
-      const uploaded = await uploadMaterial();
+  // 上传文件并重新评估
+  async function uploadFilesAndRerun() {
+    // 如果有选中的文件则先上传
+    if (selectedFiles.length > 0) {
+      const uploaded = await uploadSelectedFiles();
       if (!uploaded) return;
     }
     
@@ -1821,14 +2002,16 @@ export const demoPageContent = `
       section.classList.remove('hidden');
       list.innerHTML = uploadedMaterials.map(m => \`
         <div class="flex items-center justify-between p-2 bg-green-50 rounded-lg border border-green-100">
-          <div class="flex items-center space-x-2">
-            <i class="fas fa-file-check text-green-500"></i>
-            <div>
-              <span class="text-sm font-medium text-green-800">\${m.name}</span>
-              <span class="text-xs text-green-600 ml-2">[\${m.category}]</span>
+          <div class="flex items-center space-x-3 flex-1 min-w-0">
+            <i class="fas \${getFileIcon(m.name)} text-lg"></i>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-medium text-green-800 truncate">\${m.name}</p>
+              <p class="text-xs text-green-600">[\${m.category}] \${m.fileSize ? formatFileSize(m.fileSize) : ''}</p>
             </div>
           </div>
-          <span class="text-xs text-green-600">\${new Date(m.uploadedAt).toLocaleString('zh-CN')}</span>
+          <div class="text-right ml-2">
+            <span class="text-xs text-green-600 whitespace-nowrap">\${new Date(m.uploadedAt).toLocaleString('zh-CN')}</span>
+          </div>
         </div>
       \`).join('');
     } else {
