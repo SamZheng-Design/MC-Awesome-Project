@@ -23,10 +23,10 @@ export const agentsPageContent = `
     <div class="flex items-center justify-between">
       <div class="flex">
         <button id="tab-outer" onclick="switchRingTab('outer')" class="px-6 py-4 font-medium text-primary-600 border-b-2 border-primary-500 bg-primary-50">
-          <i class="fas fa-circle-notch mr-2"></i>外环智能体 <span class="ml-2 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">一票否决</span>
+          <i class="fas fa-filter mr-2"></i>筛子体系 <span class="ml-2 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">一票否决</span>
         </button>
         <button id="tab-inner" onclick="switchRingTab('inner')" class="px-6 py-4 font-medium text-gray-500 hover:text-gray-700 transition">
-          <i class="fas fa-bullseye mr-2"></i>中环智能体 <span class="ml-2 bg-blue-500 text-white text-xs px-2 py-0.5 rounded-full">加权评分</span>
+          <i class="fas fa-funnel-dollar mr-2"></i>漏斗体系 <span class="ml-2 bg-blue-500 text-white text-xs px-2 py-0.5 rounded-full">加权评分</span>
         </button>
       </div>
     </div>
@@ -81,7 +81,7 @@ export const agentsPageContent = `
         </div>
         <div>
           <h3 class="font-bold text-lg text-gray-800">全部智能体</h3>
-          <p class="text-sm text-gray-500">所有中环评估智能体一览，按特性标签分类</p>
+          <p class="text-sm text-gray-500">所有漏斗体系智能体一览，按特性标签分类</p>
         </div>
       </div>
       <div class="flex items-center space-x-2">
@@ -125,10 +125,10 @@ export const agentsPageContent = `
         
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">所属环</label>
+            <label class="block text-sm font-medium text-gray-700 mb-1">所属体系</label>
             <select id="new-agent-ring" onchange="updateNewAgentForm()" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-400">
-              <option value="outer">外环（一票否决）</option>
-              <option value="inner" selected>中环（加权评分）</option>
+              <option value="outer">筛子体系（一票否决）</option>
+              <option value="inner" selected>漏斗体系（加权评分）</option>
             </select>
           </div>
           <div>
@@ -147,7 +147,7 @@ export const agentsPageContent = `
         
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">权重 (%) <span id="new-weight-note" class="text-xs text-gray-400">（中环有效）</span></label>
+            <label class="block text-sm font-medium text-gray-700 mb-1">权重 (%) <span id="new-weight-note" class="text-xs text-gray-400">（漏斗体系有效）</span></label>
             <input type="number" id="new-agent-weight" value="10" min="0" max="100"
               class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary-400">
           </div>
@@ -305,7 +305,7 @@ export const agentsPageContent = `
                 <input type="range" id="config-weight" min="0" max="100" class="flex-1" oninput="document.getElementById('weight-value').textContent = this.value">
                 <span id="weight-value" class="w-12 text-center font-mono">0</span>
               </div>
-              <p class="text-xs text-gray-500 mt-1">外环智能体权重为0（一票否决制）</p>
+              <p class="text-xs text-gray-500 mt-1">筛子体系智能体权重为0（一票否决制）</p>
             </div>
             
             <div>
@@ -652,7 +652,7 @@ export const agentsPageContent = `
       container.innerHTML = \`
         <div class="text-center py-12 text-gray-500">
           <i class="fas fa-robot text-4xl mb-4 opacity-30"></i>
-          <p>暂无中环智能体</p>
+          <p>暂无漏斗体系智能体</p>
         </div>
       \`;
       return;
@@ -825,7 +825,7 @@ export const agentsPageContent = `
         container.innerHTML = \`
           <div class="text-center py-12 text-gray-500">
             <i class="fas fa-robot text-4xl mb-4 opacity-30"></i>
-            <p>暂无外环智能体</p>
+            <p>暂无筛子体系智能体</p>
             <button onclick="openAddAgentModal()" class="mt-4 text-[#00D29E] hover:text-[#629C85]">
               <i class="fas fa-plus mr-1"></i>添加智能体
             </button>
@@ -862,10 +862,10 @@ export const agentsPageContent = `
     const trackSection = document.getElementById('new-agent-track-section');
     const weightNote = document.getElementById('new-weight-note');
     
-    // 外环不需要选择赛道
+    // 筛子体系不需要选择赛道
     trackSection.classList.toggle('hidden', ring === 'outer');
     
-    // 外环权重为0
+    // 筛子体系权重为0
     if (ring === 'outer') {
       document.getElementById('new-agent-weight').value = '0';
       document.getElementById('new-agent-threshold').value = '100';
@@ -965,7 +965,7 @@ export const agentsPageContent = `
     document.getElementById('modal-icon').innerHTML = \`<i class="\${currentAgent.icon}" style="color: \${currentAgent.icon_color}"></i>\`;
     document.getElementById('modal-icon').style.background = currentAgent.icon_color + '20';
     document.getElementById('modal-title').textContent = currentAgent.name;
-    document.getElementById('modal-dimension').textContent = currentAgent.dimension + ' | ' + (currentAgent.ring_type === 'outer' ? '外环' : '中环 · ' + trackLabel);
+    document.getElementById('modal-dimension').textContent = currentAgent.dimension + ' | ' + (currentAgent.ring_type === 'outer' ? '筛子体系' : '漏斗体系 · ' + trackLabel);
 
     // 填充表单
     document.getElementById('edit-prompt').value = currentAgent.system_prompt || '';

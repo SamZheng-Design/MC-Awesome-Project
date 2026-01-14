@@ -30,12 +30,12 @@ export const demoPageContent = `
       <div class="w-16 h-0.5 bg-gray-200" id="line-1"></div>
       <div id="step-2" class="flex items-center space-x-2 opacity-50">
         <div class="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-bold">2</div>
-        <span class="font-medium text-gray-600">外环筛选</span>
+        <span class="font-medium text-gray-600">筛子体系</span>
       </div>
       <div class="w-16 h-0.5 bg-gray-200" id="line-2"></div>
       <div id="step-3" class="flex items-center space-x-2 opacity-50">
         <div class="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-bold">3</div>
-        <span class="font-medium text-gray-600">中环评估</span>
+        <span class="font-medium text-gray-600">漏斗体系</span>
       </div>
       <div class="w-16 h-0.5 bg-gray-200" id="line-3"></div>
       <div id="step-4" class="flex items-center space-x-2 opacity-50">
@@ -110,21 +110,21 @@ export const demoPageContent = `
 
   <!-- 右侧：评估过程 -->
   <div class="lg:col-span-2 space-y-6">
-    <!-- 外环筛选 -->
+    <!-- 筛子体系 -->
     <div id="outer-section" class="bg-white rounded-xl card-shadow p-6">
       <div class="flex items-center justify-between mb-4">
         <h3 class="font-semibold text-lg flex items-center">
-          <i class="fas fa-circle-notch text-red-500 mr-2"></i>
-          外环筛选
+          <i class="fas fa-filter text-red-500 mr-2"></i>
+          筛子体系
           <span class="ml-2 text-xs bg-red-100 text-red-600 px-2 py-0.5 rounded">一票否决</span>
         </h3>
         <span id="outer-status" class="text-sm text-gray-500">等待开始</span>
       </div>
       
-      <!-- 外环说明 -->
+      <!-- 筛子体系说明 -->
       <div class="mb-4 p-3 bg-red-50 rounded-lg text-sm text-red-800">
         <i class="fas fa-info-circle mr-2"></i>
-        外环采用<strong>串行执行</strong>，每个智能体必须通过才能进入下一步，任何一个不通过则<strong>一票否决</strong>
+        筛子体系采用<strong>串行执行</strong>，每个智能体必须通过才能进入下一步，任何一个不通过则<strong>一票否决</strong>
       </div>
       
       <div id="outer-agents" class="space-y-4">
@@ -132,21 +132,21 @@ export const demoPageContent = `
       </div>
     </div>
 
-    <!-- 中环评估 -->
+    <!-- 漏斗体系 -->
     <div id="inner-section" class="bg-white rounded-xl card-shadow p-6 opacity-50">
       <div class="flex items-center justify-between mb-4">
         <h3 class="font-semibold text-lg flex items-center">
-          <i class="fas fa-bullseye text-[#629C85] mr-2"></i>
-          中环评估
+          <i class="fas fa-funnel-dollar text-[#629C85] mr-2"></i>
+          漏斗体系
           <span class="ml-2 text-xs bg-[#D9EDDF] text-[#49754D] px-2 py-0.5 rounded">加权评分</span>
         </h3>
-        <span id="inner-status" class="text-sm text-gray-500">等待外环完成</span>
+        <span id="inner-status" class="text-sm text-gray-500">等待筛子体系完成</span>
       </div>
       
-      <!-- 中环说明 -->
+      <!-- 漏斗体系说明 -->
       <div class="mb-4 p-3 bg-[#D9EDDF] rounded-lg text-sm text-[#49754D]">
         <i class="fas fa-info-circle mr-2"></i>
-        中环采用<strong>并行执行</strong>，多个智能体同时评估，按权重计算加权评分
+        漏斗体系采用<strong>并行执行</strong>，多个智能体同时评估，按权重计算加权评分
       </div>
       
       <div id="inner-agents" class="space-y-4">
@@ -920,7 +920,7 @@ export const demoPageContent = `
             </div>
             <div class="bg-white p-3 rounded-lg">
               <span class="text-gray-500 block text-xs">所属环节</span>
-              <span class="font-medium">\${agent.ring_type === 'outer' ? '外环筛选' : '中环评估'}</span>
+              <span class="font-medium">\${agent.ring_type === 'outer' ? '筛子体系' : '漏斗体系'}</span>
             </div>
             <div class="bg-white p-3 rounded-lg">
               <span class="text-gray-500 block text-xs">权重</span>
@@ -1417,7 +1417,7 @@ export const demoPageContent = `
     document.getElementById('improvement-section').classList.add('hidden');
 
     try {
-      // 步骤2：外环筛选
+      // 步骤2：筛子体系
       updateStep(2, 'active');
       document.getElementById('outer-section').classList.remove('opacity-50');
       document.getElementById('outer-status').textContent = '执行中...';
@@ -1444,8 +1444,8 @@ export const demoPageContent = `
           document.getElementById('outer-status').textContent = '未通过';
           document.getElementById('outer-status').className = 'text-sm text-red-600';
           updateStep(2, 'error');
-          document.getElementById('overall-status').textContent = '外环筛选未通过';
-          showToast('外环筛选未通过', 'error');
+          document.getElementById('overall-status').textContent = '筛子体系未通过';
+          showToast('筛子体系未通过', 'error');
           generateImprovementSuggestions();
           return;
         }
@@ -1455,7 +1455,7 @@ export const demoPageContent = `
       document.getElementById('outer-status').className = 'text-sm text-green-600';
       updateStep(2, 'complete');
 
-      // 步骤3：中环评估
+      // 步骤3：漏斗体系
       updateStep(3, 'active');
       document.getElementById('inner-section').classList.remove('opacity-50');
       document.getElementById('inner-status').textContent = '并行评估中...';
@@ -1944,7 +1944,7 @@ export const demoPageContent = `
     
     document.getElementById('outer-status').textContent = '等待开始';
     document.getElementById('outer-status').className = 'text-sm text-gray-500';
-    document.getElementById('inner-status').textContent = '等待外环完成';
+    document.getElementById('inner-status').textContent = '等待筛子体系完成';
     document.getElementById('inner-status').className = 'text-sm text-gray-500';
     document.getElementById('final-status').textContent = '等待评估完成';
     document.getElementById('final-status').className = 'text-sm text-gray-500';

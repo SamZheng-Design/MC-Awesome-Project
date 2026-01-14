@@ -408,7 +408,7 @@ pages.get('/', (c) => {
           
           const statusMap = {
             pending: { label: '待处理', cls: 'bg-gray-100 text-gray-600' },
-            outer: { label: '外环筛选', cls: 'bg-blue-100 text-blue-600' },
+            outer: { label: '筛子体系', cls: 'bg-blue-100 text-blue-600' },
             evaluation: { label: '评估中', cls: 'bg-yellow-100 text-yellow-600' },
             review: { label: '待审核', cls: 'bg-purple-100 text-purple-600' },
             completed: { label: '已完成', cls: 'bg-green-100 text-green-600' },

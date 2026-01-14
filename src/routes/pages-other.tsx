@@ -36,11 +36,11 @@ export const workflowPageContent = `
 
       <div class="w-12 h-0.5 bg-gray-300"></div>
 
-      <!-- 外环筛选 -->
+      <!-- 筛子体系 -->
       <div class="bg-red-50 border-2 border-red-200 rounded-xl p-4 min-w-64">
         <div class="flex items-center mb-3">
-          <i class="fas fa-circle-notch text-red-500 mr-2"></i>
-          <span class="font-semibold text-red-700">外环筛选</span>
+          <i class="fas fa-filter text-red-500 mr-2"></i>
+          <span class="font-semibold text-red-700">筛子体系</span>
           <span class="ml-2 text-xs bg-red-500 text-white px-2 py-0.5 rounded">串行</span>
         </div>
         <div id="outer-flow" class="space-y-2">
@@ -58,12 +58,12 @@ export const workflowPageContent = `
         <div class="w-12 h-0.5 bg-gray-300"></div>
       </div>
 
-      <!-- 中环评估 -->
+      <!-- 漏斗体系 -->
       <div class="bg-[#D9EDDF] border-2 border-[#00D29E] rounded-xl p-4 min-w-96">
         <div class="flex items-center justify-between mb-3">
           <div class="flex items-center">
-            <i class="fas fa-bullseye text-[#629C85] mr-2"></i>
-            <span class="font-semibold text-[#49754D]">中环评估</span>
+            <i class="fas fa-funnel-dollar text-[#629C85] mr-2"></i>
+            <span class="font-semibold text-[#49754D]">漏斗体系</span>
             <span class="ml-2 text-xs bg-[#00D29E] text-white px-2 py-0.5 rounded">并行</span>
           </div>
           <span id="inner-agent-count" class="text-xs text-[#629C85]"></span>
@@ -137,7 +137,7 @@ export const workflowPageContent = `
   <!-- 权重配置 -->
   <div class="mt-8 pt-8 border-t">
     <div class="flex items-center justify-between mb-4">
-      <h3 class="font-semibold">中环权重配置</h3>
+      <h3 class="font-semibold">漏斗体系权重配置</h3>
       <span id="weight-track-label" class="text-sm text-gray-500">当前赛道智能体权重分配</span>
     </div>
     <div id="weight-config" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
@@ -221,7 +221,7 @@ export const workflowPageContent = `
 
   // 渲染工作流
   function renderWorkflow() {
-    // 外环智能体（不受赛道影响）
+    // 筛子体系智能体（不受赛道影响）
     const outerAgents = workflowAgents.filter(a => a.ring_type === 'outer').sort((a, b) => a.execution_order - b.execution_order);
     document.getElementById('outer-flow').innerHTML = outerAgents.map((a, i) => \`
       <div class="flex items-center">
@@ -230,7 +230,7 @@ export const workflowPageContent = `
       </div>
     \`).join('');
 
-    // 中环智能体（按赛道筛选）
+    // 漏斗体系智能体（按赛道筛选）
     const generalAgents = workflowAgents.filter(a => a.ring_type === 'inner' && a.industry === 'all' && a.id !== 'comprehensive-scoring-agent');
     let specificAgents = [];
     
@@ -603,7 +603,7 @@ export const dealsPageContent = `
     <select id="filter-status" onchange="loadDeals()" class="border rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#00D29E] border-[#D9EDDF]">
       <option value="">全部状态</option>
       <option value="pending">待处理</option>
-      <option value="outer">外环筛选</option>
+      <option value="outer">筛子体系</option>
       <option value="evaluation">评估中</option>
       <option value="review">待审核</option>
       <option value="completed">已完成</option>
@@ -765,7 +765,7 @@ export const dealsPageContent = `
 
   const statusMap = {
     pending: { label: '待处理', class: 'bg-gray-100 text-gray-600' },
-    outer: { label: '外环筛选', class: 'bg-blue-100 text-blue-600' },
+    outer: { label: '筛子体系', class: 'bg-blue-100 text-blue-600' },
     evaluation: { label: '评估中', class: 'bg-yellow-100 text-yellow-600' },
     review: { label: '待审核', class: 'bg-purple-100 text-purple-600' },
     completed: { label: '已完成', class: 'bg-green-100 text-green-600' },
