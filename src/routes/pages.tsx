@@ -24,59 +24,62 @@ const baseLayout = (title: string, content: string, activeNav: string = '') => h
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
     body { font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif; }
     
-    /* GenSpark专业配色方案 - 深色主题 */
+    /* 滴灌投资配色方案 - 深色护眼主题 */
+    /* 基于用户上传配色：奶油色(243,238,217)、青绿色(0,210,158)、深绿(98,156,133)、薄荷浅(217,237,223)、森林绿(73,117,77) */
     :root {
-      --gs-primary: #6366F1;       /* 主色-靛蓝紫 */
-      --gs-primary-light: #818CF8; /* 主色浅 */
-      --gs-primary-dark: #4F46E5;  /* 主色深 */
-      --gs-secondary: #8B5CF6;     /* 辅助色-紫色 */
-      --gs-accent: #F59E0B;        /* 强调色-琥珀 */
-      --gs-success: #10B981;       /* 成功色-翠绿 */
-      --gs-danger: #EF4444;        /* 危险色-红 */
-      --gs-warning: #F59E0B;       /* 警告色-琥珀 */
-      --gs-info: #3B82F6;          /* 信息色-蓝 */
-      --gs-dark: #0F172A;          /* 深色背景 */
-      --gs-dark-secondary: #1E293B;/* 次深色背景 */
-      --gs-dark-tertiary: #334155; /* 第三层深色 */
-      --gs-light: #F8FAFC;         /* 浅色背景 */
-      --gs-light-secondary: #F1F5F9;/* 次浅色背景 */
-      --gs-border: #E2E8F0;        /* 边框色 */
-      --gs-text-primary: #1E293B;  /* 主文字色 */
-      --gs-text-secondary: #64748B;/* 次要文字色 */
-      --gs-text-muted: #94A3B8;    /* 弱化文字色 */
+      --dg-primary: #00B386;        /* 主色-深青绿 (暗化后的青绿色) */
+      --dg-primary-light: #00D29E; /* 主色浅-原青绿色 */
+      --dg-primary-dark: #008A68;  /* 主色深 */
+      --dg-secondary: #49754D;     /* 辅助色-森林绿 (73-117-77) */
+      --dg-accent: #629C85;        /* 强调色-灰绿 (98-156-133) */
+      --dg-success: #3D7A5A;       /* 成功色-深绿 */
+      --dg-danger: #A85454;        /* 危险色-柔和深红 */
+      --dg-warning: #9A7B4E;       /* 警告色-深棕 */
+      --dg-info: #4A7896;          /* 信息色-深灰蓝 */
+      --dg-dark: #1E2B1E;          /* 深色背景-深绿灰 (更深) */
+      --dg-dark-secondary: #283528;/* 次深色背景 */
+      --dg-dark-tertiary: #354435; /* 第三层深色 */
+      --dg-light: #E8E4D4;         /* 浅色背景-暗化后的奶油色 */
+      --dg-light-secondary: #DDD9C8;/* 次浅色背景 */
+      --dg-light-tertiary: #C9DFD0; /* 暗化后的薄荷浅色 */
+      --dg-border: #A8B8A8;        /* 边框色-深绿灰 */
+      --dg-text-primary: #1E2B1E;  /* 主文字色-深绿灰 */
+      --dg-text-secondary: #4A5B4A;/* 次要文字色 */
+      --dg-text-muted: #6A7B6A;    /* 弱化文字色 */
+      --dg-card-bg: #F0EDE0;       /* 卡片背景色-暗化的奶油色 */
     }
     
-    /* 渐变效果 */
+    /* 渐变效果 - 深色护眼 */
     .gs-gradient-primary { 
-      background: linear-gradient(135deg, var(--gs-primary) 0%, var(--gs-secondary) 100%); 
+      background: linear-gradient(135deg, var(--dg-primary) 0%, var(--dg-secondary) 100%); 
     }
     .gs-gradient-dark { 
-      background: linear-gradient(180deg, var(--gs-dark) 0%, var(--gs-dark-secondary) 100%); 
+      background: linear-gradient(180deg, var(--dg-dark) 0%, var(--dg-dark-secondary) 100%); 
     }
     .gs-gradient-hero {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #6366f1 100%);
+      background: linear-gradient(135deg, #2D4A38 0%, #1E3528 50%, #3A5542 100%);
     }
     
     /* 背景色 */
-    .gs-bg { background-color: var(--gs-light); }
-    .gs-bg-dark { background-color: var(--gs-dark); }
+    .gs-bg { background-color: var(--dg-light); }
+    .gs-bg-dark { background-color: var(--dg-dark); }
     
-    /* 卡片样式 - 专业阴影 */
+    /* 卡片样式 - 柔和阴影 */
     .gs-card { 
-      background: white;
+      background: var(--dg-card-bg);
       border-radius: 12px;
-      border: 1px solid var(--gs-border);
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+      border: 1px solid var(--dg-border);
+      box-shadow: 0 2px 8px rgba(45, 59, 45, 0.06);
       transition: all 0.2s ease;
     }
     .gs-card:hover {
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+      box-shadow: 0 4px 16px rgba(45, 59, 45, 0.1);
       transform: translateY(-1px);
     }
     .gs-card-flat {
-      background: white;
+      background: var(--dg-card-bg);
       border-radius: 12px;
-      border: 1px solid var(--gs-border);
+      border: 1px solid var(--dg-border);
     }
     
     /* 按钮样式 */
@@ -90,44 +93,44 @@ const baseLayout = (title: string, content: string, activeNav: string = '') => h
       gap: 8px;
     }
     .gs-btn-primary {
-      background: var(--gs-primary);
+      background: var(--dg-primary);
       color: white;
     }
     .gs-btn-primary:hover {
-      background: var(--gs-primary-dark);
+      background: var(--dg-primary-dark);
       transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+      box-shadow: 0 4px 12px rgba(0, 166, 126, 0.3);
     }
     .gs-btn-secondary {
-      background: var(--gs-light-secondary);
-      color: var(--gs-text-primary);
-      border: 1px solid var(--gs-border);
+      background: var(--dg-light-secondary);
+      color: var(--dg-text-primary);
+      border: 1px solid var(--dg-border);
     }
     .gs-btn-secondary:hover {
-      background: var(--gs-border);
+      background: var(--dg-border);
     }
     .gs-btn-ghost {
       background: transparent;
-      color: var(--gs-text-secondary);
+      color: var(--dg-text-secondary);
     }
     .gs-btn-ghost:hover {
-      background: var(--gs-light-secondary);
-      color: var(--gs-primary);
+      background: var(--dg-light-secondary);
+      color: var(--dg-primary);
     }
     
     /* 输入框样式 */
     .gs-input {
-      border: 1px solid var(--gs-border);
+      border: 1px solid var(--dg-border);
       border-radius: 8px;
       padding: 10px 14px;
       font-size: 14px;
       transition: all 0.15s ease;
-      background: white;
+      background: var(--dg-card-bg);
     }
     .gs-input:focus {
       outline: none;
-      border-color: var(--gs-primary);
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+      border-color: var(--dg-primary);
+      box-shadow: 0 0 0 3px rgba(0, 166, 126, 0.1);
     }
     
     /* 徽章样式 */
@@ -140,12 +143,12 @@ const baseLayout = (title: string, content: string, activeNav: string = '') => h
       align-items: center;
       gap: 4px;
     }
-    .gs-badge-primary { background: rgba(99, 102, 241, 0.1); color: var(--gs-primary); }
-    .gs-badge-success { background: rgba(16, 185, 129, 0.1); color: var(--gs-success); }
-    .gs-badge-warning { background: rgba(245, 158, 11, 0.1); color: var(--gs-warning); }
-    .gs-badge-danger { background: rgba(239, 68, 68, 0.1); color: var(--gs-danger); }
-    .gs-badge-info { background: rgba(59, 130, 246, 0.1); color: var(--gs-info); }
-    .gs-badge-neutral { background: var(--gs-light-secondary); color: var(--gs-text-secondary); }
+    .gs-badge-primary { background: rgba(0, 166, 126, 0.12); color: var(--dg-primary); }
+    .gs-badge-success { background: rgba(61, 139, 95, 0.12); color: var(--dg-success); }
+    .gs-badge-warning { background: rgba(184, 149, 110, 0.15); color: var(--dg-warning); }
+    .gs-badge-danger { background: rgba(196, 92, 92, 0.12); color: var(--dg-danger); }
+    .gs-badge-info { background: rgba(91, 143, 168, 0.12); color: var(--dg-info); }
+    .gs-badge-neutral { background: var(--dg-light-secondary); color: var(--dg-text-secondary); }
     
     /* 动画效果 */
     .gs-fade-in { animation: fadeIn 0.3s ease; }
@@ -160,33 +163,33 @@ const baseLayout = (title: string, content: string, activeNav: string = '') => h
       padding: 12px 16px;
       font-size: 12px;
       font-weight: 600;
-      color: var(--gs-text-secondary);
+      color: var(--dg-text-secondary);
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      background: var(--gs-light-secondary);
-      border-bottom: 1px solid var(--gs-border);
+      background: var(--dg-light-secondary);
+      border-bottom: 1px solid var(--dg-border);
     }
     .gs-table td {
       padding: 14px 16px;
-      border-bottom: 1px solid var(--gs-border);
-      color: var(--gs-text-primary);
+      border-bottom: 1px solid var(--dg-border);
+      color: var(--dg-text-primary);
     }
     .gs-table tr:hover td {
-      background: var(--gs-light);
+      background: var(--dg-light);
     }
     
     /* Markdown样式 */
-    .markdown-content h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--gs-text-primary); }
-    .markdown-content h2 { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.75rem; margin-top: 1rem; color: var(--gs-primary); }
+    .markdown-content h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--dg-text-primary); }
+    .markdown-content h2 { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.75rem; margin-top: 1rem; color: var(--dg-primary); }
     .markdown-content h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; }
     .markdown-content p { margin-bottom: 0.75rem; line-height: 1.7; }
     .markdown-content ul, .markdown-content ol { margin-left: 1.5rem; margin-bottom: 0.75rem; }
     .markdown-content li { margin-bottom: 0.25rem; }
-    .markdown-content code { background: var(--gs-light-secondary); padding: 0.125rem 0.375rem; border-radius: 4px; font-size: 0.875rem; color: var(--gs-primary); }
-    .markdown-content pre { background: var(--gs-dark); color: #e2e8f0; padding: 1rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1rem; }
+    .markdown-content code { background: var(--dg-light-secondary); padding: 0.125rem 0.375rem; border-radius: 4px; font-size: 0.875rem; color: var(--dg-primary); }
+    .markdown-content pre { background: var(--dg-dark); color: #e2e8f0; padding: 1rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1rem; }
     .markdown-content table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
-    .markdown-content th, .markdown-content td { border: 1px solid var(--gs-border); padding: 0.5rem; text-align: left; }
-    .markdown-content th { background: var(--gs-light-secondary); font-weight: 600; }
+    .markdown-content th, .markdown-content td { border: 1px solid var(--dg-border); padding: 0.5rem; text-align: left; }
+    .markdown-content th { background: var(--dg-light-secondary); font-weight: 600; }
     .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     
     /* 导航栏样式 */
@@ -195,17 +198,17 @@ const baseLayout = (title: string, content: string, activeNav: string = '') => h
       padding: 8px 16px;
       font-size: 14px;
       font-weight: 500;
-      color: rgba(255,255,255,0.75);
+      color: rgba(255,255,255,0.8);
       border-radius: 8px;
       transition: all 0.15s ease;
     }
     .nav-item:hover {
       color: white;
-      background: rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.12);
     }
     .nav-item.active {
       color: white;
-      background: rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.18);
     }
     .nav-item.active::after {
       content: '';
@@ -215,25 +218,25 @@ const baseLayout = (title: string, content: string, activeNav: string = '') => h
       transform: translateX(-50%);
       width: 24px;
       height: 3px;
-      background: white;
+      background: rgba(255,255,255,0.9);
       border-radius: 2px;
     }
     
     /* 滚动条样式 */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: var(--gs-light-secondary); }
-    ::-webkit-scrollbar-thumb { background: var(--gs-border); border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--gs-text-muted); }
+    ::-webkit-scrollbar-track { background: var(--dg-light-secondary); }
+    ::-webkit-scrollbar-thumb { background: var(--dg-border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--dg-text-muted); }
     
     /* 兼容旧样式 */
-    .card-shadow { box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02); }
+    .card-shadow { box-shadow: 0 2px 8px rgba(45, 59, 45, 0.06); }
     .agent-card:hover { transform: translateY(-2px); transition: all 0.2s; }
     .progress-ring { transition: stroke-dashoffset 0.5s; }
-    .mc-bg { background-color: var(--gs-light); }
-    .mc-primary { color: var(--gs-primary); }
-    .mc-light-bg { background-color: var(--gs-light-secondary); }
-    .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-    .nav-active { background: rgba(255,255,255,0.15); }
+    .mc-bg { background-color: var(--dg-light); }
+    .mc-primary { color: var(--dg-primary); }
+    .mc-light-bg { background-color: var(--dg-light-secondary); }
+    .gradient-bg { background: linear-gradient(135deg, #2D4A38 0%, #3A5542 100%); }
+    .nav-active { background: rgba(255,255,255,0.18); }
   </style>
   <script>
     tailwind.config = {
@@ -241,39 +244,39 @@ const baseLayout = (title: string, content: string, activeNav: string = '') => h
         extend: {
           colors: {
             primary: { 
-              50: '#EEF2FF', 
-              100: '#E0E7FF', 
-              200: '#C7D2FE',
-              300: '#A5B4FC',
-              400: '#818CF8',
-              500: '#6366F1',
-              600: '#4F46E5', 
-              700: '#4338CA',
-              800: '#3730A3',
-              900: '#312E81'
+              50: '#E8F5F0', 
+              100: '#D1EBE2', 
+              200: '#A3D7C5',
+              300: '#75C3A8',
+              400: '#47AF8B',
+              500: '#00B386',  /* 主色-深青绿 */
+              600: '#009A73', 
+              700: '#008160',
+              800: '#00684D',
+              900: '#004F3A'
             },
             gs: {
-              primary: '#6366F1',
-              secondary: '#8B5CF6',
-              accent: '#F59E0B',
-              success: '#10B981',
-              danger: '#EF4444',
-              warning: '#F59E0B',
-              info: '#3B82F6',
-              dark: '#0F172A',
-              light: '#F8FAFC'
+              primary: '#00B386',     /* 深青绿 */
+              secondary: '#49754D',   /* 森林绿 */
+              accent: '#629C85',      /* 灰绿强调 */
+              success: '#3D7A5A',     /* 深绿成功 */
+              danger: '#A85454',      /* 柔和深红 */
+              warning: '#9A7B4E',     /* 深棕警告 */
+              info: '#4A7896',        /* 深灰蓝 */
+              dark: '#1E2B1E',        /* 深绿灰 */
+              light: '#E8E4D4'        /* 暗奶油色 */
             },
             mc: {
-              primary: '#6366F1',
-              secondary: '#8B5CF6',
-              accent: '#F59E0B',
-              light: '#F1F5F9',
-              cream: '#FEF3C7',
-              bg: '#F8FAFC'
+              primary: '#00B386',
+              secondary: '#49754D',
+              accent: '#629C85',
+              light: '#E8E4D4',
+              cream: '#DDD9C8',
+              bg: '#F0EDE0'
             },
-            success: '#10B981',
-            danger: '#EF4444',
-            warning: '#F59E0B'
+            success: '#3D7A5A',
+            danger: '#A85454',
+            warning: '#9A7B4E'
           }
         }
       }
@@ -295,7 +298,7 @@ const baseLayout = (title: string, content: string, activeNav: string = '') => h
                 <!-- 水滴图案 -->
                 <path d="M16 10C16 10 22 18 22 22C22 25.3 19.3 28 16 28C12.7 28 10 25.3 10 22C10 18 16 10 16 10Z" fill="white" fill-opacity="0.9"/>
                 <!-- 水滴内的增长曲线 -->
-                <path d="M12 23L14 21L16 22.5L18 19L20 21" stroke="#10B981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 23L14 21L16 22.5L18 19L20 21" stroke="#00B386" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 <!-- 滴灌投资文字 -->
                 <text x="40" y="27" font-family="Inter, -apple-system, sans-serif" font-size="18" font-weight="700" fill="white" letter-spacing="1">滴灌投资</text>
                 <!-- 副标题线 -->
@@ -441,7 +444,7 @@ pages.get('/', (c) => {
             <!-- 水滴图案 -->
             <path d="M28 24C28 24 40 38 40 46C40 53 34 58 28 58C22 58 16 53 16 46C16 38 28 24 28 24Z" fill="white" fill-opacity="0.9"/>
             <!-- 水滴内增长曲线 -->
-            <path d="M20 48L24 44L28 47L32 42L36 46" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M20 48L24 44L28 47L32 42L36 46" stroke="#00B386" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             <text x="65" y="52" font-family="Inter, -apple-system, sans-serif" font-size="24" font-weight="800" fill="white" letter-spacing="1">滴灌投资</text>
             <line x1="65" y1="60" x2="190" y2="60" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
           </svg>

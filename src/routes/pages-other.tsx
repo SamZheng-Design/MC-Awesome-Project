@@ -412,10 +412,10 @@ export const submitPageContent = `
         </label>
         <label class="cursor-pointer group">
           <input type="radio" name="industry" value="douyin-ecommerce" class="hidden peer" onchange="handleIndustryChange(this.value)">
-          <div class="p-6 border-2 border-slate-200 rounded-xl text-center peer-checked:border-[#FF2D55] peer-checked:bg-pink-50 hover:border-slate-300 hover:shadow-sm transition-all relative">
-            <div class="absolute -top-2 -right-2 bg-gradient-to-r from-[#FF2D55] to-[#FF6B81] text-white text-xs px-2.5 py-1 rounded-full font-medium shadow-sm">热门</div>
-            <div class="w-12 h-12 rounded-xl bg-pink-50 flex items-center justify-center mx-auto mb-3 group-hover:bg-pink-100 transition">
-              <i class="fab fa-tiktok text-xl text-[#FF2D55]"></i>
+          <div class="p-6 border-2 border-slate-200 rounded-xl text-center peer-checked:border-[#00B386] peer-checked:bg-[#C9DFD0] hover:border-slate-300 hover:shadow-sm transition-all relative">
+            <div class="absolute -top-2 -right-2 bg-gradient-to-r from-[#00B386] to-[#49754D] text-white text-xs px-2.5 py-1 rounded-full font-medium shadow-sm">热门</div>
+            <div class="w-12 h-12 rounded-xl bg-[#C9DFD0] flex items-center justify-center mx-auto mb-3 group-hover:bg-[#A8B8A8] transition">
+              <i class="fab fa-tiktok text-xl text-[#00B386]"></i>
             </div>
             <p class="font-medium text-slate-700">抖音投流</p>
           </div>
@@ -461,66 +461,68 @@ export const submitPageContent = `
     <!-- Step 2: 抖音投流专属表单 -->
     <div id="form-step-2-douyin" class="step-content hidden">
       <div class="flex items-center mb-6">
-        <i class="fab fa-tiktok text-2xl text-[#FF2D55] mr-3"></i>
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#00B386] to-[#49754D] flex items-center justify-center mr-3">
+          <i class="fab fa-tiktok text-2xl text-white"></i>
+        </div>
         <div>
-          <h3 class="text-lg font-semibold text-[#FF2D55]">抖音投流信息采集</h3>
-          <p class="text-sm text-gray-500">请填写基本信息（必填），其他信息为推荐填写</p>
+          <h3 class="text-lg font-semibold text-[#1E2B1E]">抖音投流信息采集</h3>
+          <p class="text-sm text-[#4A5B4A]">请填写基本信息（必填），其他信息为推荐填写</p>
         </div>
       </div>
       
       <!-- 提示说明 -->
-      <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-        <p class="text-sm text-blue-700">
-          <i class="fas fa-info-circle mr-2"></i>
-          <strong>填写说明：</strong>带 <span class="text-red-500 font-bold">*</span> 为必填项，带 <span class="text-amber-500 font-bold">★</span> 为推荐填写项（有助于更准确的评估）
+      <div class="bg-[#C9DFD0] border border-[#A8B8A8] rounded-lg p-4 mb-6">
+        <p class="text-sm text-[#1E2B1E]">
+          <i class="fas fa-info-circle mr-2 text-[#00B386]"></i>
+          <strong>填写说明：</strong>带 <span class="text-[#A85454] font-bold">*</span> 为必填项，带 <span class="text-[#9A7B4E] font-bold">★</span> 为推荐填写项（有助于更准确的评估）
         </p>
       </div>
       
       <!-- 基本信息区域 -->
-      <div class="bg-gradient-to-r from-pink-50 to-white rounded-xl p-6 mb-6 border border-pink-100">
+      <div class="bg-gradient-to-r from-[#E8E4D4] to-[#F0EDE0] rounded-xl p-6 mb-6 border border-[#C9DFD0]">
         <h4 class="font-semibold text-gray-800 mb-4 flex items-center">
-          <i class="fas fa-building text-[#FF2D55] mr-2"></i>基本信息 <span class="ml-2 text-xs text-red-500">（必填）</span>
+          <i class="fas fa-building text-[#00B386] mr-2"></i>基本信息 <span class="ml-2 text-xs text-[#A85454]">（必填）</span>
         </h4>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">企业名称 <span class="text-red-500">*</span></label>
-            <input type="text" id="dy_company_name" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-pink-200" placeholder="请输入企业全称">
+            <input type="text" id="dy_company_name" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-[#F0EDE0]" placeholder="请输入企业全称">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">社会统一信用代码 <span class="text-red-500">*</span></label>
-            <input type="text" id="dy_credit_code" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-pink-200" placeholder="18位统一社会信用代码" maxlength="18">
+            <input type="text" id="dy_credit_code" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-[#F0EDE0]" placeholder="18位统一社会信用代码" maxlength="18">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">品牌名称 <span class="text-red-500">*</span></label>
-            <input type="text" id="dy_brand_name" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-pink-200" placeholder="品牌名称">
+            <input type="text" id="dy_brand_name" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-[#F0EDE0]" placeholder="品牌名称">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">抖店名称 <span class="text-red-500">*</span></label>
-            <input type="text" id="dy_shop_name" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-pink-200" placeholder="抖音店铺名称">
+            <input type="text" id="dy_shop_name" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-[#F0EDE0]" placeholder="抖音店铺名称">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">合作伙伴 <span class="text-red-500">*</span></label>
-            <select id="dy_partner" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-pink-200 bg-pink-50">
+            <select id="dy_partner" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-[#E8E4D4]">
               <option value="良辰美" selected>良辰美</option>
             </select>
             <p class="text-xs text-gray-400 mt-1">默认合作伙伴</p>
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">良辰美联络人名称 <span class="text-red-500">*</span></label>
-            <input type="text" id="dy_partner_contact" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-pink-200" placeholder="良辰美对接人姓名">
+            <input type="text" id="dy_partner_contact" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-[#F0EDE0]" placeholder="良辰美对接人姓名">
           </div>
         </div>
       </div>
 
       <!-- 品类与合作信息 -->
-      <div class="bg-white rounded-xl p-6 mb-6 border border-gray-200">
+      <div class="bg-[#F0EDE0] rounded-xl p-6 mb-6 border border-[#A8B8A8]">
         <h4 class="font-semibold text-gray-800 mb-4 flex items-center">
-          <i class="fas fa-tags text-orange-500 mr-2"></i>品类与合作信息 <span class="ml-2 text-xs text-amber-500">（★ 推荐填写）</span>
+          <i class="fas fa-tags text-[#9A7B4E] mr-2"></i>品类与合作信息 <span class="ml-2 text-xs text-[#9A7B4E]">（★ 推荐填写）</span>
         </h4>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">品类划分 <span class="text-amber-500">★</span></label>
-            <select id="dy_category" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-gray-200">
+            <select id="dy_category" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-white">
               <option value="">请选择品类</option>
               <option value="food">食品饮料</option>
               <option value="beauty">美妆护肤</option>
@@ -535,86 +537,86 @@ export const submitPageContent = `
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">已与投流伙伴合作时间（月）<span class="text-amber-500">★</span></label>
-            <input type="number" id="dy_coop_duration" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-gray-200" placeholder="例如：12">
+            <input type="number" id="dy_coop_duration" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-white" placeholder="例如：12">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">总计投流金额（万元）<span class="text-amber-500">★</span></label>
-            <input type="number" step="0.01" id="dy_total_spend" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-gray-200" placeholder="例如：500">
+            <input type="number" step="0.01" id="dy_total_spend" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-white" placeholder="例如：500">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">目前管理账户总数（个）<span class="text-amber-500">★</span></label>
-            <input type="number" id="dy_account_count" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-gray-200" placeholder="例如：5">
+            <input type="number" id="dy_account_count" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-white" placeholder="例如：5">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">账户留存金额（万元）<span class="text-amber-500">★</span></label>
-            <input type="number" step="0.01" id="dy_account_balance" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-gray-200" placeholder="例如：50">
+            <input type="number" step="0.01" id="dy_account_balance" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-white" placeholder="例如：50">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">品类押金（万元）<span class="text-amber-500">★</span></label>
-            <input type="number" step="0.01" id="dy_category_deposit" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-gray-200" placeholder="例如：10">
+            <input type="number" step="0.01" id="dy_category_deposit" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-white" placeholder="例如：10">
           </div>
         </div>
       </div>
 
       <!-- 未来合作计划 -->
-      <div class="bg-blue-50 rounded-xl p-6 mb-6 border border-blue-100">
+      <div class="bg-[#C9DFD0] rounded-xl p-6 mb-6 border border-[#A8B8A8]">
         <h4 class="font-semibold text-gray-800 mb-4 flex items-center">
-          <i class="fas fa-rocket text-blue-500 mr-2"></i>未来合作计划 <span class="ml-2 text-xs text-amber-500">（★ 推荐填写）</span>
+          <i class="fas fa-rocket text-[#4A7896] mr-2"></i>未来合作计划 <span class="ml-2 text-xs text-[#9A7B4E]">（★ 推荐填写）</span>
         </h4>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">未来合作时间（月）<span class="text-amber-500">★</span></label>
-            <input type="number" id="dy_future_coop_duration" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-blue-200" placeholder="例如：12">
+            <input type="number" id="dy_future_coop_duration" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-white" placeholder="例如：12">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">未来投流计划（万元）<span class="text-amber-500">★</span></label>
-            <input type="number" step="0.01" id="dy_future_spend_plan" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-blue-200" placeholder="例如：1000">
+            <input type="number" step="0.01" id="dy_future_spend_plan" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-white" placeholder="例如：1000">
           </div>
         </div>
       </div>
 
       <!-- 店铺与品牌信息 -->
-      <div class="bg-white rounded-xl p-6 mb-6 border border-gray-200">
+      <div class="bg-[#F0EDE0] rounded-xl p-6 mb-6 border border-[#A8B8A8]">
         <h4 class="font-semibold text-gray-800 mb-4 flex items-center">
-          <i class="fas fa-store text-purple-500 mr-2"></i>店铺与品牌信息 <span class="ml-2 text-xs text-amber-500">（★ 推荐填写）</span>
+          <i class="fas fa-store text-[#629C85] mr-2"></i>店铺与品牌信息 <span class="ml-2 text-xs text-[#9A7B4E]">（★ 推荐填写）</span>
         </h4>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">抖店链接 <span class="text-amber-500">★</span></label>
-            <input type="url" id="dy_shop_link" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-gray-200" placeholder="https://...">
+            <input type="url" id="dy_shop_link" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-white" placeholder="https://...">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">抖店成立时间（月）<span class="text-amber-500">★</span></label>
-            <input type="number" id="dy_shop_age" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-gray-200" placeholder="例如：24">
+            <input type="number" id="dy_shop_age" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-white" placeholder="例如：24">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">品牌成立时间（月）<span class="text-amber-500">★</span></label>
-            <input type="number" id="dy_brand_age" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-gray-200" placeholder="例如：36">
+            <input type="number" id="dy_brand_age" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-white" placeholder="例如：36">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">抖音店铺评分 <span class="text-amber-500">★</span></label>
-            <input type="number" step="0.1" min="0" max="5" id="dy_shop_rating" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-gray-200" placeholder="例如：4.8">
+            <input type="number" step="0.1" min="0" max="5" id="dy_shop_rating" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-white" placeholder="例如：4.8">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">抖音店铺收入占比（%）<span class="text-amber-500">★</span></label>
-            <input type="number" step="0.1" min="0" max="100" id="dy_revenue_ratio" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-gray-200" placeholder="例如：60">
+            <input type="number" step="0.1" min="0" max="100" id="dy_revenue_ratio" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-white" placeholder="例如：60">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">店铺收入年度增长（%）<span class="text-amber-500">★</span></label>
-            <input type="number" step="0.1" id="dy_revenue_growth" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-gray-200" placeholder="例如：30">
+            <input type="number" step="0.1" id="dy_revenue_growth" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-white" placeholder="例如：30">
           </div>
         </div>
       </div>
 
       <!-- 历史合作与合规信息 -->
-      <div class="bg-amber-50 rounded-xl p-6 mb-6 border border-amber-100">
+      <div class="bg-[#DDD9C8] rounded-xl p-6 mb-6 border border-[#A8B8A8]">
         <h4 class="font-semibold text-gray-800 mb-4 flex items-center">
-          <i class="fas fa-history text-amber-600 mr-2"></i>历史合作与合规信息 <span class="ml-2 text-xs text-amber-500">（★ 推荐填写）</span>
+          <i class="fas fa-history text-[#9A7B4E] mr-2"></i>历史合作与合规信息 <span class="ml-2 text-xs text-[#9A7B4E]">（★ 推荐填写）</span>
         </h4>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">是否历史有过垫资合作 <span class="text-amber-500">★</span></label>
-            <select id="dy_has_advance_coop" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-amber-200">
+            <select id="dy_has_advance_coop" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-white">
               <option value="">请选择</option>
               <option value="yes">是</option>
               <option value="no">否</option>
@@ -622,11 +624,11 @@ export const submitPageContent = `
           </div>
           <div class="md:col-span-2">
             <label class="block text-sm font-medium text-gray-700 mb-1">历史合作情况 <span class="text-amber-500">★</span></label>
-            <textarea id="dy_coop_history" rows="2" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-amber-200" placeholder="请描述历史合作情况..."></textarea>
+            <textarea id="dy_coop_history" rows="2" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-white" placeholder="请描述历史合作情况..."></textarea>
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">是否有违约记录 <span class="text-amber-500">★</span></label>
-            <select id="dy_has_default" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-amber-200">
+            <select id="dy_has_default" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-white">
               <option value="">请选择</option>
               <option value="yes">是</option>
               <option value="no">否</option>
@@ -634,7 +636,7 @@ export const submitPageContent = `
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">是否有账户扣款权限 <span class="text-amber-500">★</span></label>
-            <select id="dy_has_deduction_auth" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-amber-200">
+            <select id="dy_has_deduction_auth" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-white">
               <option value="">请选择</option>
               <option value="yes">是</option>
               <option value="no">否</option>
@@ -642,7 +644,7 @@ export const submitPageContent = `
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">是否有冻结/取现权限 <span class="text-amber-500">★</span></label>
-            <select id="dy_has_freeze_auth" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-amber-200">
+            <select id="dy_has_freeze_auth" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-white">
               <option value="">请选择</option>
               <option value="yes">是</option>
               <option value="no">否</option>
@@ -650,7 +652,7 @@ export const submitPageContent = `
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">排他投流合作 <span class="text-amber-500">★</span></label>
-            <select id="dy_exclusive_coop" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-amber-200">
+            <select id="dy_exclusive_coop" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-white">
               <option value="">请选择</option>
               <option value="yes">是</option>
               <option value="no">否</option>
@@ -660,55 +662,55 @@ export const submitPageContent = `
       </div>
 
       <!-- 投放效果指标 -->
-      <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 mb-6 border border-green-100">
+      <div class="bg-gradient-to-r from-[#C9DFD0] to-[#D9EDDF] rounded-xl p-6 mb-6 border border-[#A8B8A8]">
         <h4 class="font-semibold text-gray-800 mb-4 flex items-center">
-          <i class="fas fa-chart-line text-green-600 mr-2"></i>投放效果指标 <span class="ml-2 text-xs text-amber-500">（★ 推荐填写）</span>
+          <i class="fas fa-chart-line text-[#3D7A5A] mr-2"></i>投放效果指标 <span class="ml-2 text-xs text-[#9A7B4E]">（★ 推荐填写）</span>
         </h4>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">ROI（1元投流转化收入）<span class="text-amber-500">★</span></label>
-            <input type="number" step="0.01" id="dy_roi" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-green-200" placeholder="例如：3.5">
+            <input type="number" step="0.01" id="dy_roi" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-white" placeholder="例如：3.5">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">GMV 成交金额（万元）<span class="text-amber-500">★</span></label>
-            <input type="number" step="0.01" id="dy_gmv" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-green-200" placeholder="例如：1000">
+            <input type="number" step="0.01" id="dy_gmv" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-white" placeholder="例如：1000">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">CPM 千次曝光成本（元）<span class="text-amber-500">★</span></label>
-            <input type="number" step="0.01" id="dy_cpm" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-green-200" placeholder="例如：15">
+            <input type="number" step="0.01" id="dy_cpm" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-white" placeholder="例如：15">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">CTR 点击率（%）<span class="text-amber-500">★</span></label>
-            <input type="number" step="0.01" id="dy_ctr" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-green-200" placeholder="例如：2.5">
+            <input type="number" step="0.01" id="dy_ctr" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-white" placeholder="例如：2.5">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">完播率（%）<span class="text-amber-500">★</span></label>
-            <input type="number" step="0.01" id="dy_completion_rate" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-green-200" placeholder="例如：35">
+            <input type="number" step="0.01" id="dy_completion_rate" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-white" placeholder="例如：35">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">自然流量增幅（%）<span class="text-amber-500">★</span></label>
-            <input type="number" step="0.01" id="dy_organic_growth" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-green-200" placeholder="例如：50">
+            <input type="number" step="0.01" id="dy_organic_growth" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-white" placeholder="例如：50">
           </div>
         </div>
       </div>
 
       <!-- 商品质量指标 -->
-      <div class="bg-white rounded-xl p-6 border border-gray-200">
+      <div class="bg-[#F0EDE0] rounded-xl p-6 border border-[#A8B8A8]">
         <h4 class="font-semibold text-gray-800 mb-4 flex items-center">
-          <i class="fas fa-box text-indigo-500 mr-2"></i>商品质量指标 <span class="ml-2 text-xs text-amber-500">（★ 推荐填写）</span>
+          <i class="fas fa-box text-[#49754D] mr-2"></i>商品质量指标 <span class="ml-2 text-xs text-[#9A7B4E]">（★ 推荐填写）</span>
         </h4>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">退货率（%）<span class="text-amber-500">★</span></label>
-            <input type="number" step="0.01" id="dy_return_rate" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-gray-200" placeholder="例如：5">
+            <input type="number" step="0.01" id="dy_return_rate" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-white" placeholder="例如：5">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">商品毛利率（%）<span class="text-amber-500">★</span></label>
-            <input type="number" step="0.01" id="dy_gross_margin" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-gray-200" placeholder="例如：40">
+            <input type="number" step="0.01" id="dy_gross_margin" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-white" placeholder="例如：40">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">复购率（%）<span class="text-amber-500">★</span></label>
-            <input type="number" step="0.01" id="dy_repurchase_rate" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-gray-200" placeholder="例如：25">
+            <input type="number" step="0.01" id="dy_repurchase_rate" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00B386] border-[#A8B8A8] bg-white" placeholder="例如：25">
           </div>
         </div>
       </div>
@@ -789,7 +791,7 @@ export const submitPageContent = `
         stepEl.querySelector('div').innerHTML = '<i class="fas fa-check"></i>';
       } else if (i === currentStep) {
         stepEl.classList.remove('opacity-50');
-        const activeColor = isDouyinMode ? '#FF2D55' : 'primary-500';
+        const activeColor = isDouyinMode ? '#00B386' : 'primary-500';
         stepEl.querySelector('div').className = 'w-8 h-8 rounded-full text-white flex items-center justify-center font-bold text-sm';
         stepEl.querySelector('div').style.backgroundColor = activeColor;
         stepEl.querySelector('div').textContent = i;
@@ -823,7 +825,7 @@ export const submitPageContent = `
     // 更新按钮样式
     const btnNext = document.getElementById('btn-next');
     if (isDouyinMode) {
-      btnNext.className = 'px-6 py-2 bg-gradient-to-r from-[#FF2D55] to-[#FF6B6B] text-white rounded-lg hover:opacity-90 transition';
+      btnNext.className = 'px-6 py-2 bg-gradient-to-r from-[#00B386] to-[#49754D] text-white rounded-lg hover:opacity-90 transition';
     } else {
       btnNext.className = 'px-6 py-2 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-lg hover:opacity-90 transition';
     }
@@ -909,12 +911,12 @@ export const submitPageContent = `
       const getValue = (id) => document.getElementById(id)?.value || '-';
       
       document.getElementById('confirm-summary').innerHTML = \`
-        <div class="bg-gradient-to-r from-pink-50 to-white rounded-lg p-4 mb-4 border border-pink-100">
-          <h4 class="font-semibold text-[#FF2D55] mb-3 flex items-center">
-            <i class="fab fa-tiktok mr-2"></i>抖音投流申请确认
+        <div class="bg-gradient-to-r from-[#E8E4D4] to-[#F0EDE0] rounded-lg p-4 mb-4 border border-[#C9DFD0]">
+          <h4 class="font-semibold text-[#1E2B1E] mb-3 flex items-center">
+            <i class="fab fa-tiktok mr-2 text-[#00B386]"></i>抖音投流申请确认
           </h4>
           <div class="mb-3">
-            <span class="text-xs bg-red-100 text-red-600 px-2 py-1 rounded">必填信息</span>
+            <span class="text-xs bg-[#A85454]/20 text-[#A85454] px-2 py-1 rounded">必填信息</span>
           </div>
           <div class="grid grid-cols-2 gap-3 text-sm">
             <div><span class="text-gray-500">企业名称：</span>\${getValue('dy_company_name')}</div>
@@ -926,22 +928,22 @@ export const submitPageContent = `
           </div>
         </div>
         
-        <div class="bg-amber-50 rounded-lg p-4 mb-4 border border-amber-100">
+        <div class="bg-[#DDD9C8] rounded-lg p-4 mb-4 border border-[#A8B8A8]">
           <div class="mb-3">
-            <span class="text-xs bg-amber-100 text-amber-600 px-2 py-1 rounded">推荐填写信息</span>
+            <span class="text-xs bg-[#9A7B4E]/20 text-[#9A7B4E] px-2 py-1 rounded">推荐填写信息</span>
           </div>
           <div class="grid grid-cols-3 gap-4 text-center mb-4">
-            <div class="bg-white rounded-lg p-3">
-              <p class="text-xs text-gray-500">已投流金额</p>
-              <p class="text-xl font-bold text-blue-600">\${getValue('dy_total_spend') || '-'}<span class="text-sm">万</span></p>
+            <div class="bg-[#F0EDE0] rounded-lg p-3 border border-[#A8B8A8]">
+              <p class="text-xs text-[#4A5B4A]">已投流金额</p>
+              <p class="text-xl font-bold text-[#4A7896]">\${getValue('dy_total_spend') || '-'}<span class="text-sm">万</span></p>
             </div>
-            <div class="bg-white rounded-lg p-3">
-              <p class="text-xs text-gray-500">计划投流金额</p>
-              <p class="text-xl font-bold text-green-600">\${getValue('dy_future_spend_plan') || '-'}<span class="text-sm">万</span></p>
+            <div class="bg-[#F0EDE0] rounded-lg p-3 border border-[#A8B8A8]">
+              <p class="text-xs text-[#4A5B4A]">计划投流金额</p>
+              <p class="text-xl font-bold text-[#3D7A5A]">\${getValue('dy_future_spend_plan') || '-'}<span class="text-sm">万</span></p>
             </div>
-            <div class="bg-white rounded-lg p-3">
-              <p class="text-xs text-gray-500">ROI</p>
-              <p class="text-xl font-bold text-purple-600">\${getValue('dy_roi') || '-'}</p>
+            <div class="bg-[#F0EDE0] rounded-lg p-3 border border-[#A8B8A8]">
+              <p class="text-xs text-[#4A5B4A]">ROI</p>
+              <p class="text-xl font-bold text-[#49754D]">\${getValue('dy_roi') || '-'}</p>
             </div>
           </div>
           
