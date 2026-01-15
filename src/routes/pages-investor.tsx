@@ -90,17 +90,17 @@ export const investorPortalPageContent = `
   <!-- 主内容区：左右布局 -->
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
     
-    <!-- 左侧：已投资标的列表 + 累计收益图表 -->
+    <!-- 左侧：全行业汇总图表 + 已投资标的列表 -->
     <div class="lg:col-span-2 space-y-6">
       
-      <!-- 累计收益分成图表 -->
+      <!-- 全行业汇总 - 累计收益分成图表 -->
       <div class="gs-card p-6">
         <div class="flex items-center justify-between mb-4">
           <h3 class="text-base font-semibold text-slate-800 flex items-center">
             <div class="w-8 h-8 bg-[#5A7A64]/10 rounded-lg flex items-center justify-center mr-3">
               <i class="fas fa-chart-area text-[#5A7A64] text-sm"></i>
             </div>
-            累计收益分成 (Total Cashflow Distribution)
+            全行业投后汇总 (Total Portfolio Overview)
           </h3>
           <div class="flex items-center space-x-2">
             <button onclick="switchCashflowPeriod('week')" id="btn-period-week" class="px-3 py-1 text-xs rounded-lg bg-[#5A7A64] text-white">近7天</button>
@@ -109,24 +109,64 @@ export const investorPortalPageContent = `
           </div>
         </div>
         
-        <!-- 图表区域 -->
-        <div class="relative h-64">
-          <canvas id="cashflow-chart"></canvas>
-        </div>
-        
-        <!-- 图表下方统计 -->
-        <div class="grid grid-cols-3 gap-4 mt-4 pt-4 border-t border-slate-100">
-          <div class="text-center">
-            <p class="text-xs text-slate-500">历史累计收益</p>
-            <p class="text-lg font-bold text-[#5A7A64]" id="chart-total-return">¥0</p>
+        <!-- 图表和统计维度并排布局 -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+          <!-- 左侧：图表区域 -->
+          <div class="lg:col-span-3">
+            <div class="relative h-64">
+              <canvas id="cashflow-chart"></canvas>
+            </div>
+            
+            <!-- 图表下方统计 -->
+            <div class="grid grid-cols-4 gap-4 mt-4 pt-4 border-t border-slate-100">
+              <div class="text-center">
+                <p class="text-xs text-slate-500">投资总额</p>
+                <p class="text-lg font-bold text-[#5A6A7A]" id="chart-total-invested">¥0</p>
+              </div>
+              <div class="text-center">
+                <p class="text-xs text-slate-500">历史累计收益</p>
+                <p class="text-lg font-bold text-[#5A7A64]" id="chart-total-return">¥0</p>
+              </div>
+              <div class="text-center">
+                <p class="text-xs text-slate-500">昨日收益分成</p>
+                <p class="text-lg font-bold text-[#8B6B4A]" id="chart-yesterday-return">¥0</p>
+              </div>
+              <div class="text-center">
+                <p class="text-xs text-slate-500">本月预估</p>
+                <p class="text-lg font-bold text-[#6B7B5C]" id="chart-estimated-return">¥0</p>
+              </div>
+            </div>
           </div>
-          <div class="text-center">
-            <p class="text-xs text-slate-500">昨日收益分成</p>
-            <p class="text-lg font-bold text-[#8B6B4A]" id="chart-yesterday-return">¥0</p>
-          </div>
-          <div class="text-center">
-            <p class="text-xs text-slate-500">本月预估</p>
-            <p class="text-lg font-bold text-[#5A6A7A]" id="chart-estimated-return">¥0</p>
+          
+          <!-- 右侧：基础统计维度筛选 -->
+          <div class="lg:col-span-1 border-l border-slate-100 pl-4">
+            <p class="text-xs font-medium text-slate-600 mb-3">按维度查看</p>
+            <div class="space-y-2">
+              <button onclick="switchChartDimension('industry')" id="btn-dim-industry" class="w-full px-3 py-2 text-xs rounded-lg bg-[#5A7A64]/10 text-[#5A7A64] text-left flex items-center justify-between hover:bg-[#5A7A64]/20 transition">
+                <span><i class="fas fa-industry mr-2"></i>按行业</span>
+                <i class="fas fa-chevron-right text-xs"></i>
+              </button>
+              <button onclick="switchChartDimension('region')" id="btn-dim-region" class="w-full px-3 py-2 text-xs rounded-lg bg-slate-50 text-slate-600 text-left flex items-center justify-between hover:bg-slate-100 transition">
+                <span><i class="fas fa-map-marker-alt mr-2"></i>按地区</span>
+                <i class="fas fa-chevron-right text-xs"></i>
+              </button>
+              <button onclick="switchChartDimension('issuer')" id="btn-dim-issuer" class="w-full px-3 py-2 text-xs rounded-lg bg-slate-50 text-slate-600 text-left flex items-center justify-between hover:bg-slate-100 transition">
+                <span><i class="fas fa-building mr-2"></i>按发行方</span>
+                <i class="fas fa-chevron-right text-xs"></i>
+              </button>
+              <button onclick="switchChartDimension('frequency')" id="btn-dim-frequency" class="w-full px-3 py-2 text-xs rounded-lg bg-slate-50 text-slate-600 text-left flex items-center justify-between hover:bg-slate-100 transition">
+                <span><i class="fas fa-clock mr-2"></i>按回款周期</span>
+                <i class="fas fa-chevron-right text-xs"></i>
+              </button>
+            </div>
+            
+            <!-- 当前维度详情 -->
+            <div class="mt-4 pt-4 border-t border-slate-100">
+              <p class="text-xs font-medium text-slate-600 mb-2" id="dimension-detail-title">行业分布</p>
+              <div id="dimension-detail-content" class="space-y-2 max-h-32 overflow-y-auto">
+                <!-- 动态加载 -->
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -320,37 +360,6 @@ export const investorPortalPageContent = `
           <!-- 动态加载 -->
         </div>
       </div>
-      
-      <!-- 行业智能体入口 -->
-      <div class="gs-card p-6 bg-gradient-to-br from-[#F5F2EA] to-[#EAE6DC]">
-        <h3 class="text-base font-semibold text-slate-800 mb-4 flex items-center">
-          <div class="w-8 h-8 bg-[#5A7A64]/20 rounded-lg flex items-center justify-center mr-3">
-            <i class="fas fa-robot text-[#5A7A64] text-sm"></i>
-          </div>
-          行业筛子体系
-        </h3>
-        <p class="text-sm text-slate-600 mb-4">点击行业查看对应的智能体评估体系</p>
-        <div id="industry-agents-links" class="space-y-2">
-          <!-- 动态加载 -->
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- 标的详情弹窗 -->
-<div id="deal-detail-modal" class="fixed inset-0 bg-black/50 z-50 hidden">
-  <div class="flex items-center justify-center min-h-screen p-4">
-    <div class="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
-      <div class="flex items-center justify-between px-6 py-4 border-b bg-gradient-to-r from-[#5A7A64]/10 to-[#8B6B4A]/10">
-        <h2 id="deal-detail-title" class="text-lg font-semibold text-slate-800"></h2>
-        <button onclick="closeDealDetailModal()" class="text-slate-400 hover:text-slate-600">
-          <i class="fas fa-times text-xl"></i>
-        </button>
-      </div>
-      <div class="flex-1 overflow-y-auto p-6" id="deal-detail-content">
-        <!-- 动态加载 -->
-      </div>
     </div>
   </div>
 </div>
@@ -367,9 +376,21 @@ export const investorPortalPageContent = `
     stats: {}
   };
   let currentCashflowPeriod = 'week';
+  let currentChartDimension = 'industry';
   let currentRankingTab = 'transactions';
   let cashflowChart = null;
   let themeChart = null;
+
+  // 行业映射
+  const industryMap = {
+    'light-asset': { name: '文娱轻资产', color: '#8B5CF6', icon: 'fa-film' },
+    'catering': { name: '餐饮', color: '#F59E0B', icon: 'fa-utensils' },
+    'retail': { name: '零售', color: '#10B981', icon: 'fa-store' },
+    'ecommerce': { name: '电商', color: '#3B82F6', icon: 'fa-shopping-cart' },
+    'douyin-ecommerce': { name: '抖音投流', color: '#FE2C55', icon: 'fab fa-tiktok' },
+    'education': { name: '教育培训', color: '#EC4899', icon: 'fa-graduation-cap' },
+    'service': { name: '生活服务', color: '#14B8A6', icon: 'fa-concierge-bell' }
+  };
 
   // ============================================
   // 初始化
@@ -409,11 +430,11 @@ export const investorPortalPageContent = `
       renderStats();
       renderDeals();
       renderCashflowChart();
+      renderDimensionDetail();
       renderTransactions();
       renderRankings();
       renderThemeDistribution();
       renderAnnouncements();
-      renderIndustryLinks();
       
     } catch (e) {
       console.error('加载投资人数据失败:', e);
@@ -426,11 +447,11 @@ export const investorPortalPageContent = `
   function loadDemoData() {
     // 演示数据 - 已投资标的
     investorData.deals = [
-      { id: 'DGT-2026-CARDIB', company_name: 'Cardi B演唱会', industry: 'light-asset', invested_amount: 3000, total_cashflow: 1250, cashflow_frequency: 'weekly', region: '北京', city: '北京' },
-      { id: 'DGT-2026-CHAYEN', company_name: '茶颜悦色杭州旗舰店', industry: 'catering', invested_amount: 500, total_cashflow: 185, cashflow_frequency: 'monthly', region: '浙江', city: '杭州' },
-      { id: 'DGT-2026-QIANDA', company_name: '钱大妈社区店', industry: 'retail', invested_amount: 300, total_cashflow: 92, cashflow_frequency: 'daily', region: '广东', city: '深圳' },
-      { id: 'DGT-2026-QIANXU', company_name: '谦寻MCN主播孵化', industry: 'ecommerce', invested_amount: 2000, total_cashflow: 680, cashflow_frequency: 'monthly', region: '浙江', city: '杭州' },
-      { id: 'DGT-2026-JINSE', company_name: '锦瑟服饰抖音投流', industry: 'douyin-ecommerce', invested_amount: 800, total_cashflow: 320, cashflow_frequency: 'weekly', region: '广东', city: '广州' },
+      { id: 'DGT-2026-CARDIB', company_name: 'Cardi B演唱会', industry: 'light-asset', invested_amount: 3000, total_cashflow: 1250, cashflow_frequency: 'weekly', region: '北京', city: '北京', issuer: '华录百纳', description: '国际顶级说唱巨星Cardi B中国巡演项目', start_date: '2025-11-01' },
+      { id: 'DGT-2026-CHAYEN', company_name: '茶颜悦色杭州旗舰店', industry: 'catering', invested_amount: 500, total_cashflow: 185, cashflow_frequency: 'monthly', region: '浙江', city: '杭州', issuer: '茶颜悦色餐饮', description: '新式茶饮头部品牌杭州旗舰店', start_date: '2025-09-15' },
+      { id: 'DGT-2026-QIANDA', company_name: '钱大妈社区店', industry: 'retail', invested_amount: 300, total_cashflow: 92, cashflow_frequency: 'daily', region: '广东', city: '深圳', issuer: '钱大妈生鲜', description: '社区生鲜零售连锁品牌', start_date: '2025-10-01' },
+      { id: 'DGT-2026-QIANXU', company_name: '谦寻MCN主播孵化', industry: 'ecommerce', invested_amount: 2000, total_cashflow: 680, cashflow_frequency: 'monthly', region: '浙江', city: '杭州', issuer: '谦寻控股', description: '头部MCN机构主播孵化项目', start_date: '2025-08-01' },
+      { id: 'DGT-2026-JINSE', company_name: '锦瑟服饰抖音投流', industry: 'douyin-ecommerce', invested_amount: 800, total_cashflow: 320, cashflow_frequency: 'weekly', region: '广东', city: '广州', issuer: '锦瑟电商', description: '女装品牌抖音电商投流项目', start_date: '2025-12-01' },
     ];
     
     // 演示统计数据
@@ -481,11 +502,11 @@ export const investorPortalPageContent = `
     renderStats();
     renderDeals();
     renderCashflowChart();
+    renderDimensionDetail();
     renderTransactions();
     renderRankings();
     renderThemeDistribution();
     renderAnnouncements();
-    renderIndustryLinks();
   }
 
   // ============================================
@@ -512,6 +533,7 @@ export const investorPortalPageContent = `
     document.getElementById('stat-detail-cities').textContent = stats.cities || 0;
     
     // 图表统计
+    document.getElementById('chart-total-invested').textContent = '¥' + formatNumber(stats.totalInvested || 0);
     document.getElementById('chart-total-return').textContent = '¥' + formatNumber(stats.totalCashflow || 0);
     document.getElementById('chart-yesterday-return').textContent = '¥' + formatNumber(stats.yesterdayCashflow || 0);
     document.getElementById('chart-estimated-return').textContent = '¥' + formatNumber((stats.totalCashflow || 0) * 0.12);
@@ -541,16 +563,6 @@ export const investorPortalPageContent = `
       deals = deals.filter(d => d.industry === industryFilter);
     }
     
-    const industryMap = {
-      'light-asset': { name: '文娱轻资产', color: '#8B5CF6' },
-      'catering': { name: '餐饮', color: '#F59E0B' },
-      'retail': { name: '零售', color: '#10B981' },
-      'ecommerce': { name: '电商', color: '#3B82F6' },
-      'douyin-ecommerce': { name: '抖音投流', color: '#FE2C55' },
-      'education': { name: '教育培训', color: '#EC4899' },
-      'service': { name: '生活服务', color: '#14B8A6' }
-    };
-    
     const frequencyMap = {
       'daily': '每日',
       'weekly': '每周',
@@ -572,16 +584,19 @@ export const investorPortalPageContent = `
     container.innerHTML = deals.map(deal => {
       const industry = industryMap[deal.industry] || { name: deal.industry, color: '#6B7280' };
       return \`
-        <tr class="hover:bg-slate-50 cursor-pointer" onclick="viewDealDetail('\${deal.id}')">
+        <tr class="hover:bg-slate-50">
           <td class="py-3">
-            <div>
-              <p class="font-mono text-xs text-slate-400">\${deal.id}</p>
-              <p class="font-medium text-slate-800">\${deal.company_name}</p>
+            <div class="cursor-pointer" onclick="viewInvestmentDetail('\${deal.id}')">
+              <p class="font-mono text-xs text-slate-400 hover:text-[#5A7A64]">\${deal.id}</p>
+              <p class="font-medium text-slate-800 hover:text-[#5A7A64] hover:underline">\${deal.company_name}</p>
             </div>
           </td>
           <td>
-            <span class="px-2 py-1 rounded text-xs" style="background: \${industry.color}15; color: \${industry.color}">
+            <span class="px-2 py-1 rounded text-xs cursor-pointer hover:opacity-80 transition" 
+                  style="background: \${industry.color}15; color: \${industry.color}"
+                  onclick="goToIndustrySieve('\${deal.industry}')">
               \${industry.name}
+              <i class="fas fa-external-link-alt ml-1 text-xs opacity-60"></i>
             </span>
           </td>
           <td class="text-right font-medium">¥\${formatNumber(deal.invested_amount)}万</td>
@@ -590,8 +605,8 @@ export const investorPortalPageContent = `
             <span class="text-xs text-slate-500">\${frequencyMap[deal.cashflow_frequency] || deal.cashflow_frequency}</span>
           </td>
           <td class="text-center">
-            <button onclick="event.stopPropagation(); viewDealDetail('\${deal.id}')" class="text-[#5A7A64] hover:text-[#4A6854]">
-              <i class="fas fa-external-link-alt"></i>
+            <button onclick="viewDealManagement('\${deal.id}')" class="px-3 py-1 text-xs rounded-lg bg-[#5A7A64]/10 text-[#5A7A64] hover:bg-[#5A7A64]/20 transition">
+              <i class="fas fa-file-alt mr-1"></i>标的详情
             </button>
           </td>
         </tr>
@@ -603,7 +618,7 @@ export const investorPortalPageContent = `
     renderDeals();
   }
   
-  // 渲染累计收益图表
+  // 渲染累计收益图表（全行业汇总）
   function renderCashflowChart() {
     const ctx = document.getElementById('cashflow-chart').getContext('2d');
     
@@ -666,7 +681,8 @@ export const investorPortalPageContent = `
             position: 'top',
             labels: {
               usePointStyle: true,
-              padding: 15
+              padding: 15,
+              font: { size: 11 }
             }
           }
         },
@@ -676,7 +692,8 @@ export const investorPortalPageContent = `
             position: 'left',
             title: {
               display: true,
-              text: '每日收益 (万元)'
+              text: '每日收益 (万元)',
+              font: { size: 10 }
             },
             grid: {
               color: 'rgba(0,0,0,0.05)'
@@ -687,7 +704,8 @@ export const investorPortalPageContent = `
             position: 'right',
             title: {
               display: true,
-              text: '累计收益 (万元)'
+              text: '累计收益 (万元)',
+              font: { size: 10 }
             },
             grid: {
               drawOnChartArea: false
@@ -712,6 +730,97 @@ export const investorPortalPageContent = `
     });
     
     renderCashflowChart();
+  }
+  
+  // 切换统计维度
+  function switchChartDimension(dimension) {
+    currentChartDimension = dimension;
+    
+    // 更新按钮样式
+    ['industry', 'region', 'issuer', 'frequency'].forEach(d => {
+      const btn = document.getElementById('btn-dim-' + d);
+      if (btn) {
+        btn.className = d === dimension 
+          ? 'w-full px-3 py-2 text-xs rounded-lg bg-[#5A7A64]/10 text-[#5A7A64] text-left flex items-center justify-between hover:bg-[#5A7A64]/20 transition'
+          : 'w-full px-3 py-2 text-xs rounded-lg bg-slate-50 text-slate-600 text-left flex items-center justify-between hover:bg-slate-100 transition';
+      }
+    });
+    
+    renderDimensionDetail();
+  }
+  
+  // 渲染维度详情
+  function renderDimensionDetail() {
+    const titleEl = document.getElementById('dimension-detail-title');
+    const contentEl = document.getElementById('dimension-detail-content');
+    
+    const dimensionTitles = {
+      'industry': '行业分布',
+      'region': '地区分布',
+      'issuer': '发行方分布',
+      'frequency': '回款周期分布'
+    };
+    
+    titleEl.textContent = dimensionTitles[currentChartDimension] || '分布详情';
+    
+    // 统计各维度数据
+    let dimensionData = {};
+    
+    if (currentChartDimension === 'industry') {
+      investorData.deals.forEach(deal => {
+        const key = deal.industry;
+        if (!dimensionData[key]) {
+          dimensionData[key] = { count: 0, invested: 0, cashflow: 0, name: industryMap[key]?.name || key, color: industryMap[key]?.color || '#6B7280' };
+        }
+        dimensionData[key].count++;
+        dimensionData[key].invested += deal.invested_amount;
+        dimensionData[key].cashflow += deal.total_cashflow;
+      });
+    } else if (currentChartDimension === 'region') {
+      investorData.deals.forEach(deal => {
+        const key = deal.region || '未知';
+        if (!dimensionData[key]) {
+          dimensionData[key] = { count: 0, invested: 0, cashflow: 0, name: key, color: '#5A7A64' };
+        }
+        dimensionData[key].count++;
+        dimensionData[key].invested += deal.invested_amount;
+        dimensionData[key].cashflow += deal.total_cashflow;
+      });
+    } else if (currentChartDimension === 'issuer') {
+      investorData.deals.forEach(deal => {
+        const key = deal.issuer || '未知';
+        if (!dimensionData[key]) {
+          dimensionData[key] = { count: 0, invested: 0, cashflow: 0, name: key, color: '#8B6B4A' };
+        }
+        dimensionData[key].count++;
+        dimensionData[key].invested += deal.invested_amount;
+        dimensionData[key].cashflow += deal.total_cashflow;
+      });
+    } else if (currentChartDimension === 'frequency') {
+      const frequencyNames = { 'daily': '每日', 'weekly': '每周', 'monthly': '每月' };
+      investorData.deals.forEach(deal => {
+        const key = deal.cashflow_frequency;
+        if (!dimensionData[key]) {
+          dimensionData[key] = { count: 0, invested: 0, cashflow: 0, name: frequencyNames[key] || key, color: '#5A6A7A' };
+        }
+        dimensionData[key].count++;
+        dimensionData[key].invested += deal.invested_amount;
+        dimensionData[key].cashflow += deal.total_cashflow;
+      });
+    }
+    
+    // 渲染详情
+    const totalInvested = Object.values(dimensionData).reduce((sum, d) => sum + d.invested, 0);
+    contentEl.innerHTML = Object.entries(dimensionData).map(([key, data]) => {
+      const percent = totalInvested > 0 ? ((data.invested / totalInvested) * 100).toFixed(0) : 0;
+      return \`
+        <div class="flex items-center text-xs">
+          <span class="w-2 h-2 rounded-full mr-2" style="background: \${data.color}"></span>
+          <span class="flex-1 text-slate-600 truncate" title="\${data.name}">\${data.name}</span>
+          <span class="font-medium text-slate-700">\${percent}%</span>
+        </div>
+      \`;
+    }).join('');
   }
   
   // 渲染交易记录
@@ -818,16 +927,6 @@ export const investorPortalPageContent = `
       industryCount[deal.industry] = (industryCount[deal.industry] || 0) + 1;
     });
     
-    const industryMap = {
-      'light-asset': { name: '文娱轻资产', color: '#8B5CF6' },
-      'catering': { name: '餐饮', color: '#F59E0B' },
-      'retail': { name: '零售', color: '#10B981' },
-      'ecommerce': { name: '电商', color: '#3B82F6' },
-      'douyin-ecommerce': { name: '抖音投流', color: '#FE2C55' },
-      'education': { name: '教育培训', color: '#EC4899' },
-      'service': { name: '生活服务', color: '#14B8A6' }
-    };
-    
     const labels = Object.keys(industryCount).map(k => industryMap[k]?.name || k);
     const data = Object.values(industryCount);
     const colors = Object.keys(industryCount).map(k => industryMap[k]?.color || '#6B7280');
@@ -863,7 +962,7 @@ export const investorPortalPageContent = `
     legendContainer.innerHTML = Object.entries(industryCount).map(([key, count]) => {
       const industry = industryMap[key] || { name: key, color: '#6B7280' };
       return \`
-        <div class="flex items-center justify-between text-sm">
+        <div class="flex items-center justify-between text-sm cursor-pointer hover:bg-slate-50 p-1 rounded" onclick="goToIndustrySieve('\${key}')">
           <div class="flex items-center">
             <span class="w-3 h-3 rounded-full mr-2" style="background: \${industry.color}"></span>
             <span class="text-slate-600">\${industry.name}</span>
@@ -910,29 +1009,24 @@ export const investorPortalPageContent = `
       \`;
     }).join('');
   }
+
+  // ============================================
+  // 导航函数
+  // ============================================
   
-  // 渲染行业智能体入口
-  function renderIndustryLinks() {
-    const container = document.getElementById('industry-agents-links');
-    
-    const industries = [
-      { id: 'catering', name: '餐饮', icon: 'fa-utensils', color: '#F59E0B' },
-      { id: 'retail', name: '零售', icon: 'fa-store', color: '#10B981' },
-      { id: 'ecommerce', name: '电商', icon: 'fa-shopping-cart', color: '#3B82F6' },
-      { id: 'douyin-ecommerce', name: '抖音投流', icon: 'fab fa-tiktok', color: '#FE2C55' },
-      { id: 'light-asset', name: '文娱轻资产', icon: 'fa-film', color: '#8B5CF6' },
-      { id: 'service', name: '生活服务', icon: 'fa-concierge-bell', color: '#14B8A6' }
-    ];
-    
-    container.innerHTML = industries.map(ind => \`
-      <a href="/agents?track=\${ind.id}" class="flex items-center justify-between p-3 bg-white rounded-lg hover:shadow-md transition">
-        <div class="flex items-center">
-          <i class="\${ind.icon.startsWith('fab') ? ind.icon : 'fas ' + ind.icon} mr-3" style="color: \${ind.color}"></i>
-          <span class="font-medium text-slate-700">\${ind.name}</span>
-        </div>
-        <i class="fas fa-chevron-right text-slate-300"></i>
-      </a>
-    \`).join('');
+  // 跳转到标的投后详情页面（新页面）
+  function viewInvestmentDetail(dealId) {
+    window.location.href = '/investor/deal/' + dealId;
+  }
+  
+  // 跳转到标的管理详情页面
+  function viewDealManagement(dealId) {
+    window.location.href = '/deals/' + dealId;
+  }
+  
+  // 跳转到行业筛子页面
+  function goToIndustrySieve(industryId) {
+    window.location.href = '/agents?track=' + industryId;
   }
 
   // ============================================
@@ -959,15 +1053,6 @@ export const investorPortalPageContent = `
     showToast('加载更多功能开发中', 'info');
   }
   
-  function viewDealDetail(dealId) {
-    // 跳转到标的详情页
-    window.location.href = '/deals/' + dealId;
-  }
-  
-  function closeDealDetailModal() {
-    document.getElementById('deal-detail-modal').classList.add('hidden');
-  }
-  
   function viewAnnouncement(annId) {
     const ann = investorData.announcements.find(a => a.id === annId);
     if (ann) {
@@ -978,5 +1063,5 @@ export const investorPortalPageContent = `
   function viewAllAnnouncements() {
     showToast('全部公告页面开发中', 'info');
   }
-</script>
+<\/script>
 `

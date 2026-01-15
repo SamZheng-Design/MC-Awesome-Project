@@ -5,6 +5,7 @@ import { demoPageContent } from './pages-demo'
 import { workflowPageContent, submitPageContent, dealsPageContent } from './pages-other'
 import { dealDetailPageContent } from './pages-deal-detail'
 import { investorPortalPageContent } from './pages-investor'
+import { investorDealDetailPageContent } from './pages-investor-deal'
 
 const pages = new Hono()
 
@@ -755,6 +756,12 @@ pages.get('/investor', (c) => {
 pages.get('/deals/:id', (c) => {
   const id = c.req.param('id')
   return c.html(baseLayout('标的详情 - ' + id, dealDetailPageContent, 'deals'))
+})
+
+// 投资人标的投后详情页面 - 新增
+pages.get('/investor/deal/:id', (c) => {
+  const id = c.req.param('id')
+  return c.html(baseLayout('投后详情 - ' + id, investorDealDetailPageContent, 'investor'))
 })
 
 export default pages
