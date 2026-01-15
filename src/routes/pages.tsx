@@ -386,11 +386,11 @@ const baseLayout = (title: string, content: string, activeNav: string = '') => h
             <a href="/submit" class="nav-item ${activeNav === 'submit' ? 'active' : ''}">
               <i class="fas fa-file-upload mr-2 text-sm"></i>提交申请
             </a>
+            <a href="/evaluation" class="nav-item ${activeNav === 'evaluation' ? 'active' : ''}">
+              <i class="fas fa-clipboard-check mr-2 text-sm"></i>标的评估
+            </a>
             <a href="/investor" class="nav-item ${activeNav === 'investor' ? 'active' : ''}">
               <i class="fas fa-chart-pie mr-2 text-sm"></i>投资人入口
-            </a>
-            <a href="/demo" class="nav-item ${activeNav === 'demo' ? 'active' : ''}">
-              <i class="fas fa-play mr-2 text-sm"></i>演示
             </a>
           </div>
         </div>
@@ -581,8 +581,8 @@ pages.get('/', (c) => {
           <a href="/submit" class="gs-btn gs-btn-primary w-full py-3">
             <i class="fas fa-plus"></i>提交新标的
           </a>
-          <a href="/demo" class="gs-btn gs-btn-warm w-full py-3">
-            <i class="fas fa-play"></i>运行演示评估
+          <a href="/evaluation" class="gs-btn gs-btn-warm w-full py-3">
+            <i class="fas fa-clipboard-check"></i>进入标的评估
           </a>
           <a href="/agents" class="gs-btn gs-btn-secondary w-full py-3">
             <i class="fas fa-cog"></i>配置智能体
@@ -742,9 +742,14 @@ pages.get('/submit', (c) => {
   return c.html(baseLayout('提交申请', submitPageContent, 'submit'))
 })
 
-// Demo演示页面
+// 标的评估页面（原Demo页面）
+pages.get('/evaluation', (c) => {
+  return c.html(baseLayout('标的评估', demoPageContent, 'evaluation'))
+})
+
+// 兼容旧路由 /demo，重定向到新路由
 pages.get('/demo', (c) => {
-  return c.html(baseLayout('Cardi B演示', demoPageContent, 'demo'))
+  return c.redirect('/evaluation')
 })
 
 // 投资人入口页面 - 新增

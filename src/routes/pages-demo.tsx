@@ -1,19 +1,19 @@
-// Demo演示页面 - 支持多标的选择评估
+// 标的评估页面 - 支持多标的选择评估
 export const demoPageContent = `
 <!-- 页面标题 -->
 <div class="flex items-center justify-between mb-6">
   <div>
-    <h1 class="text-2xl font-bold text-[slate-800]">标的评估演示</h1>
-    <p class="text-gray-500">选择标的项目，完整展示多智能体评估流程（含详细推理过程）</p>
+    <h1 class="text-2xl font-bold text-[slate-800]">标的评估</h1>
+    <p class="text-gray-500">选择标的项目，进行多智能体评估流程（含详细推理过程）</p>
   </div>
   <div class="flex space-x-2">
     <button onclick="toggleAllDetails()" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition">
       <i class="fas fa-eye mr-2"></i><span id="toggle-all-text">展开全部</span>
     </button>
-    <button onclick="resetDemo()" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition">
+    <button onclick="resetEvaluation()" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition">
       <i class="fas fa-redo mr-2"></i>重置
     </button>
-    <button onclick="startDemo()" id="btn-start" class="px-6 py-2 bg-gradient-to-r from-[primary-500] to-[violet-500] text-white rounded-lg hover:opacity-90 transition">
+    <button onclick="startEvaluation()" id="btn-start" class="px-6 py-2 bg-gradient-to-r from-[primary-500] to-[violet-500] text-white rounded-lg hover:opacity-90 transition">
       <i class="fas fa-play mr-2"></i>开始评估
     </button>
   </div>
@@ -464,7 +464,7 @@ export const demoPageContent = `
   let allDeals = [];              // 所有标的数据
   let filteredDeals = [];         // 过滤后的标的
   let selectedDeal = null;        // 当前选中的标的
-  let demoAgents = [];            // 所有智能体
+  let evaluationAgents = [];            // 所有智能体
   let radarChart = null;          // 雷达图实例
   let isRunning = false;          // 评估是否进行中
   let allExpanded = false;        // 是否展开全部
@@ -642,7 +642,7 @@ export const demoPageContent = `
     // 更新UI
     renderDealsList();
     updateDealInfo();
-    loadDemoAgents();
+    loadEvaluationAgents();
     
     // 重置评估状态
     if (!isRunning) {
@@ -839,16 +839,16 @@ export const demoPageContent = `
   // ============================================
   
   // 加载智能体（根据项目赛道筛选）
-  async function loadDemoAgents() {
+  async function loadEvaluationAgents() {
     try {
       const { data } = await apiCall('/api/agents');
-      demoAgents = data;
+      evaluationAgents = data;
       
       // 筛选外环智能体（外环不分赛道，所有项目共用）
-      filteredOuterAgents = demoAgents.filter(a => a.ring_type === 'outer');
+      filteredOuterAgents = evaluationAgents.filter(a => a.ring_type === 'outer');
       
       // 筛选中环智能体（只显示该赛道专属 + 通用智能体）
-      filteredInnerAgents = demoAgents.filter(a => 
+      filteredInnerAgents = evaluationAgents.filter(a => 
         a.ring_type === 'inner' && 
         a.id !== 'comprehensive-scoring-agent' &&
         (a.industry === currentDealIndustry || a.industry === 'all')
@@ -964,7 +964,7 @@ export const demoPageContent = `
   // ============================================
   
   // 开始评估
-  async function startDemo() {
+  async function startEvaluation() {
     // 检查是否选择了标的
     if (!selectedDeal) {
       showToast('请先选择要评估的标的项目', 'error');
@@ -1115,7 +1115,7 @@ export const demoPageContent = `
         </div>
         <div class="space-y-2 mt-4">
           \${Object.entries(scores).map(([id, score]) => {
-            const agent = demoAgents.find(a => a.id === id);
+            const agent = evaluationAgents.find(a => a.id === id);
             return \`<div class="flex justify-between text-sm"><span class="text-gray-600">\${agent?.dimension || id}</span><span class="font-mono font-medium">\${score}</span></div>\`;
           }).join('')}
         </div>
@@ -1123,7 +1123,7 @@ export const demoPageContent = `
           <p class="text-xs text-gray-500 mb-2"><i class="fas fa-calculator mr-1"></i>加权计算</p>
           <div class="text-xs text-gray-400 space-y-1">
             \${Object.entries(weights).map(([id, weight]) => {
-              const agent = demoAgents.find(a => a.id === id);
+              const agent = evaluationAgents.find(a => a.id === id);
               return \`<div>\${agent?.dimension || id}: \${scores[id] || 0} × \${weight}%</div>\`;
             }).join('')}
             <div class="font-medium text-gray-600 mt-2">= \${finalScore} 分</div>
@@ -1347,7 +1347,7 @@ export const demoPageContent = `
     const stepsEl = document.getElementById(\`steps-\${agentId}\`);
     if (!stepsEl) return;
 
-    const agentInfo = demoAgents.find(a => a.id === agentId);
+    const agentInfo = evaluationAgents.find(a => a.id === agentId);
     
     if (status === 'running') {
       stepsEl.innerHTML = \`
@@ -1573,7 +1573,7 @@ export const demoPageContent = `
 
   function showReasoningPopup(agentId, type = 'reasoning') {
     const result = evaluationResults[agentId];
-    const agent = demoAgents.find(a => a.id === agentId);
+    const agent = evaluationAgents.find(a => a.id === agentId);
     if (!result || !agent) return;
     
     const popup = document.getElementById('reasoning-popup');
@@ -1639,7 +1639,7 @@ export const demoPageContent = `
 
   function showFullReport(agentId) {
     const result = evaluationResults[agentId];
-    const agent = demoAgents.find(a => a.id === agentId);
+    const agent = evaluationAgents.find(a => a.id === agentId);
     if (!result || !agent) {
       showToast('暂无评估结果', 'error');
       return;
@@ -1894,7 +1894,7 @@ export const demoPageContent = `
   // 其他辅助函数
   // ============================================
 
-  function resetDemo() { location.reload(); }
+  function resetEvaluation() { location.reload(); }
   function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
   // 键盘事件
@@ -1909,7 +1909,7 @@ export const demoPageContent = `
   // 初始化
   document.addEventListener('DOMContentLoaded', () => {
     setTimeout(loadAllDeals, 300);
-    setTimeout(loadDemoAgents, 500);
+    setTimeout(loadEvaluationAgents, 500);
   });
 </script>
 `

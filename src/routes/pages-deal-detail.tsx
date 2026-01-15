@@ -149,8 +149,8 @@ export const dealDetailPageContent = `
             <button onclick="openEditModal()" class="w-full px-4 py-3 bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition text-left">
               <i class="fas fa-edit mr-2"></i>编辑基本信息
             </button>
-            <a href="/demo" class="block w-full px-4 py-3 bg-[slate-100] text-[slate-800] rounded-lg hover:bg-[primary-500]/20 transition text-left">
-              <i class="fas fa-play-circle mr-2"></i>查看Demo演示
+            <a href="/evaluation" class="block w-full px-4 py-3 bg-[slate-100] text-[slate-800] rounded-lg hover:bg-[primary-500]/20 transition text-left">
+              <i class="fas fa-clipboard-check mr-2"></i>进入标的评估
             </a>
           </div>
         </div>
