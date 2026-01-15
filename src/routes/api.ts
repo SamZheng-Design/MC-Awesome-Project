@@ -1216,17 +1216,20 @@ api.get('/stats', async (c) => {
 // 投资人门户 API
 // ============================================
 
-// 演示数据生成器
+// 演示数据生成器 - 使用新的10个标的数据
 function generateDemoInvestorData() {
-  // 已投资标的演示数据
+  // 已投资标的演示数据（与新标的数据一致）
   const demoDeals = [
-    { id: 'DGT-2026-CARDIB', company_name: 'Cardi B演唱会', industry: 'light-asset', invested_amount: 3000, total_cashflow: 1250, cashflow_frequency: 'weekly', region: '北京', city: '北京' },
-    { id: 'DGT-2026-CHAYEN', company_name: '茶颜悦色杭州旗舰店', industry: 'catering', invested_amount: 500, total_cashflow: 185, cashflow_frequency: 'monthly', region: '浙江', city: '杭州' },
-    { id: 'DGT-2026-QIANDA', company_name: '钱大妈社区店', industry: 'retail', invested_amount: 300, total_cashflow: 92, cashflow_frequency: 'daily', region: '广东', city: '深圳' },
-    { id: 'DGT-2026-QIANXU', company_name: '谦寻MCN主播孵化', industry: 'ecommerce', invested_amount: 2000, total_cashflow: 680, cashflow_frequency: 'monthly', region: '浙江', city: '杭州' },
-    { id: 'DGT-2026-JINSE', company_name: '锦瑟服饰抖音投流', industry: 'douyin-ecommerce', invested_amount: 800, total_cashflow: 320, cashflow_frequency: 'weekly', region: '广东', city: '广州' },
-    { id: 'DGT-2026-CUICA', company_name: '璀璨美妆抖音投流', industry: 'douyin-ecommerce', invested_amount: 1500, total_cashflow: 580, cashflow_frequency: 'weekly', region: '上海', city: '上海' },
-    { id: 'DGT-2026-LEKE', company_name: '乐刻健身门店集群', industry: 'service', invested_amount: 400, total_cashflow: 125, cashflow_frequency: 'monthly', region: '浙江', city: '杭州' },
+    { id: 'DGT-2026-001', company_name: '蜜雪冰城（深圳南山科技园店）', industry: 'catering', invested_amount: 35, total_cashflow: 12, cashflow_frequency: 'daily', region: '广东', city: '深圳' },
+    { id: 'DGT-2026-002', company_name: '老乡鸡（上海徐汇日月光店）', industry: 'catering', invested_amount: 80, total_cashflow: 28, cashflow_frequency: 'daily', region: '上海', city: '上海' },
+    { id: 'DGT-2026-003', company_name: '叮咚买菜（杭州拱墅区前置仓）', industry: 'retail', invested_amount: 120, total_cashflow: 55, cashflow_frequency: 'daily', region: '浙江', city: '杭州' },
+    { id: 'DGT-2026-004', company_name: '罗森便利店（成都春熙路旗舰店）', industry: 'retail', invested_amount: 60, total_cashflow: 43, cashflow_frequency: 'daily', region: '四川', city: '成都' },
+    { id: 'DGT-2026-005', company_name: '新瑞鹏宠物医院（北京朝阳望京店）', industry: 'service', invested_amount: 150, total_cashflow: 46, cashflow_frequency: 'weekly', region: '北京', city: '北京' },
+    { id: 'DGT-2026-006', company_name: '乐刻运动（广州天河体育中心店）', industry: 'service', invested_amount: 85, total_cashflow: 15, cashflow_frequency: 'weekly', region: '广东', city: '广州' },
+    { id: 'DGT-2026-007', company_name: '永琪美容美发（武汉光谷步行街店）', industry: 'service', invested_amount: 55, total_cashflow: 19, cashflow_frequency: 'weekly', region: '湖北', city: '武汉' },
+    { id: 'DGT-2026-008', company_name: '唱吧麦颂KTV（南京新街口旗舰店）', industry: 'entertainment', invested_amount: 200, total_cashflow: 44, cashflow_frequency: 'monthly', region: '江苏', city: '南京' },
+    { id: 'DGT-2026-009', company_name: '途虎养车工场店（重庆渝北龙湖店）', industry: 'service', invested_amount: 180, total_cashflow: 51, cashflow_frequency: 'monthly', region: '重庆', city: '重庆' },
+    { id: 'DGT-2026-010', company_name: '海底捞（西安大雁塔店）', industry: 'catering', invested_amount: 300, total_cashflow: 135, cashflow_frequency: 'monthly', region: '陕西', city: '西安' },
   ]
   
   // 统计数据
@@ -1235,7 +1238,7 @@ function generateDemoInvestorData() {
   
   const stats = {
     totalCashflow: totalCashflow,
-    yesterdayCashflow: 45.8,
+    yesterdayCashflow: 8.5,
     totalInvested: totalInvested,
     investedDeals: demoDeals.length,
     activeDeals: demoDeals.length,
@@ -1243,8 +1246,8 @@ function generateDemoInvestorData() {
     issuers: demoDeals.length,
     assets: demoDeals.length,
     countries: 1,
-    cities: 5,
-    regions: { '浙江': 43, '广东': 28, '北京': 14, '上海': 15 }
+    cities: 10,
+    regions: { '广东': 25, '上海': 15, '浙江': 12, '四川': 10, '北京': 10, '湖北': 8, '江苏': 8, '重庆': 6, '陕西': 6 }
   }
   
   // 回款记录演示数据
@@ -1255,29 +1258,32 @@ function generateDemoInvestorData() {
     date.setDate(date.getDate() - i)
     cashflows.push({
       date: date.toISOString().split('T')[0],
-      amount: Math.round((Math.random() * 100 + 20) * 100) / 100,
-      cumulative: Math.round((30 - i) * 85 + Math.random() * 50)
+      amount: Math.round((Math.random() * 20 + 5) * 100) / 100,
+      cumulative: Math.round((30 - i) * 16 + Math.random() * 10)
     })
   }
   
-  // 交易记录演示数据
+  // 交易记录演示数据（与新标的一致）
   const transactions = [
-    { id: 'TRX-001', deal_name: 'Cardi B演唱会', deal_code: 'CARDIB', currency: 'CNY', transaction_date: '2026-01-10', amount: 3000, type: 'invest' },
-    { id: 'TRX-002', deal_name: '茶颜悦色', deal_code: 'CHAYEN', currency: 'CNY', transaction_date: '2026-01-08', amount: 500, type: 'invest' },
-    { id: 'TRX-003', deal_name: '钱大妈', deal_code: 'QIANDA', currency: 'CNY', transaction_date: '2026-01-05', amount: 300, type: 'invest' },
-    { id: 'TRX-004', deal_name: '谦寻MCN', deal_code: 'QIANXU', currency: 'CNY', transaction_date: '2026-01-03', amount: 2000, type: 'invest' },
-    { id: 'TRX-005', deal_name: '锦瑟服饰', deal_code: 'JINSE', currency: 'CNY', transaction_date: '2026-01-01', amount: 800, type: 'invest' },
-    { id: 'TRX-006', deal_name: '璀璨美妆', deal_code: 'CUICA', currency: 'CNY', transaction_date: '2025-12-28', amount: 1500, type: 'invest' },
-    { id: 'TRX-007', deal_name: '乐刻健身', deal_code: 'LEKE', currency: 'CNY', transaction_date: '2025-12-25', amount: 400, type: 'invest' },
+    { id: 'TRX-001', deal_name: '蜜雪冰城深圳店', deal_code: '001', currency: 'CNY', transaction_date: '2026-01-10', amount: 35, type: 'invest' },
+    { id: 'TRX-002', deal_name: '老乡鸡上海店', deal_code: '002', currency: 'CNY', transaction_date: '2026-01-09', amount: 80, type: 'invest' },
+    { id: 'TRX-003', deal_name: '叮咚买菜杭州仓', deal_code: '003', currency: 'CNY', transaction_date: '2026-01-08', amount: 120, type: 'invest' },
+    { id: 'TRX-004', deal_name: '罗森便利店成都店', deal_code: '004', currency: 'CNY', transaction_date: '2026-01-07', amount: 60, type: 'invest' },
+    { id: 'TRX-005', deal_name: '新瑞鹏宠物医院北京店', deal_code: '005', currency: 'CNY', transaction_date: '2026-01-06', amount: 150, type: 'invest' },
+    { id: 'TRX-006', deal_name: '乐刻运动广州店', deal_code: '006', currency: 'CNY', transaction_date: '2026-01-05', amount: 85, type: 'invest' },
+    { id: 'TRX-007', deal_name: '永琪美发武汉店', deal_code: '007', currency: 'CNY', transaction_date: '2026-01-04', amount: 55, type: 'invest' },
+    { id: 'TRX-008', deal_name: '唱吧麦颂KTV南京店', deal_code: '008', currency: 'CNY', transaction_date: '2026-01-03', amount: 200, type: 'invest' },
+    { id: 'TRX-009', deal_name: '途虎养车重庆店', deal_code: '009', currency: 'CNY', transaction_date: '2026-01-02', amount: 180, type: 'invest' },
+    { id: 'TRX-010', deal_name: '海底捞西安店', deal_code: '010', currency: 'CNY', transaction_date: '2026-01-01', amount: 300, type: 'invest' },
   ]
   
   // 公告演示数据
   const announcements = [
     { id: 'ANN-001', title: '2026年1月收益分配公告', category: 'distribution', priority: 'high', publish_date: '2026-01-15', content: '本月收益分配将于1月20日完成，请投资人关注账户变动。' },
-    { id: 'ANN-002', title: '新资产上线通知 - 璀璨美妆抖音投流', category: 'asset', priority: 'normal', publish_date: '2026-01-12', content: '美妆赛道新标的已上线，欢迎查看项目详情。' },
+    { id: 'ANN-002', title: '新资产上线通知 - 海底捞西安大雁塔店', category: 'asset', priority: 'normal', publish_date: '2026-01-12', content: '餐饮赛道旗舰标的已上线，IRR预期25%，欢迎查看项目详情。' },
     { id: 'ANN-003', title: '平台规则更新说明', category: 'platform', priority: 'normal', publish_date: '2026-01-10', content: '回款周期调整相关规则已更新，请查阅最新版本。' },
     { id: 'ANN-004', title: '春节期间服务安排通知', category: 'platform', priority: 'normal', publish_date: '2026-01-08', content: '春节期间（1月28日-2月4日）平台正常运营，客服响应时间可能延长。' },
-    { id: 'ANN-005', title: 'Cardi B演唱会项目超预期公告', category: 'asset', priority: 'high', publish_date: '2026-01-05', content: '该项目票房表现超出预期，预计提前回款。' },
+    { id: 'ANN-005', title: '罗森便利店项目回报超预期公告', category: 'asset', priority: 'high', publish_date: '2026-01-05', content: '成都春熙路店业绩表现优异，IRR达35%，超出预期目标。' },
   ]
   
   return { deals: demoDeals, stats, cashflows, transactions, announcements }

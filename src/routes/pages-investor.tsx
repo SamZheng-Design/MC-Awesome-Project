@@ -389,7 +389,8 @@ export const investorPortalPageContent = `
     'ecommerce': { name: '电商', color: '#3B82F6', icon: 'fa-shopping-cart' },
     'douyin-ecommerce': { name: '抖音投流', color: '#FE2C55', icon: 'fab fa-tiktok' },
     'education': { name: '教育培训', color: '#EC4899', icon: 'fa-graduation-cap' },
-    'service': { name: '生活服务', color: '#14B8A6', icon: 'fa-concierge-bell' }
+    'service': { name: '生活服务', color: '#14B8A6', icon: 'fa-concierge-bell' },
+    'entertainment': { name: '文娱', color: '#A855F7', icon: 'fa-music' }
   };
 
   // ============================================
@@ -443,59 +444,89 @@ export const investorPortalPageContent = `
     }
   }
   
-  // 加载演示数据（当API不可用时）
+  // 加载演示数据（当API不可用时）- 基于新的10个DRO标的
   function loadDemoData() {
-    // 演示数据 - 已投资标的
+    // 演示数据 - 10个DRO收入分成标的，覆盖不同行业、地区、分成频率
     investorData.deals = [
-      { id: 'DGT-2026-CARDIB', company_name: 'Cardi B演唱会', industry: 'light-asset', invested_amount: 3000, total_cashflow: 1250, cashflow_frequency: 'weekly', region: '北京', city: '北京', issuer: '华录百纳', description: '国际顶级说唱巨星Cardi B中国巡演项目', start_date: '2025-11-01' },
-      { id: 'DGT-2026-CHAYEN', company_name: '茶颜悦色杭州旗舰店', industry: 'catering', invested_amount: 500, total_cashflow: 185, cashflow_frequency: 'monthly', region: '浙江', city: '杭州', issuer: '茶颜悦色餐饮', description: '新式茶饮头部品牌杭州旗舰店', start_date: '2025-09-15' },
-      { id: 'DGT-2026-QIANDA', company_name: '钱大妈社区店', industry: 'retail', invested_amount: 300, total_cashflow: 92, cashflow_frequency: 'daily', region: '广东', city: '深圳', issuer: '钱大妈生鲜', description: '社区生鲜零售连锁品牌', start_date: '2025-10-01' },
-      { id: 'DGT-2026-QIANXU', company_name: '谦寻MCN主播孵化', industry: 'ecommerce', invested_amount: 2000, total_cashflow: 680, cashflow_frequency: 'monthly', region: '浙江', city: '杭州', issuer: '谦寻控股', description: '头部MCN机构主播孵化项目', start_date: '2025-08-01' },
-      { id: 'DGT-2026-JINSE', company_name: '锦瑟服饰抖音投流', industry: 'douyin-ecommerce', invested_amount: 800, total_cashflow: 320, cashflow_frequency: 'weekly', region: '广东', city: '广州', issuer: '锦瑟电商', description: '女装品牌抖音电商投流项目', start_date: '2025-12-01' },
+      { id: 'DGT-2026-001', company_name: '蜜雪冰城（深圳南山科技园店）', industry: 'catering', invested_amount: 35, total_cashflow: 6.3, cashflow_frequency: 'daily', region: '广东', city: '深圳', issuer: '蜜雪冰城股份', description: '新式茶饮头部品牌深圳高人流量科技园店，日均销售额稳定', start_date: '2025-10-15' },
+      { id: 'DGT-2026-002', company_name: '老乡鸡（上海徐汇日月光店）', industry: 'catering', invested_amount: 80, total_cashflow: 17.6, cashflow_frequency: 'daily', region: '上海', city: '上海', issuer: '老乡鸡餐饮', description: '中式快餐头部品牌上海核心商圈店，稳定客流', start_date: '2025-09-20' },
+      { id: 'DGT-2026-003', company_name: '叮咚买菜（杭州拱墅区前置仓）', industry: 'retail', invested_amount: 120, total_cashflow: 25.2, cashflow_frequency: 'daily', region: '浙江', city: '杭州', issuer: '叮咚买菜', description: '生鲜电商前置仓模式，覆盖3公里高密度社区', start_date: '2025-08-10' },
+      { id: 'DGT-2026-004', company_name: '罗森便利店（成都春熙路旗舰店）', industry: 'retail', invested_amount: 60, total_cashflow: 21, cashflow_frequency: 'daily', region: '四川', city: '成都', issuer: '罗森中国', description: '日系便利店头部品牌成都核心商圈24H旗舰店', start_date: '2025-07-25' },
+      { id: 'DGT-2026-005', company_name: '新瑞鹏宠物医院（北京朝阳望京店）', industry: 'service', invested_amount: 150, total_cashflow: 30, cashflow_frequency: 'weekly', region: '北京', city: '北京', issuer: '新瑞鹏宠物医疗', description: '宠物医疗头部品牌，覆盖望京及周边高端社区', start_date: '2025-06-15' },
+      { id: 'DGT-2026-006', company_name: '乐刻运动（广州天河体育中心店）', industry: 'service', invested_amount: 85, total_cashflow: 12.75, cashflow_frequency: 'weekly', region: '广东', city: '广州', issuer: '乐刻运动', description: '24H智能健身房，会员模式+按次付费双轮驱动', start_date: '2025-11-01' },
+      { id: 'DGT-2026-007', company_name: '永琪美容美发（武汉光谷步行街店）', industry: 'service', invested_amount: 55, total_cashflow: 9.9, cashflow_frequency: 'weekly', region: '湖北', city: '武汉', issuer: '永琪美容美发', description: '美发连锁头部品牌，覆盖光谷白领与学生群体', start_date: '2025-10-20' },
+      { id: 'DGT-2026-008', company_name: '唱吧麦颂KTV（南京新街口旗舰店）', industry: 'entertainment', invested_amount: 200, total_cashflow: 30, cashflow_frequency: 'monthly', region: '江苏', city: '南京', issuer: '唱吧麦颂', description: '互联网KTV头部品牌，线上引流+线下体验模式', start_date: '2025-09-10' },
+      { id: 'DGT-2026-009', company_name: '途虎养车工场店（重庆渝北龙湖店）', industry: 'service', invested_amount: 180, total_cashflow: 32.4, cashflow_frequency: 'monthly', region: '重庆', city: '重庆', issuer: '途虎养车', description: '汽车后市场头部品牌，线上线下一体化服务', start_date: '2025-08-25' },
+      { id: 'DGT-2026-010', company_name: '海底捞（西安大雁塔店）', industry: 'catering', invested_amount: 300, total_cashflow: 75, cashflow_frequency: 'monthly', region: '陕西', city: '西安', issuer: '海底捞国际', description: '火锅头部品牌西安核心景区旗舰店，旅游+本地双客流', start_date: '2025-05-20' }
     ];
     
-    // 演示统计数据
+    // 基于10个标的计算统计数据
+    const totalInvested = investorData.deals.reduce((sum, d) => sum + d.invested_amount, 0);
+    const totalCashflow = investorData.deals.reduce((sum, d) => sum + d.total_cashflow, 0);
+    const cities = [...new Set(investorData.deals.map(d => d.city))];
+    const issuers = [...new Set(investorData.deals.map(d => d.issuer))];
+    
+    // 地区分布计算
+    const regionStats = {};
+    investorData.deals.forEach(d => {
+      regionStats[d.region] = (regionStats[d.region] || 0) + d.invested_amount;
+    });
+    const regionPercent = {};
+    Object.entries(regionStats).forEach(([k, v]) => {
+      regionPercent[k] = Math.round((v / totalInvested) * 100);
+    });
+    
     investorData.stats = {
-      totalCashflow: 2527,
-      yesterdayCashflow: 45.8,
-      totalInvested: 6600,
-      investedDeals: 5,
-      activeDeals: 5,
-      avgReturnRate: 8.2,
-      issuers: 5,
-      assets: 5,
+      totalCashflow: totalCashflow,
+      yesterdayCashflow: 12.5,  // 模拟昨日收益
+      totalInvested: totalInvested,
+      investedDeals: 10,
+      activeDeals: 10,
+      avgReturnRate: parseFloat(((totalCashflow / totalInvested) * 100).toFixed(1)),
+      issuers: issuers.length,
+      assets: 10,
       countries: 1,
-      cities: 4,
-      regions: { '浙江': 40, '广东': 35, '北京': 25 }
+      cities: cities.length,
+      regions: regionPercent
     };
     
-    // 演示回款数据
+    // 演示回款数据（模拟每日收益）
     const today = new Date();
     investorData.cashflows = [];
+    let cumulative = 0;
     for (let i = 30; i >= 0; i--) {
       const date = new Date(today);
       date.setDate(date.getDate() - i);
+      const dailyAmount = Math.random() * 15 + 5;  // 每日5-20万
+      cumulative += dailyAmount;
       investorData.cashflows.push({
         date: date.toISOString().split('T')[0],
-        amount: Math.random() * 100 + 20,
-        cumulative: (30 - i) * 85 + Math.random() * 50
+        amount: parseFloat(dailyAmount.toFixed(2)),
+        cumulative: parseFloat(cumulative.toFixed(2))
       });
     }
     
-    // 演示交易记录
+    // 基于10个标的生成交易记录
     investorData.transactions = [
-      { id: 'TRX-001', deal_name: 'Cardi B演唱会', deal_code: 'CARDIB', currency: 'CNY', transaction_date: '2026-01-10', amount: 3000, type: 'invest' },
-      { id: 'TRX-002', deal_name: '茶颜悦色', deal_code: 'CHAYEN', currency: 'CNY', transaction_date: '2026-01-08', amount: 500, type: 'invest' },
-      { id: 'TRX-003', deal_name: '钱大妈', deal_code: 'QIANDA', currency: 'CNY', transaction_date: '2026-01-05', amount: 300, type: 'invest' },
-      { id: 'TRX-004', deal_name: '谦寻MCN', deal_code: 'QIANXU', currency: 'CNY', transaction_date: '2026-01-03', amount: 2000, type: 'invest' },
-      { id: 'TRX-005', deal_name: '锦瑟服饰', deal_code: 'JINSE', currency: 'CNY', transaction_date: '2026-01-01', amount: 800, type: 'invest' },
+      { id: 'TRX-001', deal_name: '蜜雪冰城深圳店', deal_code: 'DGT-2026-001', currency: 'CNY', transaction_date: '2025-10-15', amount: 35, type: 'invest' },
+      { id: 'TRX-002', deal_name: '老乡鸡上海店', deal_code: 'DGT-2026-002', currency: 'CNY', transaction_date: '2025-09-20', amount: 80, type: 'invest' },
+      { id: 'TRX-003', deal_name: '叮咚买菜杭州仓', deal_code: 'DGT-2026-003', currency: 'CNY', transaction_date: '2025-08-10', amount: 120, type: 'invest' },
+      { id: 'TRX-004', deal_name: '罗森便利店成都', deal_code: 'DGT-2026-004', currency: 'CNY', transaction_date: '2025-07-25', amount: 60, type: 'invest' },
+      { id: 'TRX-005', deal_name: '新瑞鹏宠物医院北京', deal_code: 'DGT-2026-005', currency: 'CNY', transaction_date: '2025-06-15', amount: 150, type: 'invest' },
+      { id: 'TRX-006', deal_name: '乐刻运动广州店', deal_code: 'DGT-2026-006', currency: 'CNY', transaction_date: '2025-11-01', amount: 85, type: 'invest' },
+      { id: 'TRX-007', deal_name: '永琪美发武汉店', deal_code: 'DGT-2026-007', currency: 'CNY', transaction_date: '2025-10-20', amount: 55, type: 'invest' },
+      { id: 'TRX-008', deal_name: '唱吧麦颂KTV南京', deal_code: 'DGT-2026-008', currency: 'CNY', transaction_date: '2025-09-10', amount: 200, type: 'invest' },
+      { id: 'TRX-009', deal_name: '途虎养车重庆店', deal_code: 'DGT-2026-009', currency: 'CNY', transaction_date: '2025-08-25', amount: 180, type: 'invest' },
+      { id: 'TRX-010', deal_name: '海底捞西安店', deal_code: 'DGT-2026-010', currency: 'CNY', transaction_date: '2025-05-20', amount: 300, type: 'invest' }
     ];
     
-    // 演示公告
+    // 演示公告（更新为与新标的相关）
     investorData.announcements = [
-      { id: 'ANN-001', title: '2026年1月收益分配公告', category: 'distribution', priority: 'high', publish_date: '2026-01-15', content: '本月收益分配将于1月20日完成，请投资人关注账户变动。' },
-      { id: 'ANN-002', title: '新资产上线通知 - 璀璨美妆抖音投流', category: 'asset', priority: 'normal', publish_date: '2026-01-12', content: '美妆赛道新标的已上线，欢迎查看项目详情。' },
-      { id: 'ANN-003', title: '平台规则更新说明', category: 'platform', priority: 'normal', publish_date: '2026-01-10', content: '回款周期调整相关规则已更新，请查阅最新版本。' },
+      { id: 'ANN-001', title: '2026年1月收益分配公告', category: 'distribution', priority: 'high', publish_date: '2026-01-15', content: '本月收益分配将于1月20日完成，请投资人关注账户变动。所有每日分成标的将按T+1结算，每周/每月分成标的将统一结算。' },
+      { id: 'ANN-002', title: '海底捞西安店运营报告', category: 'asset', priority: 'high', publish_date: '2026-01-12', content: '海底捞西安大雁塔店12月营收超预期15%，得益于元旦假期旅游高峰，预计本月分成将有所提升。' },
+      { id: 'ANN-003', title: '新标的上线 - 途虎养车工场店', category: 'asset', priority: 'normal', publish_date: '2026-01-10', content: '汽车后市场赛道新标的已上线，途虎养车重庆渝北龙湖店，月度分成模式。' },
+      { id: 'ANN-004', title: '平台规则更新说明', category: 'platform', priority: 'normal', publish_date: '2026-01-08', content: '关于每日/每周/每月三种分成频率的结算规则已更新，请查阅最新版本。' },
+      { id: 'ANN-005', title: '春节假期分成安排', category: 'distribution', priority: 'urgent', publish_date: '2026-01-05', content: '春节期间（1月28日-2月4日）每日分成将顺延至2月5日统一结算，每周/每月分成不受影响。' }
     ];
     
     // 渲染所有组件

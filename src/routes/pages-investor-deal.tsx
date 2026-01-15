@@ -266,7 +266,8 @@ export const investorDealDetailPageContent = `
     'ecommerce': { name: '电商', color: '#3B82F6', icon: 'fa-shopping-cart' },
     'douyin-ecommerce': { name: '抖音投流', color: '#FE2C55', icon: 'fab fa-tiktok' },
     'education': { name: '教育培训', color: '#EC4899', icon: 'fa-graduation-cap' },
-    'service': { name: '生活服务', color: '#14B8A6', icon: 'fa-concierge-bell' }
+    'service': { name: '生活服务', color: '#14B8A6', icon: 'fa-concierge-bell' },
+    'entertainment': { name: '文娱', color: '#A855F7', icon: 'fa-music' }
   };
 
   const frequencyMap = {
@@ -317,78 +318,148 @@ export const investorDealDetailPageContent = `
     // 演示标的数据
     const demoDeals = {
       'DGT-2026-CARDIB': { 
-        id: 'DGT-2026-CARDIB', 
-        company_name: 'Cardi B演唱会', 
-        industry: 'light-asset', 
-        invested_amount: 3000, 
-        total_cashflow: 1250, 
-        cashflow_frequency: 'weekly', 
-        region: '北京', 
-        city: '北京', 
-        issuer: '华录百纳', 
-        description: '国际顶级说唱巨星Cardi B中国巡演项目，覆盖北京、上海、广州等主要城市。项目采用分成模式，按票房收入进行收益分配。',
-        start_date: '2025-11-01',
-        total_score: 85.6
-      },
-      'DGT-2026-CHAYEN': { 
-        id: 'DGT-2026-CHAYEN', 
-        company_name: '茶颜悦色杭州旗舰店', 
+        id: 'DGT-2026-001', 
+        company_name: '蜜雪冰城（深圳南山科技园店）', 
         industry: 'catering', 
-        invested_amount: 500, 
-        total_cashflow: 185, 
-        cashflow_frequency: 'monthly', 
-        region: '浙江', 
-        city: '杭州',
-        issuer: '茶颜悦色餐饮',
-        description: '新式茶饮头部品牌杭州旗舰店项目，位于西湖核心商圈，日均客流量预估超过5000人。',
-        start_date: '2025-09-15',
-        total_score: 78.3
-      },
-      'DGT-2026-QIANDA': { 
-        id: 'DGT-2026-QIANDA', 
-        company_name: '钱大妈社区店', 
-        industry: 'retail', 
-        invested_amount: 300, 
-        total_cashflow: 92, 
+        invested_amount: 35, 
+        total_cashflow: 6.3, 
         cashflow_frequency: 'daily', 
         region: '广东', 
-        city: '深圳',
-        issuer: '钱大妈生鲜',
-        description: '社区生鲜零售连锁品牌，主打"不卖隔夜肉"理念，深圳南山区3家门店打包投资。',
-        start_date: '2025-10-01',
-        total_score: 72.1
+        city: '深圳', 
+        issuer: '蜜雪冰城股份', 
+        description: '新式茶饮头部品牌深圳高人流量科技园店，日均销售额稳定，主打高性价比产品，目标客群为科技园白领与周边居民。',
+        start_date: '2025-10-15',
+        total_score: 78.5
       },
-      'DGT-2026-QIANXU': { 
-        id: 'DGT-2026-QIANXU', 
-        company_name: '谦寻MCN主播孵化', 
-        industry: 'ecommerce', 
-        invested_amount: 2000, 
-        total_cashflow: 680, 
-        cashflow_frequency: 'monthly', 
+      'DGT-2026-002': { 
+        id: 'DGT-2026-002', 
+        company_name: '老乡鸡（上海徐汇日月光店）', 
+        industry: 'catering', 
+        invested_amount: 80, 
+        total_cashflow: 17.6, 
+        cashflow_frequency: 'daily', 
+        region: '上海', 
+        city: '上海',
+        issuer: '老乡鸡餐饮',
+        description: '中式快餐头部品牌，上海核心商圈店，午间及晚间高峰客流稳定，单店月均营收约45万。',
+        start_date: '2025-09-20',
+        total_score: 82.3
+      },
+      'DGT-2026-003': { 
+        id: 'DGT-2026-003', 
+        company_name: '叮咚买菜（杭州拱墅区前置仓）', 
+        industry: 'retail', 
+        invested_amount: 120, 
+        total_cashflow: 25.2, 
+        cashflow_frequency: 'daily', 
         region: '浙江', 
         city: '杭州',
-        issuer: '谦寻控股',
-        description: '头部MCN机构谦寻旗下主播孵化项目，签约培养5名潜力主播，享受直播带货GMV分成。',
-        start_date: '2025-08-01',
-        total_score: 82.5
+        issuer: '叮咚买菜',
+        description: '生鲜电商前置仓模式，覆盖3公里范围内高密度社区，日均订单量800+单，29分钟达标率98%。',
+        start_date: '2025-08-10',
+        total_score: 79.8
       },
-      'DGT-2026-JINSE': { 
-        id: 'DGT-2026-JINSE', 
-        company_name: '锦瑟服饰抖音投流', 
-        industry: 'douyin-ecommerce', 
-        invested_amount: 800, 
-        total_cashflow: 320, 
+      'DGT-2026-004': { 
+        id: 'DGT-2026-004', 
+        company_name: '罗森便利店（成都春熙路旗舰店）', 
+        industry: 'retail', 
+        invested_amount: 60, 
+        total_cashflow: 21, 
+        cashflow_frequency: 'daily', 
+        region: '四川', 
+        city: '成都',
+        issuer: '罗森中国',
+        description: '日系便利店头部品牌成都核心商圈24H旗舰店，日均客流量1500+，鲜食销售占比35%。',
+        start_date: '2025-07-25',
+        total_score: 85.2
+      },
+      'DGT-2026-005': { 
+        id: 'DGT-2026-005', 
+        company_name: '新瑞鹏宠物医院（北京朝阳望京店）', 
+        industry: 'service', 
+        invested_amount: 150, 
+        total_cashflow: 30, 
+        cashflow_frequency: 'weekly', 
+        region: '北京', 
+        city: '北京',
+        issuer: '新瑞鹏宠物医疗',
+        description: '宠物医疗头部品牌，覆盖望京及周边高端社区，配备专业设备与资深兽医团队，月均就诊量400+只。',
+        start_date: '2025-06-15',
+        total_score: 76.5
+      },
+      'DGT-2026-006': { 
+        id: 'DGT-2026-006', 
+        company_name: '乐刻运动（广州天河体育中心店）', 
+        industry: 'service', 
+        invested_amount: 85, 
+        total_cashflow: 12.75, 
         cashflow_frequency: 'weekly', 
         region: '广东', 
         city: '广州',
-        issuer: '锦瑟电商',
-        description: '女装品牌抖音电商投流项目，投资用于抖音广告投放，按ROI进行收益分成。',
-        start_date: '2025-12-01',
-        total_score: 76.8
+        issuer: '乐刻运动',
+        description: '24H智能健身房，会员模式+按次付费双轮驱动，月活会员2000+，器械更新率行业领先。',
+        start_date: '2025-11-01',
+        total_score: 74.8
+      },
+      'DGT-2026-007': { 
+        id: 'DGT-2026-007', 
+        company_name: '永琪美容美发（武汉光谷步行街店）', 
+        industry: 'service', 
+        invested_amount: 55, 
+        total_cashflow: 9.9, 
+        cashflow_frequency: 'weekly', 
+        region: '湖北', 
+        city: '武汉',
+        issuer: '永琪美容美发',
+        description: '美发连锁头部品牌，覆盖光谷白领与高校学生群体，月均服务客户3000+人次，复购率72%。',
+        start_date: '2025-10-20',
+        total_score: 73.2
+      },
+      'DGT-2026-008': { 
+        id: 'DGT-2026-008', 
+        company_name: '唱吧麦颂KTV（南京新街口旗舰店）', 
+        industry: 'entertainment', 
+        invested_amount: 200, 
+        total_cashflow: 30, 
+        cashflow_frequency: 'monthly', 
+        region: '江苏', 
+        city: '南京',
+        issuer: '唱吧麦颂',
+        description: '互联网KTV头部品牌，线上引流+线下体验模式，30个包厢，周末及节假日出租率95%以上。',
+        start_date: '2025-09-10',
+        total_score: 71.5
+      },
+      'DGT-2026-009': { 
+        id: 'DGT-2026-009', 
+        company_name: '途虎养车工场店（重庆渝北龙湖店）', 
+        industry: 'service', 
+        invested_amount: 180, 
+        total_cashflow: 32.4, 
+        cashflow_frequency: 'monthly', 
+        region: '重庆', 
+        city: '重庆',
+        issuer: '途虎养车',
+        description: '汽车后市场头部品牌，线上线下一体化服务，月均服务车辆1200+台次，客单价580元。',
+        start_date: '2025-08-25',
+        total_score: 77.9
+      },
+      'DGT-2026-010': { 
+        id: 'DGT-2026-010', 
+        company_name: '海底捞（西安大雁塔店）', 
+        industry: 'catering', 
+        invested_amount: 300, 
+        total_cashflow: 75, 
+        cashflow_frequency: 'monthly', 
+        region: '陕西', 
+        city: '西安',
+        issuer: '海底捞国际',
+        description: '火锅头部品牌西安核心景区旗舰店，旅游+本地双客流叠加，月均翻台率4.5次，节假日排队平均2小时。',
+        start_date: '2025-05-20',
+        total_score: 88.6
       }
     };
     
-    currentDeal = demoDeals[currentDealId] || demoDeals['DGT-2026-CARDIB'];
+    currentDeal = demoDeals[currentDealId] || demoDeals['DGT-2026-001'];
     
     // 生成演示回款数据
     const today = new Date();
@@ -649,10 +720,20 @@ export const investorDealDetailPageContent = `
         { name: 'ROI', value: '2.8', icon: 'fa-chart-line', color: '#FE2C55' },
         { name: '点击率', value: '4.5%', icon: 'fa-mouse-pointer', color: '#10B981' },
         { name: '转化成本', value: '¥35', icon: 'fa-coins', color: '#F59E0B' }
+      ],
+      'service': [
+        { name: '月活用户', value: '2000+', icon: 'fa-users', color: '#10B981' },
+        { name: '客单价', value: '¥280', icon: 'fa-receipt', color: '#3B82F6' },
+        { name: '复购率', value: '65%', icon: 'fa-redo', color: '#F59E0B' }
+      ],
+      'entertainment': [
+        { name: '包厢数', value: '30间', icon: 'fa-door-open', color: '#8B5CF6' },
+        { name: '周末出租率', value: '95%', icon: 'fa-calendar-check', color: '#10B981' },
+        { name: '客单价', value: '¥180', icon: 'fa-receipt', color: '#3B82F6' }
       ]
     };
     
-    return indicatorsMap[industry] || indicatorsMap['retail'];
+    return indicatorsMap[industry] || indicatorsMap['service'];
   }
   
   // 获取行业智能体
