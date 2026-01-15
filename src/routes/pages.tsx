@@ -3,6 +3,7 @@ import { html, raw } from 'hono/html'
 import { agentsPageContent } from './pages-agents'
 import { demoPageContent } from './pages-demo'
 import { workflowPageContent, submitPageContent, dealsPageContent } from './pages-other'
+import { dealDetailPageContent } from './pages-deal-detail'
 
 const pages = new Hono()
 
@@ -475,6 +476,12 @@ pages.get('/submit', (c) => {
 // Demo演示页面
 pages.get('/demo', (c) => {
   return c.html(baseLayout('Cardi B演示', demoPageContent, 'demo'))
+})
+
+// 标的详情页面 - 新增
+pages.get('/deals/:id', (c) => {
+  const id = c.req.param('id')
+  return c.html(baseLayout('标的详情 - ' + id, dealDetailPageContent, 'deals'))
 })
 
 export default pages

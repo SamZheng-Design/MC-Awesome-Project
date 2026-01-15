@@ -611,10 +611,13 @@ export const dealsPageContent = `
     </select>
     <select id="filter-industry" onchange="loadDeals()" class="border rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#00D29E] border-[#D9EDDF]">
       <option value="">全部行业</option>
-      <option value="ecommerce">电商</option>
-      <option value="overseas">海外</option>
-      <option value="light-asset">轻资产</option>
+      <option value="light-asset">文娱轻资产</option>
+      <option value="catering">餐饮</option>
       <option value="retail">零售</option>
+      <option value="ecommerce">电商</option>
+      <option value="douyin-ecommerce">抖音投流</option>
+      <option value="education">教育培训</option>
+      <option value="service">生活服务</option>
     </select>
     <button onclick="loadDeals()" class="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
       <i class="fas fa-sync-alt"></i>
@@ -775,13 +778,14 @@ export const dealsPageContent = `
   const industryMap = {
     ecommerce: '电商',
     overseas: '海外',
-    'light-asset': '轻资产',
+    'light-asset': '文娱轻资产',
     retail: '零售',
     catering: '餐饮',
     education: '教育培训',
     healthcare: '医疗健康',
     entertainment: '文娱',
-    service: '生活服务'
+    service: '生活服务',
+    'douyin-ecommerce': '抖音投流'
   };
 
   async function loadDeals() {
@@ -804,7 +808,7 @@ export const dealsPageContent = `
       tbody.innerHTML = data.map(deal => {
         const status = statusMap[deal.status] || { label: deal.status, class: 'bg-gray-100' };
         return \`
-          <tr class="border-b hover:bg-gray-50 cursor-pointer" onclick="openDealModal('\${deal.id}')">
+          <tr class="border-b hover:bg-gray-50 cursor-pointer" onclick="window.location.href='/deals/\${deal.id}'">
             <td class="py-4 px-6 font-mono text-sm">\${deal.id}</td>
             <td class="py-4 px-6">\${deal.company_name}</td>
             <td class="py-4 px-6">\${industryMap[deal.industry] || deal.industry}</td>
@@ -812,9 +816,9 @@ export const dealsPageContent = `
             <td class="py-4 px-6"><span class="px-2 py-1 rounded text-xs \${status.class}">\${status.label}</span></td>
             <td class="py-4 px-6 font-mono">\${deal.total_score ? deal.total_score.toFixed(1) : '-'}</td>
             <td class="py-4 px-6">
-              <button class="text-[#00D29E] hover:text-[#629C85]" onclick="event.stopPropagation(); openDealModal('\${deal.id}')">
-                <i class="fas fa-eye"></i>
-              </button>
+              <a href="/deals/\${deal.id}" class="text-[#00D29E] hover:text-[#629C85]" onclick="event.stopPropagation()">
+                <i class="fas fa-external-link-alt mr-1"></i>查看详情
+              </a>
             </td>
           </tr>
         \`;
