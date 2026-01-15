@@ -40,7 +40,7 @@ export const agentsPageContent = `
           <h3 class="font-semibold text-gray-800">选择赛道查看专属智能体</h3>
           <p class="text-sm text-gray-500">不同赛道拥有专属的评估智能体群</p>
         </div>
-        <button onclick="showAllAgentsPage()" class="px-4 py-2 bg-gradient-to-r from-[#00D29E] to-[#00B88A] text-white rounded-lg hover:opacity-90 transition text-sm">
+        <button onclick="showAllAgentsPage()" class="px-4 py-2 bg-gradient-to-r from-[primary-500] to-[primary-600] text-white rounded-lg hover:opacity-90 transition text-sm">
           <i class="fas fa-th-large mr-2"></i>全部智能体
         </button>
       </div>
@@ -254,7 +254,7 @@ export const agentsPageContent = `
               </button>
             </div>
           </div>
-          <textarea id="edit-prompt" class="w-full h-96 border rounded-lg p-4 font-mono text-sm focus:ring-2 focus:ring-[#00D29E] focus:border-transparent border-[#D9EDDF]" placeholder="输入System Prompt..."></textarea>
+          <textarea id="edit-prompt" class="w-full h-96 border rounded-lg p-4 font-mono text-sm focus:ring-2 focus:ring-[primary-500] focus:border-transparent border-[slate-100]" placeholder="输入System Prompt..."></textarea>
         </div>
 
         <!-- 知识库 Tab -->
@@ -262,7 +262,7 @@ export const agentsPageContent = `
           <div class="mb-4 flex justify-between items-center">
             <label class="font-medium text-gray-700">知识库内容</label>
             <div class="space-x-2">
-              <button onclick="toggleKnowledgeEdit()" id="btn-edit-knowledge" class="px-3 py-1 bg-[#D9EDDF] text-[#49754D] rounded text-sm hover:bg-[#c5e6ce]">
+              <button onclick="toggleKnowledgeEdit()" id="btn-edit-knowledge" class="px-3 py-1 bg-[slate-100] text-[slate-800] rounded text-sm hover:bg-[#c5e6ce]">
                 <i class="fas fa-edit mr-1"></i>编辑
               </button>
               <label class="px-3 py-1 bg-green-100 text-green-700 rounded text-sm hover:bg-green-200 cursor-pointer">
@@ -272,7 +272,7 @@ export const agentsPageContent = `
             </div>
           </div>
           <div id="knowledge-view" class="border rounded-lg p-4 bg-gray-50 h-96 overflow-y-auto markdown-content"></div>
-          <textarea id="knowledge-edit" class="hidden w-full h-96 border rounded-lg p-4 font-mono text-sm focus:ring-2 focus:ring-[#00D29E] border-[#D9EDDF]"></textarea>
+          <textarea id="knowledge-edit" class="hidden w-full h-96 border rounded-lg p-4 font-mono text-sm focus:ring-2 focus:ring-[primary-500] border-[slate-100]"></textarea>
         </div>
 
         <!-- 评估标准 Tab -->
@@ -325,7 +325,7 @@ export const agentsPageContent = `
               <label class="font-medium text-gray-700 mb-2 block">启用状态</label>
               <label class="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" id="config-enabled" class="sr-only peer">
-                <div class="w-11 h-6 bg-gray-200 peer-focus:ring-4 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#00D29E]"></div>
+                <div class="w-11 h-6 bg-gray-200 peer-focus:ring-4 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[primary-500]"></div>
                 <span class="ml-3 text-sm text-gray-700">启用</span>
               </label>
             </div>
@@ -633,7 +633,7 @@ export const agentsPageContent = `
         <div class="text-center py-12 text-gray-500">
           <i class="fas fa-robot text-4xl mb-4 opacity-30"></i>
           <p>该赛道暂无智能体</p>
-          <button onclick="openAddAgentModal()" class="mt-4 text-[#00D29E] hover:text-[#629C85]">
+          <button onclick="openAddAgentModal()" class="mt-4 text-[primary-500] hover:text-[violet-500]">
             <i class="fas fa-plus mr-1"></i>添加智能体
           </button>
         </div>
@@ -706,7 +706,7 @@ export const agentsPageContent = `
           </div>
           <label class="relative inline-flex items-center cursor-pointer" onclick="event.stopPropagation()">
             <input type="checkbox" class="sr-only peer" \${agent.is_enabled ? 'checked' : ''} onchange="toggleAgent('\${agent.id}', this.checked)">
-            <div class="w-9 h-5 bg-gray-200 peer-focus:ring-2 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#00D29E]"></div>
+            <div class="w-9 h-5 bg-gray-200 peer-focus:ring-2 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[primary-500]"></div>
           </label>
         </div>
         
@@ -740,11 +740,11 @@ export const agentsPageContent = `
     showAllAgents = false;
     
     document.getElementById('tab-outer').className = type === 'outer' 
-      ? 'px-6 py-4 font-medium text-[#00D29E] border-b-2 border-[#00D29E] bg-[#D9EDDF]'
-      : 'px-6 py-4 font-medium text-gray-500 hover:text-[#629C85] transition';
+      ? 'px-6 py-4 font-medium text-[primary-500] border-b-2 border-[primary-500] bg-[slate-100]'
+      : 'px-6 py-4 font-medium text-gray-500 hover:text-[violet-500] transition';
     document.getElementById('tab-inner').className = type === 'inner'
-      ? 'px-6 py-4 font-medium text-[#00D29E] border-b-2 border-[#00D29E] bg-[#D9EDDF]'
-      : 'px-6 py-4 font-medium text-gray-500 hover:text-[#629C85] transition';
+      ? 'px-6 py-4 font-medium text-[primary-500] border-b-2 border-[primary-500] bg-[slate-100]'
+      : 'px-6 py-4 font-medium text-gray-500 hover:text-[violet-500] transition';
     
     // 显示/隐藏赛道选择器
     document.getElementById('track-selector').classList.toggle('hidden', type !== 'inner');
@@ -799,7 +799,7 @@ export const agentsPageContent = `
           </div>
           <label class="relative inline-flex items-center cursor-pointer" onclick="event.stopPropagation()">
             <input type="checkbox" class="sr-only peer" \${agent.is_enabled ? 'checked' : ''} onchange="toggleAgent('\${agent.id}', this.checked)">
-            <div class="w-9 h-5 bg-gray-200 peer-focus:ring-2 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#00D29E]"></div>
+            <div class="w-9 h-5 bg-gray-200 peer-focus:ring-2 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[primary-500]"></div>
           </label>
         </div>
         <p class="text-sm text-gray-600 line-clamp-2 mb-3">\${agent.description}</p>
@@ -826,7 +826,7 @@ export const agentsPageContent = `
           <div class="text-center py-12 text-gray-500">
             <i class="fas fa-robot text-4xl mb-4 opacity-30"></i>
             <p>暂无外环漏斗体系智能体</p>
-            <button onclick="openAddAgentModal()" class="mt-4 text-[#00D29E] hover:text-[#629C85]">
+            <button onclick="openAddAgentModal()" class="mt-4 text-[primary-500] hover:text-[violet-500]">
               <i class="fas fa-plus mr-1"></i>添加智能体
             </button>
           </div>
@@ -1008,8 +1008,8 @@ export const agentsPageContent = `
   function switchDetailTab(tab) {
     ['prompt', 'knowledge', 'criteria', 'config', 'test'].forEach(t => {
       document.getElementById(\`detail-tab-\${t}\`).className = t === tab
-        ? 'py-3 px-4 font-medium text-[#00D29E] border-b-2 border-[#00D29E]'
-        : 'py-3 px-4 font-medium text-gray-500 hover:text-[#629C85]';
+        ? 'py-3 px-4 font-medium text-[primary-500] border-b-2 border-[primary-500]'
+        : 'py-3 px-4 font-medium text-gray-500 hover:text-[violet-500]';
       document.getElementById(\`panel-\${t}\`).classList.toggle('hidden', t !== tab);
     });
   }

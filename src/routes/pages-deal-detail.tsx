@@ -6,7 +6,7 @@ export const dealDetailPageContent = `
   <!-- 加载状态 -->
   <div id="loading-state" class="flex items-center justify-center py-20">
     <div class="text-center">
-      <i class="fas fa-spinner fa-spin text-4xl text-[#00D29E] mb-4"></i>
+      <i class="fas fa-spinner fa-spin text-4xl text-[primary-500] mb-4"></i>
       <p class="text-gray-500">加载标的信息...</p>
     </div>
   </div>
@@ -20,14 +20,14 @@ export const dealDetailPageContent = `
           <i class="fas fa-arrow-left mr-2"></i>返回列表
         </a>
         <span class="text-gray-300">|</span>
-        <h1 id="deal-title" class="text-xl font-bold text-[#49754D]"></h1>
+        <h1 id="deal-title" class="text-xl font-bold text-[slate-800]"></h1>
         <span id="deal-status-badge" class="px-3 py-1 rounded-full text-sm"></span>
       </div>
       <div class="flex items-center space-x-3">
-        <button onclick="openUploadModal()" class="px-4 py-2 bg-[#629C85] text-white rounded-lg hover:bg-[#49754D] transition">
+        <button onclick="openUploadModal()" class="px-4 py-2 bg-[violet-500] text-white rounded-lg hover:bg-[slate-800] transition">
           <i class="fas fa-upload mr-2"></i>上传材料
         </button>
-        <button id="btn-start-eval" onclick="startEvaluation()" class="px-4 py-2 bg-gradient-to-r from-[#00D29E] to-[#00B88A] text-white rounded-lg hover:opacity-90 transition">
+        <button id="btn-start-eval" onclick="startEvaluation()" class="px-4 py-2 bg-gradient-to-r from-[primary-500] to-[primary-600] text-white rounded-lg hover:opacity-90 transition">
           <i class="fas fa-play mr-2"></i>开始评估
         </button>
       </div>
@@ -39,9 +39,9 @@ export const dealDetailPageContent = `
       <div class="lg:col-span-2 space-y-6">
         <!-- 基本信息卡片 -->
         <div class="bg-white rounded-xl card-shadow overflow-hidden">
-          <div class="px-6 py-4 border-b bg-gradient-to-r from-[#D9EDDF] to-white">
-            <h2 class="font-semibold text-[#49754D] flex items-center">
-              <i class="fas fa-building mr-2 text-[#00D29E]"></i>企业基本信息
+          <div class="px-6 py-4 border-b bg-gradient-to-r from-[slate-100] to-white">
+            <h2 class="font-semibold text-[slate-800] flex items-center">
+              <i class="fas fa-building mr-2 text-[primary-500]"></i>企业基本信息
             </h2>
           </div>
           <div class="p-6">
@@ -61,7 +61,7 @@ export const dealDetailPageContent = `
                 </div>
                 <div>
                   <label class="text-sm text-gray-500">融资金额</label>
-                  <p id="info-funding" class="text-lg font-bold text-[#00D29E]"></p>
+                  <p id="info-funding" class="text-lg font-bold text-[primary-500]"></p>
                 </div>
               </div>
               <div class="space-y-4">
@@ -94,7 +94,7 @@ export const dealDetailPageContent = `
         <div class="bg-white rounded-xl card-shadow overflow-hidden">
           <div class="border-b">
             <div class="flex">
-              <button onclick="switchTab('documents')" id="tab-documents" class="tab-btn px-6 py-4 font-medium text-[#00D29E] border-b-2 border-[#00D29E]">
+              <button onclick="switchTab('documents')" id="tab-documents" class="tab-btn px-6 py-4 font-medium text-[primary-500] border-b-2 border-[primary-500]">
                 <i class="fas fa-file-alt mr-2"></i>项目资料
               </button>
               <button onclick="switchTab('financial')" id="tab-financial" class="tab-btn px-6 py-4 font-medium text-gray-500 hover:text-gray-700">
@@ -122,9 +122,9 @@ export const dealDetailPageContent = `
       <div class="space-y-6">
         <!-- 评估结果卡片 -->
         <div class="bg-white rounded-xl card-shadow overflow-hidden">
-          <div class="px-6 py-4 border-b bg-gradient-to-r from-[#F3EED9] to-white">
-            <h2 class="font-semibold text-[#49754D] flex items-center">
-              <i class="fas fa-chart-pie mr-2 text-[#00D29E]"></i>评估结果
+          <div class="px-6 py-4 border-b bg-gradient-to-r from-[slate-50] to-white">
+            <h2 class="font-semibold text-[slate-800] flex items-center">
+              <i class="fas fa-chart-pie mr-2 text-[primary-500]"></i>评估结果
             </h2>
           </div>
           <div id="eval-result" class="p-6">
@@ -135,8 +135,8 @@ export const dealDetailPageContent = `
         <!-- 快捷操作 -->
         <div class="bg-white rounded-xl card-shadow overflow-hidden">
           <div class="px-6 py-4 border-b">
-            <h2 class="font-semibold text-[#49754D] flex items-center">
-              <i class="fas fa-bolt mr-2 text-[#00D29E]"></i>快捷操作
+            <h2 class="font-semibold text-[slate-800] flex items-center">
+              <i class="fas fa-bolt mr-2 text-[primary-500]"></i>快捷操作
             </h2>
           </div>
           <div class="p-6 space-y-3">
@@ -149,7 +149,7 @@ export const dealDetailPageContent = `
             <button onclick="openEditModal()" class="w-full px-4 py-3 bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition text-left">
               <i class="fas fa-edit mr-2"></i>编辑基本信息
             </button>
-            <a href="/demo" class="block w-full px-4 py-3 bg-[#D9EDDF] text-[#49754D] rounded-lg hover:bg-[#00D29E]/20 transition text-left">
+            <a href="/demo" class="block w-full px-4 py-3 bg-[slate-100] text-[slate-800] rounded-lg hover:bg-[primary-500]/20 transition text-left">
               <i class="fas fa-play-circle mr-2"></i>查看Demo演示
             </a>
           </div>
@@ -158,8 +158,8 @@ export const dealDetailPageContent = `
         <!-- 时间线 -->
         <div class="bg-white rounded-xl card-shadow overflow-hidden">
           <div class="px-6 py-4 border-b">
-            <h2 class="font-semibold text-[#49754D] flex items-center">
-              <i class="fas fa-stream mr-2 text-[#00D29E]"></i>处理进度
+            <h2 class="font-semibold text-[slate-800] flex items-center">
+              <i class="fas fa-stream mr-2 text-[primary-500]"></i>处理进度
             </h2>
           </div>
           <div id="timeline" class="p-6">
@@ -253,7 +253,7 @@ export const dealDetailPageContent = `
           <button onclick="doUpload()" id="btn-upload" class="px-6 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition">
             <i class="fas fa-upload mr-2"></i>上传材料
           </button>
-          <button onclick="uploadAndStartEval()" class="px-6 py-2 bg-gradient-to-r from-[#00D29E] to-[#00B88A] text-white rounded-lg hover:opacity-90 transition">
+          <button onclick="uploadAndStartEval()" class="px-6 py-2 bg-gradient-to-r from-[primary-500] to-[primary-600] text-white rounded-lg hover:opacity-90 transition">
             <i class="fas fa-play mr-2"></i>上传并评估
           </button>
         </div>
@@ -267,7 +267,7 @@ export const dealDetailPageContent = `
   <div class="flex items-center justify-center min-h-screen p-4">
     <div class="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
       <div class="flex items-center justify-between px-6 py-4 border-b">
-        <h2 class="text-lg font-semibold text-[#49754D]">
+        <h2 class="text-lg font-semibold text-[slate-800]">
           <i class="fas fa-edit mr-2"></i>编辑基本信息
         </h2>
         <button onclick="closeEditModal()" class="text-gray-400 hover:text-gray-600">
@@ -279,31 +279,31 @@ export const dealDetailPageContent = `
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">企业名称</label>
-            <input type="text" id="edit-company" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#00D29E]">
+            <input type="text" id="edit-company" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-[primary-500]">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">统一社会信用代码</label>
-            <input type="text" id="edit-credit-code" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#00D29E]">
+            <input type="text" id="edit-credit-code" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-[primary-500]">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">联系人</label>
-            <input type="text" id="edit-contact" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#00D29E]">
+            <input type="text" id="edit-contact" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-[primary-500]">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">联系电话</label>
-            <input type="text" id="edit-phone" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#00D29E]">
+            <input type="text" id="edit-phone" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-[primary-500]">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">融资金额（万元）</label>
-            <input type="number" id="edit-funding" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#00D29E]">
+            <input type="number" id="edit-funding" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-[primary-500]">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">官网/店铺链接</label>
-            <input type="text" id="edit-website" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#00D29E]">
+            <input type="text" id="edit-website" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-[primary-500]">
           </div>
           <div class="col-span-2">
             <label class="block text-sm font-medium text-gray-700 mb-1">主营业务描述</label>
-            <textarea id="edit-business" rows="4" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#00D29E]"></textarea>
+            <textarea id="edit-business" rows="4" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-[primary-500]"></textarea>
           </div>
         </div>
       </div>
@@ -312,7 +312,7 @@ export const dealDetailPageContent = `
         <button onclick="closeEditModal()" class="px-4 py-2 text-gray-600 hover:text-gray-800">
           取消
         </button>
-        <button onclick="saveEdit()" class="px-6 py-2 bg-gradient-to-r from-[#00D29E] to-[#00B88A] text-white rounded-lg hover:opacity-90 transition">
+        <button onclick="saveEdit()" class="px-6 py-2 bg-gradient-to-r from-[primary-500] to-[primary-600] text-white rounded-lg hover:opacity-90 transition">
           <i class="fas fa-save mr-2"></i>保存
         </button>
       </div>
@@ -459,8 +459,8 @@ export const dealDetailPageContent = `
       const score = dealData.total_score;
       let grade = 'D级-不建议投资';
       let gradeColor = '#EF4444';
-      if (score >= 85) { grade = 'A级-强烈推荐'; gradeColor = '#00D29E'; }
-      else if (score >= 75) { grade = 'B+级-推荐投资'; gradeColor = '#629C85'; }
+      if (score >= 85) { grade = 'A级-强烈推荐'; gradeColor = 'primary-500'; }
+      else if (score >= 75) { grade = 'B+级-推荐投资'; gradeColor = 'violet-500'; }
       else if (score >= 65) { grade = 'B级-可投资'; gradeColor = '#F59E0B'; }
       else if (score >= 60) { grade = 'C级-谨慎投资'; gradeColor = '#F97316'; }
       
@@ -489,7 +489,7 @@ export const dealDetailPageContent = `
         <div class="text-center py-8 text-gray-400">
           <i class="fas fa-chart-pie text-4xl mb-4"></i>
           <p>尚未进行评估</p>
-          <button onclick="startEvaluation()" class="mt-4 px-4 py-2 bg-gradient-to-r from-[#00D29E] to-[#00B88A] text-white rounded-lg hover:opacity-90 transition text-sm">
+          <button onclick="startEvaluation()" class="mt-4 px-4 py-2 bg-gradient-to-r from-[primary-500] to-[primary-600] text-white rounded-lg hover:opacity-90 transition text-sm">
             <i class="fas fa-play mr-1"></i>开始评估
           </button>
         </div>
@@ -500,7 +500,7 @@ export const dealDetailPageContent = `
   // 渲染评分条
   function renderScoreBar(label, score) {
     const value = score || 0;
-    const color = value >= 80 ? '#00D29E' : value >= 60 ? '#F59E0B' : '#EF4444';
+    const color = value >= 80 ? 'primary-500' : value >= 60 ? '#F59E0B' : '#EF4444';
     return \`
       <div class="flex items-center justify-between text-sm">
         <span class="text-gray-600 w-24">\${label}</span>
@@ -536,8 +536,8 @@ export const dealDetailPageContent = `
           else if (i === currentIndex) state = 'current';
           
           const colors = {
-            completed: { bg: 'bg-[#00D29E]', text: 'text-[#00D29E]', line: 'bg-[#00D29E]' },
-            current: { bg: 'bg-[#00D29E]', text: 'text-[#00D29E]', line: 'bg-gray-200' },
+            completed: { bg: 'bg-[primary-500]', text: 'text-[primary-500]', line: 'bg-[primary-500]' },
+            current: { bg: 'bg-[primary-500]', text: 'text-[primary-500]', line: 'bg-gray-200' },
             pending: { bg: 'bg-gray-200', text: 'text-gray-400', line: 'bg-gray-200' },
             rejected: { bg: 'bg-red-500', text: 'text-red-500', line: 'bg-red-300' }
           };
@@ -553,7 +553,7 @@ export const dealDetailPageContent = `
               </div>
               <div class="flex-1 pb-4">
                 <p class="font-medium \${state === 'pending' ? 'text-gray-400' : 'text-gray-700'}">\${step.label}</p>
-                \${state === 'current' ? '<p class="text-xs text-[#00D29E]">当前阶段</p>' : ''}
+                \${state === 'current' ? '<p class="text-xs text-[primary-500]">当前阶段</p>' : ''}
                 \${state === 'rejected' ? '<p class="text-xs text-red-500">已终止</p>' : ''}
               </div>
             </div>
@@ -573,7 +573,7 @@ export const dealDetailPageContent = `
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.className = 'tab-btn px-6 py-4 font-medium text-gray-500 hover:text-gray-700';
     });
-    document.getElementById('tab-' + tab).className = 'tab-btn px-6 py-4 font-medium text-[#00D29E] border-b-2 border-[#00D29E]';
+    document.getElementById('tab-' + tab).className = 'tab-btn px-6 py-4 font-medium text-[primary-500] border-b-2 border-[primary-500]';
     
     // 渲染内容
     renderTabContent();
@@ -614,7 +614,7 @@ export const dealDetailPageContent = `
       <div class="space-y-4">
         <div class="flex items-center justify-between mb-4">
           <span class="text-sm text-gray-500">共 \${docs.length.toLocaleString()} 字</span>
-          <button onclick="copyContent()" class="text-sm text-[#629C85] hover:text-[#49754D]">
+          <button onclick="copyContent()" class="text-sm text-[violet-500] hover:text-[slate-800]">
             <i class="fas fa-copy mr-1"></i>复制全文
           </button>
         </div>
@@ -626,7 +626,7 @@ export const dealDetailPageContent = `
           return \`
             <div class="border rounded-lg overflow-hidden">
               <div class="px-4 py-3 bg-gray-50 flex items-center justify-between cursor-pointer" onclick="toggleSection(this)">
-                <span class="font-medium text-[#49754D]"><i class="fas fa-chevron-down mr-2 transition-transform"></i>\${title}</span>
+                <span class="font-medium text-[slate-800]"><i class="fas fa-chevron-down mr-2 transition-transform"></i>\${title}</span>
                 <span class="text-xs text-gray-400">\${content.length} 字</span>
               </div>
               <div class="px-4 py-4 text-sm text-gray-700 leading-relaxed whitespace-pre-wrap hidden section-content">\${content}</div>
@@ -674,9 +674,9 @@ export const dealDetailPageContent = `
       <div class="space-y-6">
         <!-- 项目概览 -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div class="bg-gradient-to-br from-[#D9EDDF] to-white p-4 rounded-xl">
+          <div class="bg-gradient-to-br from-[slate-100] to-white p-4 rounded-xl">
             <p class="text-sm text-gray-500">投资金额</p>
-            <p class="text-2xl font-bold text-[#00D29E]">\${financialData.investment_amount || '-'}万</p>
+            <p class="text-2xl font-bold text-[primary-500]">\${financialData.investment_amount || '-'}万</p>
           </div>
           <div class="bg-gradient-to-br from-blue-50 to-white p-4 rounded-xl">
             <p class="text-sm text-gray-500">预期收入</p>
@@ -726,7 +726,7 @@ export const dealDetailPageContent = `
                 <div class="space-y-2">
                   \${financialData.profit_distribution.distribution_waterfall.map((item, i) => \`
                     <div class="flex items-center">
-                      <span class="w-6 h-6 rounded-full bg-[#00D29E] text-white text-xs flex items-center justify-center mr-3">\${i + 1}</span>
+                      <span class="w-6 h-6 rounded-full bg-[primary-500] text-white text-xs flex items-center justify-center mr-3">\${i + 1}</span>
                       <span class="flex-1 text-sm">\${item.description}</span>
                       <span class="font-mono text-gray-700">\${item.amount ? item.amount + '万' : (item.rate ? (item.rate * 100) + '%' : '-')}</span>
                     </div>
@@ -1028,7 +1028,7 @@ export const dealDetailPageContent = `
         <div class="text-center py-12 text-gray-400">
           <i class="fas fa-history text-4xl mb-4"></i>
           <p class="mb-4">暂无评估日志</p>
-          <button onclick="startEvaluation()" class="px-4 py-2 bg-gradient-to-r from-[#00D29E] to-[#00B88A] text-white rounded-lg hover:opacity-90 transition">
+          <button onclick="startEvaluation()" class="px-4 py-2 bg-gradient-to-r from-[primary-500] to-[primary-600] text-white rounded-lg hover:opacity-90 transition">
             <i class="fas fa-play mr-2"></i>开始评估
           </button>
         </div>
@@ -1077,7 +1077,7 @@ export const dealDetailPageContent = `
         <!-- 中环日志 -->
         \${innerLogs.length > 0 ? \`
           <div class="border rounded-lg overflow-hidden">
-            <div class="px-4 py-3 bg-[#D9EDDF] font-medium text-[#49754D]">
+            <div class="px-4 py-3 bg-[slate-100] font-medium text-[slate-800]">
               <i class="fas fa-cogs mr-2"></i>中环筛子体系（加权评分）
             </div>
             <div class="divide-y">
@@ -1109,7 +1109,7 @@ export const dealDetailPageContent = `
         </div>
         \${log.reasoning ? \`
           <details class="mt-2">
-            <summary class="text-sm text-[#629C85] cursor-pointer hover:text-[#49754D]">
+            <summary class="text-sm text-[violet-500] cursor-pointer hover:text-[slate-800]">
               <i class="fas fa-chevron-right mr-1"></i>查看评估详情
             </summary>
             <div class="mt-2 p-3 bg-gray-50 rounded-lg text-sm text-gray-600 leading-relaxed">\${log.reasoning}</div>

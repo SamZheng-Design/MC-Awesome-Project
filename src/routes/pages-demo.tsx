@@ -3,7 +3,7 @@ export const demoPageContent = `
 <!-- 页面标题 -->
 <div class="flex items-center justify-between mb-6">
   <div>
-    <h1 class="text-2xl font-bold text-[#49754D]">标的评估演示</h1>
+    <h1 class="text-2xl font-bold text-[slate-800]">标的评估演示</h1>
     <p class="text-gray-500">选择标的项目，完整展示多智能体评估流程（含详细推理过程）</p>
   </div>
   <div class="flex space-x-2">
@@ -13,7 +13,7 @@ export const demoPageContent = `
     <button onclick="resetDemo()" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition">
       <i class="fas fa-redo mr-2"></i>重置
     </button>
-    <button onclick="startDemo()" id="btn-start" class="px-6 py-2 bg-gradient-to-r from-[#00D29E] to-[#629C85] text-white rounded-lg hover:opacity-90 transition">
+    <button onclick="startDemo()" id="btn-start" class="px-6 py-2 bg-gradient-to-r from-[primary-500] to-[violet-500] text-white rounded-lg hover:opacity-90 transition">
       <i class="fas fa-play mr-2"></i>开始评估
     </button>
   </div>
@@ -23,7 +23,7 @@ export const demoPageContent = `
 <div class="bg-white rounded-xl p-6 card-shadow mb-6">
   <div class="flex items-center justify-between mb-4">
     <h3 class="font-semibold text-lg flex items-center">
-      <i class="fas fa-list-check text-[#00D29E] mr-2"></i>
+      <i class="fas fa-list-check text-[primary-500] mr-2"></i>
       选择评估标的
     </h3>
     <div class="flex items-center space-x-2 text-sm text-gray-500">
@@ -33,28 +33,28 @@ export const demoPageContent = `
   
   <!-- 赛道过滤器 -->
   <div class="flex flex-wrap gap-2 mb-4">
-    <button onclick="filterDeals('all')" class="track-filter-btn active px-3 py-1 rounded-full text-sm border border-gray-200 hover:border-[#00D29E] transition" data-track="all">
+    <button onclick="filterDeals('all')" class="track-filter-btn active px-3 py-1 rounded-full text-sm border border-gray-200 hover:border-[primary-500] transition" data-track="all">
       <i class="fas fa-globe mr-1"></i>全部
     </button>
-    <button onclick="filterDeals('light-asset')" class="track-filter-btn px-3 py-1 rounded-full text-sm border border-gray-200 hover:border-[#00D29E] transition" data-track="light-asset">
+    <button onclick="filterDeals('light-asset')" class="track-filter-btn px-3 py-1 rounded-full text-sm border border-gray-200 hover:border-[primary-500] transition" data-track="light-asset">
       <i class="fas fa-star mr-1"></i>文娱轻资产
     </button>
-    <button onclick="filterDeals('douyin-ecommerce')" class="track-filter-btn px-3 py-1 rounded-full text-sm border border-gray-200 hover:border-[#00D29E] transition" data-track="douyin-ecommerce">
+    <button onclick="filterDeals('douyin-ecommerce')" class="track-filter-btn px-3 py-1 rounded-full text-sm border border-gray-200 hover:border-[primary-500] transition" data-track="douyin-ecommerce">
       <i class="fas fa-video mr-1"></i>抖音投流
     </button>
-    <button onclick="filterDeals('catering')" class="track-filter-btn px-3 py-1 rounded-full text-sm border border-gray-200 hover:border-[#00D29E] transition" data-track="catering">
+    <button onclick="filterDeals('catering')" class="track-filter-btn px-3 py-1 rounded-full text-sm border border-gray-200 hover:border-[primary-500] transition" data-track="catering">
       <i class="fas fa-utensils mr-1"></i>餐饮
     </button>
-    <button onclick="filterDeals('retail')" class="track-filter-btn px-3 py-1 rounded-full text-sm border border-gray-200 hover:border-[#00D29E] transition" data-track="retail">
+    <button onclick="filterDeals('retail')" class="track-filter-btn px-3 py-1 rounded-full text-sm border border-gray-200 hover:border-[primary-500] transition" data-track="retail">
       <i class="fas fa-shopping-cart mr-1"></i>零售
     </button>
-    <button onclick="filterDeals('ecommerce')" class="track-filter-btn px-3 py-1 rounded-full text-sm border border-gray-200 hover:border-[#00D29E] transition" data-track="ecommerce">
+    <button onclick="filterDeals('ecommerce')" class="track-filter-btn px-3 py-1 rounded-full text-sm border border-gray-200 hover:border-[primary-500] transition" data-track="ecommerce">
       <i class="fas fa-shopping-bag mr-1"></i>电商
     </button>
-    <button onclick="filterDeals('service')" class="track-filter-btn px-3 py-1 rounded-full text-sm border border-gray-200 hover:border-[#00D29E] transition" data-track="service">
+    <button onclick="filterDeals('service')" class="track-filter-btn px-3 py-1 rounded-full text-sm border border-gray-200 hover:border-[primary-500] transition" data-track="service">
       <i class="fas fa-concierge-bell mr-1"></i>生活服务
     </button>
-    <button onclick="filterDeals('education')" class="track-filter-btn px-3 py-1 rounded-full text-sm border border-gray-200 hover:border-[#00D29E] transition" data-track="education">
+    <button onclick="filterDeals('education')" class="track-filter-btn px-3 py-1 rounded-full text-sm border border-gray-200 hover:border-[primary-500] transition" data-track="education">
       <i class="fas fa-graduation-cap mr-1"></i>教育培训
     </button>
   </div>
@@ -73,8 +73,8 @@ export const demoPageContent = `
   <div class="flex items-center justify-between">
     <div class="flex items-center space-x-4">
       <div id="step-1" class="flex items-center space-x-2">
-        <div class="w-8 h-8 rounded-full bg-[#00D29E] text-white flex items-center justify-center font-bold">1</div>
-        <span class="font-medium text-[#00D29E]">项目材料</span>
+        <div class="w-8 h-8 rounded-full bg-[primary-500] text-white flex items-center justify-center font-bold">1</div>
+        <span class="font-medium text-[primary-500]">项目材料</span>
       </div>
       <div class="w-16 h-0.5 bg-gray-200" id="line-1"></div>
       <div id="step-2" class="flex items-center space-x-2 opacity-50">
@@ -156,10 +156,10 @@ export const demoPageContent = `
     <div id="inner-section" class="bg-white rounded-xl card-shadow p-6 opacity-40 border-2 border-dashed border-gray-200">
       <div class="flex items-center justify-between mb-4">
         <h3 class="font-semibold text-lg flex items-center">
-          <i class="fas fa-filter text-[#629C85] mr-2"></i>
+          <i class="fas fa-filter text-[violet-500] mr-2"></i>
           中环筛子体系
           <span id="inner-track-badge" class="ml-2 text-xs bg-purple-100 text-purple-600 px-2 py-0.5 rounded">待选择赛道</span>
-          <span id="inner-agent-count" class="ml-2 text-xs bg-[#D9EDDF] text-[#49754D] px-2 py-0.5 rounded">加权评分</span>
+          <span id="inner-agent-count" class="ml-2 text-xs bg-[slate-100] text-[slate-800] px-2 py-0.5 rounded">加权评分</span>
           <span id="inner-step-badge" class="ml-2 text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded">第2步</span>
         </h3>
         <span id="inner-status" class="text-sm text-gray-400 flex items-center">
@@ -168,7 +168,7 @@ export const demoPageContent = `
       </div>
       
       <!-- 中环筛子体系说明 -->
-      <div class="mb-4 p-3 bg-[#D9EDDF] rounded-lg text-sm text-[#49754D]">
+      <div class="mb-4 p-3 bg-[slate-100] rounded-lg text-sm text-[slate-800]">
         <i class="fas fa-info-circle mr-2"></i>
         中环筛子体系采用<strong>并行执行</strong>，仅调用<strong>本赛道相关</strong>的智能体进行评估
       </div>
@@ -182,7 +182,7 @@ export const demoPageContent = `
     <div id="final-section" class="bg-white rounded-xl card-shadow p-6 opacity-40 border-2 border-dashed border-gray-200">
       <div class="flex items-center justify-between mb-4">
         <h3 class="font-semibold text-lg flex items-center">
-          <i class="fas fa-ranking-star text-[#00D29E] mr-2"></i>
+          <i class="fas fa-ranking-star text-[primary-500] mr-2"></i>
           综合评分
           <span id="final-step-badge" class="ml-2 text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded">第3步</span>
         </h3>
@@ -209,7 +209,7 @@ export const demoPageContent = `
 
     <!-- 投资建议 -->
     <div id="recommendation-section" class="hidden">
-      <div class="bg-gradient-to-r from-[#00D29E] to-[#629C85] rounded-xl p-6 text-white">
+      <div class="bg-gradient-to-r from-[primary-500] to-[violet-500] rounded-xl p-6 text-white">
         <div class="flex items-center justify-between">
           <div>
             <h3 class="text-xl font-bold mb-2" id="rec-title">投资建议</h3>
@@ -356,7 +356,7 @@ export const demoPageContent = `
 <!-- 评估详情弹窗 -->
 <div id="detail-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4" onclick="if(event.target === this) closeDetailModal()">
   <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl">
-    <div class="p-4 border-b flex items-center justify-between bg-gradient-to-r from-[#00D29E] to-[#629C85] text-white">
+    <div class="p-4 border-b flex items-center justify-between bg-gradient-to-r from-[primary-500] to-[violet-500] text-white">
       <h3 id="modal-title" class="font-bold text-lg">评估详情</h3>
       <button onclick="closeDetailModal()" class="w-8 h-8 rounded-full hover:bg-white/20 flex items-center justify-center transition">
         <i class="fas fa-times"></i>
@@ -370,13 +370,13 @@ export const demoPageContent = `
 <!-- AI推理内容浮窗 -->
 <div id="reasoning-popup" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4" onclick="if(event.target === this) closeReasoningPopup()">
   <div class="bg-white rounded-xl max-w-2xl w-full max-h-[80vh] overflow-hidden shadow-2xl">
-    <div class="p-4 border-b flex items-center justify-between bg-[#D9EDDF]">
-      <h3 class="font-bold text-[#49754D] flex items-center">
+    <div class="p-4 border-b flex items-center justify-between bg-[slate-100]">
+      <h3 class="font-bold text-[slate-800] flex items-center">
         <i class="fas fa-brain mr-2"></i>
         <span id="popup-title">AI推理过程</span>
       </h3>
       <button onclick="closeReasoningPopup()" class="w-8 h-8 rounded-full hover:bg-[#c5e6ce] flex items-center justify-center transition">
-        <i class="fas fa-times text-[#49754D]"></i>
+        <i class="fas fa-times text-[slate-800]"></i>
       </button>
     </div>
     <div id="popup-content" class="p-6 overflow-y-auto max-h-[70vh]">
@@ -394,8 +394,8 @@ export const demoPageContent = `
     transform: translateY(-2px);
   }
   .deal-card.selected {
-    border-color: #00D29E !important;
-    background: linear-gradient(to right, #D9EDDF, #fff);
+    border-color: primary-500 !important;
+    background: linear-gradient(to right, slate-100, #fff);
   }
   .deal-card.selected .deal-check {
     display: flex !important;
@@ -403,9 +403,9 @@ export const demoPageContent = `
   
   /* 赛道过滤器样式 */
   .track-filter-btn.active {
-    background: #D9EDDF;
-    border-color: #00D29E;
-    color: #49754D;
+    background: slate-100;
+    border-color: primary-500;
+    color: slate-800;
   }
   
   /* 自定义滚动条 */
@@ -601,7 +601,7 @@ export const demoPageContent = `
       } catch (e) {}
       
       return \`
-        <div class="deal-card p-3 border rounded-lg hover:shadow-md \${isSelected ? 'selected border-[#00D29E]' : 'border-gray-200'}" 
+        <div class="deal-card p-3 border rounded-lg hover:shadow-md \${isSelected ? 'selected border-[primary-500]' : 'border-gray-200'}" 
              onclick="selectDeal('\${deal.id}')">
           <div class="flex items-start justify-between mb-2">
             <div class="flex items-center space-x-2">
@@ -613,7 +613,7 @@ export const demoPageContent = `
                 <p class="text-xs text-gray-500">\${deal.id}</p>
               </div>
             </div>
-            <div class="deal-check hidden w-5 h-5 rounded-full bg-[#00D29E] items-center justify-center flex-shrink-0">
+            <div class="deal-check hidden w-5 h-5 rounded-full bg-[primary-500] items-center justify-center flex-shrink-0">
               <i class="fas fa-check text-white text-xs"></i>
             </div>
           </div>
@@ -695,7 +695,7 @@ export const demoPageContent = `
         <div class="space-y-3 text-sm">
           <div class="flex justify-between">
             <span class="text-gray-500">投资金额</span>
-            <span class="font-medium text-[#00D29E]">\${selectedDeal.funding_amount}万</span>
+            <span class="font-medium text-[primary-500]">\${selectedDeal.funding_amount}万</span>
           </div>
           <div class="flex justify-between">
             <span class="text-gray-500">品类</span>
@@ -783,7 +783,7 @@ export const demoPageContent = `
           </div>
           <div class="flex justify-between">
             <span class="text-gray-500">投资金额</span>
-            <span class="font-medium text-[#00D29E]">\${selectedDeal.funding_amount}万</span>
+            <span class="font-medium text-[primary-500]">\${selectedDeal.funding_amount}万</span>
           </div>
           \${investorReturn.irr_estimate ? \`
           <div class="flex justify-between">
@@ -1039,11 +1039,11 @@ export const demoPageContent = `
       updateStep(3, 'active');
       const innerSection = document.getElementById('inner-section');
       innerSection.classList.remove('opacity-40', 'border-dashed', 'border-gray-200');
-      innerSection.classList.add('border-solid', 'border-[#629C85]', 'ring-2', 'ring-green-100');
-      document.getElementById('inner-step-badge').className = 'ml-2 text-xs bg-[#629C85] text-white px-2 py-0.5 rounded animate-pulse';
+      innerSection.classList.add('border-solid', 'border-[violet-500]', 'ring-2', 'ring-green-100');
+      document.getElementById('inner-step-badge').className = 'ml-2 text-xs bg-[violet-500] text-white px-2 py-0.5 rounded animate-pulse';
       document.getElementById('inner-step-badge').textContent = '执行中';
       document.getElementById('inner-status').innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i>并行评估中...';
-      document.getElementById('inner-status').className = 'text-sm text-[#629C85] font-medium';
+      document.getElementById('inner-status').className = 'text-sm text-[violet-500] font-medium';
 
       // 使用筛选后的中环智能体ID列表
       const innerAgentIds = filteredInnerAgents.map(a => a.id);
@@ -1070,7 +1070,7 @@ export const demoPageContent = `
       document.getElementById('inner-status').className = 'text-sm text-green-600 font-medium';
       document.getElementById('inner-step-badge').className = 'ml-2 text-xs bg-green-500 text-white px-2 py-0.5 rounded';
       document.getElementById('inner-step-badge').textContent = '已完成';
-      innerSection.classList.remove('ring-2', 'ring-green-100', 'border-[#629C85]');
+      innerSection.classList.remove('ring-2', 'ring-green-100', 'border-[violet-500]');
       innerSection.classList.add('border-green-300');
       updateStep(3, 'complete');
 
@@ -1078,11 +1078,11 @@ export const demoPageContent = `
       updateStep(4, 'active');
       const finalSection = document.getElementById('final-section');
       finalSection.classList.remove('opacity-40', 'border-dashed', 'border-gray-200');
-      finalSection.classList.add('border-solid', 'border-[#00D29E]', 'ring-2', 'ring-emerald-100');
-      document.getElementById('final-step-badge').className = 'ml-2 text-xs bg-[#00D29E] text-white px-2 py-0.5 rounded animate-pulse';
+      finalSection.classList.add('border-solid', 'border-[primary-500]', 'ring-2', 'ring-emerald-100');
+      document.getElementById('final-step-badge').className = 'ml-2 text-xs bg-[primary-500] text-white px-2 py-0.5 rounded animate-pulse';
       document.getElementById('final-step-badge').textContent = '计算中';
       document.getElementById('final-status').innerHTML = '<i class="fas fa-calculator fa-spin mr-1"></i>计算综合评分...';
-      document.getElementById('final-status').className = 'text-sm text-[#00D29E] font-medium';
+      document.getElementById('final-status').className = 'text-sm text-[primary-500] font-medium';
 
       // 动态构建权重
       const weights = {};
@@ -1135,7 +1135,7 @@ export const demoPageContent = `
       document.getElementById('final-status').className = 'text-sm text-green-600 font-medium';
       document.getElementById('final-step-badge').className = 'ml-2 text-xs bg-green-500 text-white px-2 py-0.5 rounded';
       document.getElementById('final-step-badge').textContent = '已完成';
-      finalSection.classList.remove('ring-2', 'ring-emerald-100', 'border-[#00D29E]');
+      finalSection.classList.remove('ring-2', 'ring-emerald-100', 'border-[primary-500]');
       finalSection.classList.add('border-green-300');
       updateStep(4, 'complete');
 
@@ -1212,7 +1212,7 @@ export const demoPageContent = `
       const el = document.getElementById(id);
       if (el) {
         el.classList.add('opacity-40', 'border-dashed', 'border-gray-200');
-        el.classList.remove('border-solid', 'border-red-300', 'border-[#629C85]', 'border-[#00D29E]', 
+        el.classList.remove('border-solid', 'border-red-300', 'border-[violet-500]', 'border-[primary-500]', 
           'ring-2', 'ring-red-100', 'ring-green-100', 'ring-emerald-100', 'border-green-300', 'border-red-500');
       }
     });

@@ -2,19 +2,19 @@
 export const workflowPageContent = `
 <div class="flex items-center justify-between mb-6">
   <div>
-    <h1 class="text-2xl font-bold text-[#49754D]">工作流编排</h1>
-    <p class="text-gray-500">可视化配置多智能体评估流程 · 选择赛道查看专属智能体群</p>
+    <h1 class="text-2xl font-bold text-slate-800">工作流编排</h1>
+    <p class="text-slate-500">可视化配置多智能体评估流程 · 选择赛道查看专属智能体群</p>
   </div>
 </div>
 
-<div class="bg-white rounded-xl card-shadow p-6">
+<div class="gs-card p-6">
   <!-- 赛道选择器 -->
-  <div class="mb-6 pb-6 border-b">
+  <div class="mb-6 pb-6 border-b border-slate-100">
     <div class="flex items-center justify-between mb-4">
-      <h3 class="font-semibold text-gray-700">
-        <i class="fas fa-layer-group mr-2 text-[#00D29E]"></i>选择赛道查看对应智能体群
+      <h3 class="font-semibold text-slate-700">
+        <i class="fas fa-layer-group mr-2 text-primary-500"></i>选择赛道查看对应智能体群
       </h3>
-      <span id="selected-track-badge" class="px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-600">
+      <span id="selected-track-badge" class="gs-badge gs-badge-neutral">
         <i class="fas fa-globe mr-1"></i>全部赛道
       </span>
     </div>
@@ -59,14 +59,14 @@ export const workflowPageContent = `
       </div>
 
       <!-- 中环筛子体系 -->
-      <div class="bg-[#D9EDDF] border-2 border-[#00D29E] rounded-xl p-4 min-w-96">
+      <div class="bg-slate-100 border-2 border-primary-500 rounded-xl p-4 min-w-96">
         <div class="flex items-center justify-between mb-3">
           <div class="flex items-center">
-            <i class="fas fa-filter text-[#629C85] mr-2"></i>
-            <span class="font-semibold text-[#49754D]">中环筛子体系</span>
-            <span class="ml-2 text-xs bg-[#00D29E] text-white px-2 py-0.5 rounded">并行</span>
+            <i class="fas fa-filter text-violet-500 mr-2"></i>
+            <span class="font-semibold text-slate-800">中环筛子体系</span>
+            <span class="ml-2 text-xs bg-primary-500 text-white px-2 py-0.5 rounded">并行</span>
           </div>
-          <span id="inner-agent-count" class="text-xs text-[#629C85]"></span>
+          <span id="inner-agent-count" class="text-xs text-violet-500"></span>
         </div>
         
         <!-- 通用智能体 -->
@@ -89,7 +89,7 @@ export const workflowPageContent = `
           </div>
         </div>
         
-        <div class="mt-3 text-xs text-[#49754D]">
+        <div class="mt-3 text-xs text-slate-800">
           <i class="fas fa-calculator mr-1"></i>
           加权评分：各维度按权重计算
         </div>
@@ -98,10 +98,10 @@ export const workflowPageContent = `
       <div class="w-12 h-0.5 bg-gray-300"></div>
 
       <!-- 综合评分 -->
-      <div class="bg-[#F3EED9] border-2 border-[#629C85] rounded-xl p-4 w-48">
+      <div class="bg-slate-50 border-2 border-violet-500 rounded-xl p-4 w-48">
         <div class="flex items-center mb-3">
-          <i class="fas fa-ranking-star text-[#629C85] mr-2"></i>
-          <span class="font-semibold text-[#49754D]">综合评分</span>
+          <i class="fas fa-ranking-star text-violet-500 mr-2"></i>
+          <span class="font-semibold text-slate-800">综合评分</span>
         </div>
         <div class="text-sm text-gray-600">
           <p>汇总所有评分</p>
@@ -278,10 +278,10 @@ export const workflowPageContent = `
     document.getElementById('weight-config').innerHTML = allInnerAgents.map(a => {
       const track = workflowTracks.find(t => t.id === a.industry);
       return \`
-        <div class="bg-gray-50 rounded-lg p-3 text-center border-2 border-transparent hover:border-[#00D29E] transition cursor-pointer">
+        <div class="bg-gray-50 rounded-lg p-3 text-center border-2 border-transparent hover:border-primary-500 transition cursor-pointer">
           <i class="\${a.icon} text-xl mb-2" style="color: \${a.icon_color}"></i>
           <p class="text-sm font-medium truncate">\${a.dimension}</p>
-          <p class="text-2xl font-bold text-[#00D29E]">\${a.weight}%</p>
+          <p class="text-2xl font-bold text-primary-500">\${a.weight}%</p>
           <p class="text-xs mt-1 px-2 py-0.5 rounded-full inline-block" style="background: \${track?.icon_color || '#6B7280'}20; color: \${track?.icon_color || '#6B7280'}">\${a.industry === 'all' ? '通用' : (track?.name || a.industry)}</p>
         </div>
       \`;
@@ -300,106 +300,124 @@ export const workflowPageContent = `
 export const submitPageContent = `
 <div class="flex items-center justify-between mb-6">
   <div>
-    <h1 class="text-2xl font-bold text-[#49754D]">提交投资申请</h1>
+    <h1 class="text-2xl font-bold text-slate-800">提交投资申请</h1>
     <p class="text-gray-500">填写标的信息，开始智能评估</p>
   </div>
 </div>
 
-<div class="bg-white rounded-xl card-shadow overflow-hidden">
+<div class="gs-card overflow-hidden">
   <!-- 步骤指示器 -->
-  <div class="bg-gray-50 px-6 py-4 border-b">
-    <div class="flex items-center justify-center space-x-4">
+  <div class="bg-slate-50 px-6 py-5 border-b border-slate-100">
+    <div class="flex items-center justify-center space-x-3">
       <div class="flex items-center" id="submit-step-1">
-        <div class="w-8 h-8 rounded-full bg-[#00D29E] text-white flex items-center justify-center font-bold text-sm">1</div>
-        <span class="ml-2 font-medium text-[#00D29E]">选择行业</span>
+        <div class="w-9 h-9 rounded-full bg-primary-500 text-white flex items-center justify-center font-semibold text-sm shadow-sm">1</div>
+        <span class="ml-2 font-medium text-primary-600">选择行业</span>
       </div>
-      <div class="w-12 h-0.5 bg-gray-300"></div>
+      <div class="w-16 h-0.5 bg-slate-200 rounded"></div>
       <div class="flex items-center opacity-50" id="submit-step-2">
-        <div class="w-8 h-8 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center font-bold text-sm">2</div>
-        <span class="ml-2 font-medium text-gray-600">基本信息</span>
+        <div class="w-9 h-9 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center font-semibold text-sm">2</div>
+        <span class="ml-2 font-medium text-slate-500">基本信息</span>
       </div>
-      <div class="w-12 h-0.5 bg-gray-300"></div>
+      <div class="w-16 h-0.5 bg-slate-200 rounded"></div>
       <div class="flex items-center opacity-50" id="submit-step-3">
-        <div class="w-8 h-8 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center font-bold text-sm">3</div>
-        <span class="ml-2 font-medium text-gray-600">项目材料</span>
+        <div class="w-9 h-9 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center font-semibold text-sm">3</div>
+        <span class="ml-2 font-medium text-slate-500">项目材料</span>
       </div>
-      <div class="w-12 h-0.5 bg-gray-300"></div>
+      <div class="w-16 h-0.5 bg-slate-200 rounded"></div>
       <div class="flex items-center opacity-50" id="submit-step-4">
-        <div class="w-8 h-8 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center font-bold text-sm">4</div>
-        <span class="ml-2 font-medium text-gray-600">确认提交</span>
+        <div class="w-9 h-9 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center font-semibold text-sm">4</div>
+        <span class="ml-2 font-medium text-slate-500">确认提交</span>
       </div>
     </div>
   </div>
 
   <!-- 表单内容 -->
-  <div class="p-6">
+  <div class="p-8">
     <!-- Step 1: 选择行业 -->
     <div id="form-step-1" class="step-content">
-      <h3 class="text-lg font-semibold mb-4">选择所属行业（赛道）</h3>
-      <div id="industry-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <h3 class="text-lg font-semibold mb-6 text-slate-800">选择所属行业（赛道）</h3>
+      <div id="industry-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         <!-- 动态加载赛道选项 -->
-        <label class="cursor-pointer">
+        <label class="cursor-pointer group">
           <input type="radio" name="industry" value="light-asset" class="hidden peer" checked>
-          <div class="p-6 border-2 rounded-xl text-center peer-checked:border-[#00D29E] peer-checked:bg-[#D9EDDF] hover:border-gray-300 transition">
-            <i class="fas fa-feather text-3xl text-purple-500 mb-2"></i>
-            <p class="font-medium">轻资产</p>
+          <div class="p-6 border-2 border-slate-200 rounded-xl text-center peer-checked:border-primary-500 peer-checked:bg-primary-50 hover:border-slate-300 hover:shadow-sm transition-all">
+            <div class="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center mx-auto mb-3 group-hover:bg-purple-100 transition">
+              <i class="fas fa-feather text-xl text-purple-500"></i>
+            </div>
+            <p class="font-medium text-slate-700">轻资产</p>
           </div>
         </label>
-        <label class="cursor-pointer">
+        <label class="cursor-pointer group">
           <input type="radio" name="industry" value="retail" class="hidden peer">
-          <div class="p-6 border-2 rounded-xl text-center peer-checked:border-[#00D29E] peer-checked:bg-[#D9EDDF] hover:border-gray-300 transition">
-            <i class="fas fa-store text-3xl text-green-500 mb-2"></i>
-            <p class="font-medium">零售</p>
+          <div class="p-6 border-2 border-slate-200 rounded-xl text-center peer-checked:border-primary-500 peer-checked:bg-primary-50 hover:border-slate-300 hover:shadow-sm transition-all">
+            <div class="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center mx-auto mb-3 group-hover:bg-emerald-100 transition">
+              <i class="fas fa-store text-xl text-emerald-500"></i>
+            </div>
+            <p class="font-medium text-slate-700">零售</p>
           </div>
         </label>
-        <label class="cursor-pointer">
+        <label class="cursor-pointer group">
           <input type="radio" name="industry" value="catering" class="hidden peer">
-          <div class="p-6 border-2 rounded-xl text-center peer-checked:border-[#00D29E] peer-checked:bg-[#D9EDDF] hover:border-gray-300 transition">
-            <i class="fas fa-utensils text-3xl text-amber-500 mb-2"></i>
-            <p class="font-medium">餐饮</p>
+          <div class="p-6 border-2 border-slate-200 rounded-xl text-center peer-checked:border-primary-500 peer-checked:bg-primary-50 hover:border-slate-300 hover:shadow-sm transition-all">
+            <div class="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center mx-auto mb-3 group-hover:bg-amber-100 transition">
+              <i class="fas fa-utensils text-xl text-amber-500"></i>
+            </div>
+            <p class="font-medium text-slate-700">餐饮</p>
           </div>
         </label>
-        <label class="cursor-pointer">
+        <label class="cursor-pointer group">
           <input type="radio" name="industry" value="ecommerce" class="hidden peer">
-          <div class="p-6 border-2 rounded-xl text-center peer-checked:border-[#00D29E] peer-checked:bg-[#D9EDDF] hover:border-gray-300 transition">
-            <i class="fas fa-shopping-cart text-3xl text-blue-500 mb-2"></i>
-            <p class="font-medium">电商</p>
+          <div class="p-6 border-2 border-slate-200 rounded-xl text-center peer-checked:border-primary-500 peer-checked:bg-primary-50 hover:border-slate-300 hover:shadow-sm transition-all">
+            <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center mx-auto mb-3 group-hover:bg-blue-100 transition">
+              <i class="fas fa-shopping-cart text-xl text-blue-500"></i>
+            </div>
+            <p class="font-medium text-slate-700">电商</p>
           </div>
         </label>
-        <label class="cursor-pointer">
+        <label class="cursor-pointer group">
           <input type="radio" name="industry" value="education" class="hidden peer">
-          <div class="p-6 border-2 rounded-xl text-center peer-checked:border-[#00D29E] peer-checked:bg-[#D9EDDF] hover:border-gray-300 transition">
-            <i class="fas fa-graduation-cap text-3xl text-pink-500 mb-2"></i>
-            <p class="font-medium">教育培训</p>
+          <div class="p-6 border-2 border-slate-200 rounded-xl text-center peer-checked:border-primary-500 peer-checked:bg-primary-50 hover:border-slate-300 hover:shadow-sm transition-all">
+            <div class="w-12 h-12 rounded-xl bg-pink-50 flex items-center justify-center mx-auto mb-3 group-hover:bg-pink-100 transition">
+              <i class="fas fa-graduation-cap text-xl text-pink-500"></i>
+            </div>
+            <p class="font-medium text-slate-700">教育培训</p>
           </div>
         </label>
-        <label class="cursor-pointer">
+        <label class="cursor-pointer group">
           <input type="radio" name="industry" value="healthcare" class="hidden peer">
-          <div class="p-6 border-2 rounded-xl text-center peer-checked:border-[#00D29E] peer-checked:bg-[#D9EDDF] hover:border-gray-300 transition">
-            <i class="fas fa-heartbeat text-3xl text-red-500 mb-2"></i>
-            <p class="font-medium">医疗健康</p>
+          <div class="p-6 border-2 border-slate-200 rounded-xl text-center peer-checked:border-primary-500 peer-checked:bg-primary-50 hover:border-slate-300 hover:shadow-sm transition-all">
+            <div class="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center mx-auto mb-3 group-hover:bg-red-100 transition">
+              <i class="fas fa-heartbeat text-xl text-red-500"></i>
+            </div>
+            <p class="font-medium text-slate-700">医疗健康</p>
           </div>
         </label>
-        <label class="cursor-pointer">
+        <label class="cursor-pointer group">
           <input type="radio" name="industry" value="entertainment" class="hidden peer">
-          <div class="p-6 border-2 rounded-xl text-center peer-checked:border-[#00D29E] peer-checked:bg-[#D9EDDF] hover:border-gray-300 transition">
-            <i class="fas fa-film text-3xl text-indigo-500 mb-2"></i>
-            <p class="font-medium">文娱</p>
+          <div class="p-6 border-2 border-slate-200 rounded-xl text-center peer-checked:border-primary-500 peer-checked:bg-primary-50 hover:border-slate-300 hover:shadow-sm transition-all">
+            <div class="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center mx-auto mb-3 group-hover:bg-indigo-100 transition">
+              <i class="fas fa-film text-xl text-indigo-500"></i>
+            </div>
+            <p class="font-medium text-slate-700">文娱</p>
           </div>
         </label>
-        <label class="cursor-pointer">
+        <label class="cursor-pointer group">
           <input type="radio" name="industry" value="service" class="hidden peer">
-          <div class="p-6 border-2 rounded-xl text-center peer-checked:border-[#00D29E] peer-checked:bg-[#D9EDDF] hover:border-gray-300 transition">
-            <i class="fas fa-concierge-bell text-3xl text-teal-500 mb-2"></i>
-            <p class="font-medium">生活服务</p>
+          <div class="p-6 border-2 border-slate-200 rounded-xl text-center peer-checked:border-primary-500 peer-checked:bg-primary-50 hover:border-slate-300 hover:shadow-sm transition-all">
+            <div class="w-12 h-12 rounded-xl bg-teal-50 flex items-center justify-center mx-auto mb-3 group-hover:bg-teal-100 transition">
+              <i class="fas fa-concierge-bell text-xl text-teal-500"></i>
+            </div>
+            <p class="font-medium text-slate-700">生活服务</p>
           </div>
         </label>
-        <label class="cursor-pointer">
+        <label class="cursor-pointer group">
           <input type="radio" name="industry" value="douyin-ecommerce" class="hidden peer" onchange="handleIndustryChange(this.value)">
-          <div class="p-6 border-2 rounded-xl text-center peer-checked:border-[#FF2D55] peer-checked:bg-pink-50 hover:border-gray-300 transition relative">
-            <div class="absolute -top-2 -right-2 bg-[#FF2D55] text-white text-xs px-2 py-0.5 rounded-full">热门</div>
-            <i class="fab fa-tiktok text-3xl text-[#FF2D55] mb-2"></i>
-            <p class="font-medium">抖音投流</p>
+          <div class="p-6 border-2 border-slate-200 rounded-xl text-center peer-checked:border-[#FF2D55] peer-checked:bg-pink-50 hover:border-slate-300 hover:shadow-sm transition-all relative">
+            <div class="absolute -top-2 -right-2 bg-gradient-to-r from-[#FF2D55] to-[#FF6B81] text-white text-xs px-2.5 py-1 rounded-full font-medium shadow-sm">热门</div>
+            <div class="w-12 h-12 rounded-xl bg-pink-50 flex items-center justify-center mx-auto mb-3 group-hover:bg-pink-100 transition">
+              <i class="fab fa-tiktok text-xl text-[#FF2D55]"></i>
+            </div>
+            <p class="font-medium text-slate-700">抖音投流</p>
           </div>
         </label>
       </div>
@@ -407,35 +425,35 @@ export const submitPageContent = `
 
     <!-- Step 2: 基本信息（通用行业） -->
     <div id="form-step-2" class="step-content hidden">
-      <h3 class="text-lg font-semibold mb-4">企业基本信息</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <h3 class="text-lg font-semibold mb-6 text-slate-800">企业基本信息</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">企业名称 *</label>
-          <input type="text" id="company_name" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00D29E] border-[#D9EDDF]" placeholder="请输入企业全称">
+          <label class="block text-sm font-medium text-slate-700 mb-2">企业名称 <span class="text-red-500">*</span></label>
+          <input type="text" id="company_name" class="gs-input w-full" placeholder="请输入企业全称">
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">统一社会信用代码</label>
-          <input type="text" id="credit_code" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00D29E] border-[#D9EDDF]" placeholder="18位信用代码">
+          <label class="block text-sm font-medium text-slate-700 mb-2">统一社会信用代码</label>
+          <input type="text" id="credit_code" class="gs-input w-full" placeholder="18位信用代码">
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">联系人 *</label>
-          <input type="text" id="contact_name" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00D29E] border-[#D9EDDF]" placeholder="联系人姓名">
+          <label class="block text-sm font-medium text-slate-700 mb-2">联系人 <span class="text-red-500">*</span></label>
+          <input type="text" id="contact_name" class="gs-input w-full" placeholder="联系人姓名">
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">联系电话 *</label>
-          <input type="tel" id="contact_phone" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00D29E] border-[#D9EDDF]" placeholder="手机号码">
+          <label class="block text-sm font-medium text-slate-700 mb-2">联系电话 <span class="text-red-500">*</span></label>
+          <input type="tel" id="contact_phone" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-primary-500 border-slate-100" placeholder="手机号码">
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">融资金额（万元）*</label>
-          <input type="number" id="funding_amount" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00D29E] border-[#D9EDDF]" placeholder="例如：3000">
+          <input type="number" id="funding_amount" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-primary-500 border-slate-100" placeholder="例如：3000">
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">官网/店铺链接</label>
-          <input type="url" id="website" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00D29E] border-[#D9EDDF]" placeholder="https://...">
+          <input type="url" id="website" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-primary-500 border-slate-100" placeholder="https://...">
         </div>
         <div class="md:col-span-2">
           <label class="block text-sm font-medium text-gray-700 mb-1">主营业务描述 *</label>
-          <textarea id="main_business" rows="4" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00D29E] border-[#D9EDDF]" placeholder="请详细描述企业主营业务、商业模式、目标市场等（不少于100字）"></textarea>
+          <textarea id="main_business" rows="4" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-primary-500 border-slate-100" placeholder="请详细描述企业主营业务、商业模式、目标市场等（不少于100字）"></textarea>
         </div>
       </div>
     </div>
@@ -679,11 +697,11 @@ export const submitPageContent = `
       <div class="space-y-6">
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">项目说明文档 *</label>
-          <textarea id="project_documents" rows="10" class="w-full border rounded-lg p-3 font-mono text-sm focus:ring-2 focus:ring-[#00D29E] border-[#D9EDDF]" placeholder="请输入或粘贴项目说明文档内容..."></textarea>
+          <textarea id="project_documents" rows="10" class="w-full border rounded-lg p-3 font-mono text-sm focus:ring-2 focus:ring-primary-500 border-slate-100" placeholder="请输入或粘贴项目说明文档内容..."></textarea>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">财务数据 (JSON格式)</label>
-          <textarea id="financial_data" rows="8" class="w-full border rounded-lg p-3 font-mono text-sm focus:ring-2 focus:ring-[#00D29E] border-[#D9EDDF]" placeholder='{"revenue_forecast": {...}, "cost_structure": {...}}'></textarea>
+          <textarea id="financial_data" rows="8" class="w-full border rounded-lg p-3 font-mono text-sm focus:ring-2 focus:ring-primary-500 border-slate-100" placeholder='{"revenue_forecast": {...}, "cost_structure": {...}}'></textarea>
         </div>
       </div>
     </div>
@@ -709,7 +727,7 @@ export const submitPageContent = `
       <i class="fas fa-arrow-left mr-2"></i>上一步
     </button>
     <div></div>
-    <button id="btn-next" onclick="nextStep()" class="px-6 py-2 bg-gradient-to-r from-[#00D29E] to-[#00B88A] text-white rounded-lg hover:opacity-90 transition">
+    <button id="btn-next" onclick="nextStep()" class="px-6 py-2 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-lg hover:opacity-90 transition">
       下一步<i class="fas fa-arrow-right ml-2"></i>
     </button>
   </div>
@@ -748,7 +766,7 @@ export const submitPageContent = `
         stepEl.querySelector('div').innerHTML = '<i class="fas fa-check"></i>';
       } else if (i === currentStep) {
         stepEl.classList.remove('opacity-50');
-        const activeColor = isDouyinMode ? '#FF2D55' : '#00D29E';
+        const activeColor = isDouyinMode ? '#FF2D55' : 'primary-500';
         stepEl.querySelector('div').className = 'w-8 h-8 rounded-full text-white flex items-center justify-center font-bold text-sm';
         stepEl.querySelector('div').style.backgroundColor = activeColor;
         stepEl.querySelector('div').textContent = i;
@@ -784,7 +802,7 @@ export const submitPageContent = `
     if (isDouyinMode) {
       btnNext.className = 'px-6 py-2 bg-gradient-to-r from-[#FF2D55] to-[#FF6B6B] text-white rounded-lg hover:opacity-90 transition';
     } else {
-      btnNext.className = 'px-6 py-2 bg-gradient-to-r from-[#00D29E] to-[#00B88A] text-white rounded-lg hover:opacity-90 transition';
+      btnNext.className = 'px-6 py-2 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-lg hover:opacity-90 transition';
     }
     
     btnNext.innerHTML = currentStep === totalSteps 
@@ -1060,10 +1078,10 @@ ROI: \${douyinData.roi}, GMV: \${douyinData.gmv}万元\`,
 export const dealsPageContent = `
 <div class="flex items-center justify-between mb-6">
   <div>
-    <h1 class="text-2xl font-bold text-[#49754D]">标的管理</h1>
+    <h1 class="text-2xl font-bold text-slate-800">标的管理</h1>
     <p class="text-gray-500">查看和管理所有投资标的</p>
   </div>
-  <a href="/submit" class="px-4 py-2 bg-gradient-to-r from-[#00D29E] to-[#00B88A] text-white rounded-lg hover:opacity-90 transition">
+  <a href="/submit" class="px-4 py-2 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-lg hover:opacity-90 transition">
     <i class="fas fa-plus mr-2"></i>新建标的
   </a>
 </div>
@@ -1071,7 +1089,7 @@ export const dealsPageContent = `
 <!-- 筛选条件 -->
 <div class="bg-white rounded-xl card-shadow p-4 mb-6">
   <div class="flex flex-wrap gap-4">
-    <select id="filter-status" onchange="loadDeals()" class="border rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#00D29E] border-[#D9EDDF]">
+    <select id="filter-status" onchange="loadDeals()" class="border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary-500 border-slate-100">
       <option value="">全部状态</option>
       <option value="pending">待处理</option>
       <option value="outer">外环漏斗体系</option>
@@ -1080,7 +1098,7 @@ export const dealsPageContent = `
       <option value="completed">已完成</option>
       <option value="rejected">已拒绝</option>
     </select>
-    <select id="filter-industry" onchange="loadDeals()" class="border rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#00D29E] border-[#D9EDDF]">
+    <select id="filter-industry" onchange="loadDeals()" class="border rounded-lg px-4 py-2 focus:ring-2 focus:ring-primary-500 border-slate-100">
       <option value="">全部行业</option>
       <option value="light-asset">文娱轻资产</option>
       <option value="catering">餐饮</option>
@@ -1130,7 +1148,7 @@ export const dealsPageContent = `
       <!-- Tab切换 -->
       <div class="border-b px-6">
         <div class="flex space-x-4">
-          <button onclick="switchDealTab('info')" id="deal-tab-info" class="py-3 px-4 font-medium text-[#00D29E] border-b-2 border-[#00D29E]">
+          <button onclick="switchDealTab('info')" id="deal-tab-info" class="py-3 px-4 font-medium text-primary-500 border-b-2 border-primary-500">
             <i class="fas fa-info-circle mr-2"></i>基本信息
           </button>
           <button onclick="switchDealTab('materials')" id="deal-tab-materials" class="py-3 px-4 font-medium text-gray-500 hover:text-gray-700">
@@ -1148,10 +1166,10 @@ export const dealsPageContent = `
       <div class="flex items-center justify-between px-6 py-4 border-t bg-gray-50">
         <button onclick="closeDealModal()" class="px-4 py-2 text-gray-600 hover:text-gray-800">关闭</button>
         <div class="flex space-x-2">
-          <button onclick="openUploadMaterialModal()" id="btn-upload-material" class="px-4 py-2 bg-[#629C85] text-white rounded-lg hover:bg-[#49754D] transition">
+          <button onclick="openUploadMaterialModal()" id="btn-upload-material" class="px-4 py-2 bg-violet-500 text-white rounded-lg hover:bg-slate-800 transition">
             <i class="fas fa-upload mr-2"></i>上传材料
           </button>
-          <button onclick="startEvaluation()" id="btn-evaluate" class="px-6 py-2 bg-gradient-to-r from-[#00D29E] to-[#00B88A] text-white rounded-lg hover:opacity-90 transition">
+          <button onclick="startEvaluation()" id="btn-evaluate" class="px-6 py-2 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-lg hover:opacity-90 transition">
             <i class="fas fa-play mr-2"></i>开始评估
           </button>
         </div>
@@ -1287,7 +1305,7 @@ export const dealsPageContent = `
             <td class="py-4 px-6"><span class="px-2 py-1 rounded text-xs \${status.class}">\${status.label}</span></td>
             <td class="py-4 px-6 font-mono">\${deal.total_score ? deal.total_score.toFixed(1) : '-'}</td>
             <td class="py-4 px-6">
-              <a href="/deals/\${deal.id}" class="text-[#00D29E] hover:text-[#629C85]" onclick="event.stopPropagation()">
+              <a href="/deals/\${deal.id}" class="text-primary-500 hover:text-violet-500" onclick="event.stopPropagation()">
                 <i class="fas fa-external-link-alt mr-1"></i>查看详情
               </a>
             </td>
@@ -1347,8 +1365,8 @@ export const dealsPageContent = `
       const tabEl = document.getElementById(\`deal-tab-\${t}\`);
       if (tabEl) {
         tabEl.className = t === currentDealTab
-          ? 'py-3 px-4 font-medium text-[#00D29E] border-b-2 border-[#00D29E]'
-          : 'py-3 px-4 font-medium text-gray-500 hover:text-[#629C85]';
+          ? 'py-3 px-4 font-medium text-primary-500 border-b-2 border-primary-500'
+          : 'py-3 px-4 font-medium text-gray-500 hover:text-violet-500';
       }
     });
   }
@@ -1377,7 +1395,7 @@ export const dealsPageContent = `
             <h4 class="font-medium mb-3">评估结果</h4>
             \${deal.total_score ? \`
               <div class="text-center">
-                <div class="text-4xl font-bold text-[#00D29E]">\${deal.total_score.toFixed(1)}</div>
+                <div class="text-4xl font-bold text-primary-500">\${deal.total_score.toFixed(1)}</div>
                 <div class="text-gray-500 mt-1">\${deal.total_score >= 85 ? 'A级' : deal.total_score >= 75 ? 'B+级' : deal.total_score >= 65 ? 'B级' : 'C级'}</div>
               </div>
               <div class="mt-4 space-y-2 text-sm">
