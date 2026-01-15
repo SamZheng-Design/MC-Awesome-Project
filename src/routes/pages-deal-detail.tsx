@@ -658,6 +658,15 @@ export const dealDetailPageContent = `
       return;
     }
     
+    // 判断是否为抖音投流数据
+    const isDouyinData = dealData.industry === 'douyin-ecommerce' && financialData.roi !== undefined;
+    
+    if (isDouyinData) {
+      // 抖音投流专属渲染
+      renderDouyinFinancialTab(container, financialData);
+      return;
+    }
+    
     // 根据不同项目类型渲染
     const projectType = financialData.project_type || 'unknown';
     
@@ -735,6 +744,212 @@ export const dealDetailPageContent = `
           </summary>
           <div class="p-4">
             <pre class="text-xs bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto max-h-96">\${JSON.stringify(financialData, null, 2)}</pre>
+          </div>
+        </details>
+      </div>
+    \`;
+  }
+  
+  // 抖音投流专属财务数据渲染
+  function renderDouyinFinancialTab(container, data) {
+    const categoryMap = {
+      food: '食品饮料', beauty: '美妆护肤', clothing: '服饰鞋包', home: '家居家装',
+      electronics: '数码电子', baby: '母婴用品', health: '健康保健', sports: '运动户外', other: '其他'
+    };
+    
+    container.innerHTML = \`
+      <div class="space-y-6">
+        <!-- 抖音投流标题 -->
+        <div class="bg-gradient-to-r from-pink-50 to-red-50 rounded-xl p-4 border border-pink-100">
+          <div class="flex items-center">
+            <i class="fab fa-tiktok text-2xl text-[#FE2C55] mr-3"></i>
+            <div>
+              <h3 class="font-semibold text-[#FE2C55]">抖音投流数据详情</h3>
+              <p class="text-sm text-gray-500">品类：\${categoryMap[data.category] || data.category || '-'}</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 核心投放指标 -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="bg-gradient-to-br from-pink-50 to-white p-4 rounded-xl border border-pink-100">
+            <p class="text-sm text-gray-500">ROI</p>
+            <p class="text-2xl font-bold text-[#FE2C55]">\${data.roi || '-'}</p>
+            <p class="text-xs text-gray-400">1元投流转化</p>
+          </div>
+          <div class="bg-gradient-to-br from-orange-50 to-white p-4 rounded-xl border border-orange-100">
+            <p class="text-sm text-gray-500">GMV</p>
+            <p class="text-2xl font-bold text-orange-600">\${data.gmv || '-'}<span class="text-sm">万</span></p>
+            <p class="text-xs text-gray-400">成交金额</p>
+          </div>
+          <div class="bg-gradient-to-br from-blue-50 to-white p-4 rounded-xl border border-blue-100">
+            <p class="text-sm text-gray-500">CPM</p>
+            <p class="text-2xl font-bold text-blue-600">\${data.cpm || '-'}<span class="text-sm">元</span></p>
+            <p class="text-xs text-gray-400">千次曝光成本</p>
+          </div>
+          <div class="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl border border-purple-100">
+            <p class="text-sm text-gray-500">CTR</p>
+            <p class="text-2xl font-bold text-purple-600">\${data.ctr || '-'}<span class="text-sm">%</span></p>
+            <p class="text-xs text-gray-400">点击率</p>
+          </div>
+        </div>
+        
+        <!-- 投流合作情况 -->
+        <div class="border rounded-lg overflow-hidden">
+          <div class="px-4 py-3 bg-gray-50 font-medium text-gray-700">
+            <i class="fas fa-handshake mr-2 text-[#FE2C55]"></i>投流合作情况
+          </div>
+          <div class="p-4">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <div class="p-3 bg-gray-50 rounded-lg">
+                <p class="text-xs text-gray-500">已合作时间</p>
+                <p class="text-lg font-semibold">\${data.coop_duration || '-'} <span class="text-sm text-gray-400">个月</span></p>
+              </div>
+              <div class="p-3 bg-gray-50 rounded-lg">
+                <p class="text-xs text-gray-500">累计投流金额</p>
+                <p class="text-lg font-semibold text-[#FE2C55]">\${data.total_spend || '-'} <span class="text-sm text-gray-400">万元</span></p>
+              </div>
+              <div class="p-3 bg-gray-50 rounded-lg">
+                <p class="text-xs text-gray-500">管理账户数</p>
+                <p class="text-lg font-semibold">\${data.account_count || '-'} <span class="text-sm text-gray-400">个</span></p>
+              </div>
+              <div class="p-3 bg-gray-50 rounded-lg">
+                <p class="text-xs text-gray-500">账户留存金额</p>
+                <p class="text-lg font-semibold">\${data.account_balance || '-'} <span class="text-sm text-gray-400">万元</span></p>
+              </div>
+              <div class="p-3 bg-blue-50 rounded-lg">
+                <p class="text-xs text-gray-500">未来合作计划</p>
+                <p class="text-lg font-semibold text-blue-600">\${data.future_coop_duration || '-'} <span class="text-sm text-gray-400">个月</span></p>
+              </div>
+              <div class="p-3 bg-blue-50 rounded-lg">
+                <p class="text-xs text-gray-500">计划投流金额</p>
+                <p class="text-lg font-semibold text-blue-600">\${data.future_spend_plan || '-'} <span class="text-sm text-gray-400">万元</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 店铺与品牌信息 -->
+        <div class="border rounded-lg overflow-hidden">
+          <div class="px-4 py-3 bg-gray-50 font-medium text-gray-700">
+            <i class="fas fa-store mr-2 text-purple-500"></i>店铺与品牌信息
+          </div>
+          <div class="p-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div class="text-center p-3 bg-gradient-to-br from-yellow-50 to-white rounded-lg">
+                <p class="text-2xl font-bold text-yellow-500">\${data.shop_rating || '-'}</p>
+                <p class="text-xs text-gray-500">店铺评分</p>
+              </div>
+              <div class="text-center p-3 bg-gray-50 rounded-lg">
+                <p class="text-xl font-semibold">\${data.shop_age || '-'}</p>
+                <p class="text-xs text-gray-500">抖店成立(月)</p>
+              </div>
+              <div class="text-center p-3 bg-gray-50 rounded-lg">
+                <p class="text-xl font-semibold">\${data.brand_age || '-'}</p>
+                <p class="text-xs text-gray-500">品牌成立(月)</p>
+              </div>
+              <div class="text-center p-3 bg-green-50 rounded-lg">
+                <p class="text-xl font-semibold text-green-600">\${data.revenue_ratio || '-'}%</p>
+                <p class="text-xs text-gray-500">抖音收入占比</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 投放效果指标 -->
+        <div class="border rounded-lg overflow-hidden">
+          <div class="px-4 py-3 bg-gray-50 font-medium text-gray-700">
+            <i class="fas fa-chart-line mr-2 text-green-500"></i>投放效果指标
+          </div>
+          <div class="p-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div class="p-3 bg-gray-50 rounded-lg">
+                <p class="text-xs text-gray-500">完播率</p>
+                <p class="text-lg font-semibold">\${data.completion_rate || '-'}<span class="text-sm">%</span></p>
+              </div>
+              <div class="p-3 bg-gray-50 rounded-lg">
+                <p class="text-xs text-gray-500">自然流量增幅</p>
+                <p class="text-lg font-semibold text-green-600">\${data.organic_growth || '-'}<span class="text-sm">%</span></p>
+              </div>
+              <div class="p-3 bg-gray-50 rounded-lg">
+                <p class="text-xs text-gray-500">年度收入增长</p>
+                <p class="text-lg font-semibold">\${data.revenue_growth || '-'}<span class="text-sm">%</span></p>
+              </div>
+              <div class="p-3 bg-gray-50 rounded-lg">
+                <p class="text-xs text-gray-500">品类押金</p>
+                <p class="text-lg font-semibold">\${data.category_deposit || '-'}<span class="text-sm">万</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 商品质量指标 -->
+        <div class="border rounded-lg overflow-hidden">
+          <div class="px-4 py-3 bg-gray-50 font-medium text-gray-700">
+            <i class="fas fa-box mr-2 text-indigo-500"></i>商品质量指标
+          </div>
+          <div class="p-4">
+            <div class="grid grid-cols-3 gap-4">
+              <div class="text-center p-4 bg-red-50 rounded-lg">
+                <p class="text-2xl font-bold text-red-500">\${data.return_rate || '-'}%</p>
+                <p class="text-xs text-gray-500">退货率</p>
+              </div>
+              <div class="text-center p-4 bg-green-50 rounded-lg">
+                <p class="text-2xl font-bold text-green-600">\${data.gross_margin || '-'}%</p>
+                <p class="text-xs text-gray-500">商品毛利率</p>
+              </div>
+              <div class="text-center p-4 bg-blue-50 rounded-lg">
+                <p class="text-2xl font-bold text-blue-600">\${data.repurchase_rate || '-'}%</p>
+                <p class="text-xs text-gray-500">复购率</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 合规与权限 -->
+        <div class="border rounded-lg overflow-hidden">
+          <div class="px-4 py-3 bg-gray-50 font-medium text-gray-700">
+            <i class="fas fa-shield-alt mr-2 text-amber-500"></i>合规与权限
+          </div>
+          <div class="p-4">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <div class="flex items-center justify-between p-3 rounded-lg \${data.has_advance_coop ? 'bg-green-50' : 'bg-gray-50'}">
+                <span class="text-sm">历史垫资合作</span>
+                <span class="\${data.has_advance_coop ? 'text-green-600' : 'text-gray-400'} font-medium">\${data.has_advance_coop ? '是' : '否'}</span>
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-lg \${data.has_default ? 'bg-red-50' : 'bg-green-50'}">
+                <span class="text-sm">违约记录</span>
+                <span class="\${data.has_default ? 'text-red-600' : 'text-green-600'} font-medium">\${data.has_default ? '有' : '无'}</span>
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-lg \${data.has_deduction_auth ? 'bg-green-50' : 'bg-amber-50'}">
+                <span class="text-sm">账户扣款权限</span>
+                <span class="\${data.has_deduction_auth ? 'text-green-600' : 'text-amber-600'} font-medium">\${data.has_deduction_auth ? '有' : '无'}</span>
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-lg \${data.has_freeze_auth ? 'bg-green-50' : 'bg-amber-50'}">
+                <span class="text-sm">冻结/取现权限</span>
+                <span class="\${data.has_freeze_auth ? 'text-green-600' : 'text-amber-600'} font-medium">\${data.has_freeze_auth ? '有' : '无'}</span>
+              </div>
+              <div class="flex items-center justify-between p-3 rounded-lg \${data.exclusive_coop ? 'bg-blue-50' : 'bg-gray-50'}">
+                <span class="text-sm">排他投流合作</span>
+                <span class="\${data.exclusive_coop ? 'text-blue-600' : 'text-gray-400'} font-medium">\${data.exclusive_coop ? '是' : '否'}</span>
+              </div>
+            </div>
+            \${data.coop_history ? \`
+              <div class="mt-4 pt-4 border-t">
+                <p class="text-sm text-gray-500 mb-2">历史合作情况</p>
+                <p class="text-sm text-gray-700">\${data.coop_history}</p>
+              </div>
+            \` : ''}
+          </div>
+        </div>
+        
+        <!-- 原始JSON -->
+        <details class="border rounded-lg">
+          <summary class="px-4 py-3 bg-gray-50 font-medium text-gray-700 cursor-pointer">
+            <i class="fas fa-code mr-2 text-gray-500"></i>查看原始数据
+          </summary>
+          <div class="p-4">
+            <pre class="text-xs bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto max-h-96">\${JSON.stringify(data, null, 2)}</pre>
           </div>
         </details>
       </div>

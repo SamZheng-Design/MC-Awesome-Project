@@ -394,10 +394,18 @@ export const submitPageContent = `
             <p class="font-medium">生活服务</p>
           </div>
         </label>
+        <label class="cursor-pointer">
+          <input type="radio" name="industry" value="douyin-ecommerce" class="hidden peer" onchange="handleIndustryChange(this.value)">
+          <div class="p-6 border-2 rounded-xl text-center peer-checked:border-[#FF2D55] peer-checked:bg-pink-50 hover:border-gray-300 transition relative">
+            <div class="absolute -top-2 -right-2 bg-[#FF2D55] text-white text-xs px-2 py-0.5 rounded-full">热门</div>
+            <i class="fab fa-tiktok text-3xl text-[#FF2D55] mb-2"></i>
+            <p class="font-medium">抖音投流</p>
+          </div>
+        </label>
       </div>
     </div>
 
-    <!-- Step 2: 基本信息 -->
+    <!-- Step 2: 基本信息（通用行业） -->
     <div id="form-step-2" class="step-content hidden">
       <h3 class="text-lg font-semibold mb-4">企业基本信息</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -428,6 +436,239 @@ export const submitPageContent = `
         <div class="md:col-span-2">
           <label class="block text-sm font-medium text-gray-700 mb-1">主营业务描述 *</label>
           <textarea id="main_business" rows="4" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#00D29E] border-[#D9EDDF]" placeholder="请详细描述企业主营业务、商业模式、目标市场等（不少于100字）"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: 抖音投流专属表单 -->
+    <div id="form-step-2-douyin" class="step-content hidden">
+      <div class="flex items-center mb-6">
+        <i class="fab fa-tiktok text-2xl text-[#FF2D55] mr-3"></i>
+        <div>
+          <h3 class="text-lg font-semibold text-[#FF2D55]">抖音投流信息采集</h3>
+          <p class="text-sm text-gray-500">请完整填写以下信息以进行投流评估</p>
+        </div>
+      </div>
+      
+      <!-- 基本信息区域 -->
+      <div class="bg-gradient-to-r from-pink-50 to-white rounded-xl p-6 mb-6 border border-pink-100">
+        <h4 class="font-semibold text-gray-800 mb-4 flex items-center">
+          <i class="fas fa-building text-[#FF2D55] mr-2"></i>基本信息
+        </h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">企业名称 *</label>
+            <input type="text" id="dy_company_name" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-pink-200" placeholder="请输入企业全称">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">联系人 *</label>
+            <input type="text" id="dy_contact_name" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-pink-200" placeholder="联系人姓名">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">联系电话 *</label>
+            <input type="tel" id="dy_contact_phone" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-pink-200" placeholder="手机号码">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">抖店链接 *</label>
+            <input type="url" id="dy_shop_link" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-pink-200" placeholder="https://...">
+          </div>
+        </div>
+      </div>
+
+      <!-- 品类与合作信息 -->
+      <div class="bg-white rounded-xl p-6 mb-6 border border-gray-200">
+        <h4 class="font-semibold text-gray-800 mb-4 flex items-center">
+          <i class="fas fa-tags text-orange-500 mr-2"></i>品类与合作信息
+        </h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">品类划分 *</label>
+            <select id="dy_category" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-gray-200">
+              <option value="">请选择品类</option>
+              <option value="food">食品饮料</option>
+              <option value="beauty">美妆护肤</option>
+              <option value="clothing">服饰鞋包</option>
+              <option value="home">家居家装</option>
+              <option value="electronics">数码电子</option>
+              <option value="baby">母婴用品</option>
+              <option value="health">健康保健</option>
+              <option value="sports">运动户外</option>
+              <option value="other">其他</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">已与投流伙伴合作时间（月）*</label>
+            <input type="number" id="dy_coop_duration" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-gray-200" placeholder="例如：12">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">总计投流金额（万元）*</label>
+            <input type="number" step="0.01" id="dy_total_spend" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-gray-200" placeholder="例如：500">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">目前管理账户总数（个）</label>
+            <input type="number" id="dy_account_count" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-gray-200" placeholder="例如：5">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">账户留存金额（万元）</label>
+            <input type="number" step="0.01" id="dy_account_balance" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-gray-200" placeholder="例如：50">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">品类押金（万元）</label>
+            <input type="number" step="0.01" id="dy_category_deposit" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-gray-200" placeholder="例如：10">
+          </div>
+        </div>
+      </div>
+
+      <!-- 未来合作计划 -->
+      <div class="bg-blue-50 rounded-xl p-6 mb-6 border border-blue-100">
+        <h4 class="font-semibold text-gray-800 mb-4 flex items-center">
+          <i class="fas fa-rocket text-blue-500 mr-2"></i>未来合作计划
+        </h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">未来合作时间（月）*</label>
+            <input type="number" id="dy_future_coop_duration" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-blue-200" placeholder="例如：12">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">未来投流计划（万元）*</label>
+            <input type="number" step="0.01" id="dy_future_spend_plan" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-blue-200" placeholder="例如：1000">
+          </div>
+        </div>
+      </div>
+
+      <!-- 店铺与品牌信息 -->
+      <div class="bg-white rounded-xl p-6 mb-6 border border-gray-200">
+        <h4 class="font-semibold text-gray-800 mb-4 flex items-center">
+          <i class="fas fa-store text-purple-500 mr-2"></i>店铺与品牌信息
+        </h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">抖店成立时间（月）*</label>
+            <input type="number" id="dy_shop_age" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-gray-200" placeholder="例如：24">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">品牌成立时间（月）</label>
+            <input type="number" id="dy_brand_age" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-gray-200" placeholder="例如：36">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">抖音店铺评分 *</label>
+            <input type="number" step="0.1" min="0" max="5" id="dy_shop_rating" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-gray-200" placeholder="例如：4.8">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">抖音店铺收入占比（%）*</label>
+            <input type="number" step="0.1" min="0" max="100" id="dy_revenue_ratio" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-gray-200" placeholder="例如：60">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">店铺收入年度增长（%）</label>
+            <input type="number" step="0.1" id="dy_revenue_growth" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-gray-200" placeholder="例如：30">
+          </div>
+        </div>
+      </div>
+
+      <!-- 历史合作与合规信息 -->
+      <div class="bg-amber-50 rounded-xl p-6 mb-6 border border-amber-100">
+        <h4 class="font-semibold text-gray-800 mb-4 flex items-center">
+          <i class="fas fa-history text-amber-600 mr-2"></i>历史合作与合规信息
+        </h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">是否历史有过垫资合作 *</label>
+            <select id="dy_has_advance_coop" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-amber-200">
+              <option value="">请选择</option>
+              <option value="yes">是</option>
+              <option value="no">否</option>
+            </select>
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 mb-1">历史合作情况</label>
+            <textarea id="dy_coop_history" rows="2" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-amber-200" placeholder="请描述历史合作情况..."></textarea>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">是否有违约记录 *</label>
+            <select id="dy_has_default" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-amber-200">
+              <option value="">请选择</option>
+              <option value="yes">是</option>
+              <option value="no">否</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">是否有账户扣款权限 *</label>
+            <select id="dy_has_deduction_auth" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-amber-200">
+              <option value="">请选择</option>
+              <option value="yes">是</option>
+              <option value="no">否</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">是否有冻结/取现权限 *</label>
+            <select id="dy_has_freeze_auth" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-amber-200">
+              <option value="">请选择</option>
+              <option value="yes">是</option>
+              <option value="no">否</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">排他投流合作</label>
+            <select id="dy_exclusive_coop" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-amber-200">
+              <option value="">请选择</option>
+              <option value="yes">是</option>
+              <option value="no">否</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- 投放效果指标 -->
+      <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 mb-6 border border-green-100">
+        <h4 class="font-semibold text-gray-800 mb-4 flex items-center">
+          <i class="fas fa-chart-line text-green-600 mr-2"></i>投放效果指标
+        </h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">ROI（1元投流转化收入）*</label>
+            <input type="number" step="0.01" id="dy_roi" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-green-200" placeholder="例如：3.5">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">GMV 成交金额（万元）*</label>
+            <input type="number" step="0.01" id="dy_gmv" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-green-200" placeholder="例如：1000">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">CPM 千次曝光成本（元）</label>
+            <input type="number" step="0.01" id="dy_cpm" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-green-200" placeholder="例如：15">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">CTR 点击率（%）</label>
+            <input type="number" step="0.01" id="dy_ctr" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-green-200" placeholder="例如：2.5">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">完播率（%）</label>
+            <input type="number" step="0.01" id="dy_completion_rate" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-green-200" placeholder="例如：35">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">自然流量增幅（%）</label>
+            <input type="number" step="0.01" id="dy_organic_growth" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-green-200" placeholder="例如：50">
+          </div>
+        </div>
+      </div>
+
+      <!-- 商品质量指标 -->
+      <div class="bg-white rounded-xl p-6 border border-gray-200">
+        <h4 class="font-semibold text-gray-800 mb-4 flex items-center">
+          <i class="fas fa-box text-indigo-500 mr-2"></i>商品质量指标
+        </h4>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">退货率（%）</label>
+            <input type="number" step="0.01" id="dy_return_rate" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-gray-200" placeholder="例如：5">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">商品毛利率（%）</label>
+            <input type="number" step="0.01" id="dy_gross_margin" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-gray-200" placeholder="例如：40">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">复购率（%）</label>
+            <input type="number" step="0.01" id="dy_repurchase_rate" class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-[#FF2D55] border-gray-200" placeholder="例如：25">
+          </div>
         </div>
       </div>
     </div>
@@ -477,11 +718,29 @@ export const submitPageContent = `
 <script>
   let currentStep = 1;
   const totalSteps = 4;
+  let isDouyinMode = false;
+
+  // 检测是否为抖音投流模式
+  function checkDouyinMode() {
+    const industry = document.querySelector('input[name="industry"]:checked')?.value;
+    isDouyinMode = industry === 'douyin-ecommerce';
+    return isDouyinMode;
+  }
+
+  // 行业切换处理
+  function handleIndustryChange(value) {
+    isDouyinMode = value === 'douyin-ecommerce';
+  }
 
   function updateStepUI() {
+    checkDouyinMode();
+    
     for (let i = 1; i <= totalSteps; i++) {
       const stepEl = document.getElementById(\`submit-step-\${i}\`);
+      // 通用表单
       const formEl = document.getElementById(\`form-step-\${i}\`);
+      // 抖音专属表单（只有Step 2有专属版）
+      const douyinFormEl = document.getElementById(\`form-step-\${i}-douyin\`);
       
       if (i < currentStep) {
         stepEl.classList.remove('opacity-50');
@@ -489,35 +748,101 @@ export const submitPageContent = `
         stepEl.querySelector('div').innerHTML = '<i class="fas fa-check"></i>';
       } else if (i === currentStep) {
         stepEl.classList.remove('opacity-50');
-        stepEl.querySelector('div').className = 'w-8 h-8 rounded-full bg-[#00D29E] text-white flex items-center justify-center font-bold text-sm';
+        const activeColor = isDouyinMode ? '#FF2D55' : '#00D29E';
+        stepEl.querySelector('div').className = 'w-8 h-8 rounded-full text-white flex items-center justify-center font-bold text-sm';
+        stepEl.querySelector('div').style.backgroundColor = activeColor;
         stepEl.querySelector('div').textContent = i;
-        stepEl.querySelector('span').className = 'ml-2 font-medium text-[#00D29E]';
+        stepEl.querySelector('span').className = 'ml-2 font-medium';
+        stepEl.querySelector('span').style.color = activeColor;
       } else {
         stepEl.classList.add('opacity-50');
         stepEl.querySelector('div').className = 'w-8 h-8 rounded-full bg-gray-300 text-gray-600 flex items-center justify-center font-bold text-sm';
+        stepEl.querySelector('div').style.backgroundColor = '';
         stepEl.querySelector('div').textContent = i;
         stepEl.querySelector('span').className = 'ml-2 font-medium text-gray-600';
+        stepEl.querySelector('span').style.color = '';
       }
       
-      formEl.classList.toggle('hidden', i !== currentStep);
+      // 隐藏所有表单
+      if (formEl) formEl.classList.add('hidden');
+      if (douyinFormEl) douyinFormEl.classList.add('hidden');
+      
+      // 显示当前步骤的表单
+      if (i === currentStep) {
+        if (i === 2 && isDouyinMode && douyinFormEl) {
+          douyinFormEl.classList.remove('hidden');
+        } else if (formEl) {
+          formEl.classList.remove('hidden');
+        }
+      }
     }
     
     document.getElementById('btn-prev').classList.toggle('hidden', currentStep === 1);
-    document.getElementById('btn-next').innerHTML = currentStep === totalSteps 
+    
+    // 更新按钮样式
+    const btnNext = document.getElementById('btn-next');
+    if (isDouyinMode) {
+      btnNext.className = 'px-6 py-2 bg-gradient-to-r from-[#FF2D55] to-[#FF6B6B] text-white rounded-lg hover:opacity-90 transition';
+    } else {
+      btnNext.className = 'px-6 py-2 bg-gradient-to-r from-[#00D29E] to-[#00B88A] text-white rounded-lg hover:opacity-90 transition';
+    }
+    
+    btnNext.innerHTML = currentStep === totalSteps 
       ? '<i class="fas fa-check mr-2"></i>提交申请' 
       : '下一步<i class="fas fa-arrow-right ml-2"></i>';
   }
 
   function nextStep() {
+    checkDouyinMode();
+    
     if (currentStep === totalSteps) {
-      submitDeal();
+      if (isDouyinMode) {
+        submitDouyinDeal();
+      } else {
+        submitDeal();
+      }
       return;
     }
     
+    // 验证Step 2
     if (currentStep === 2) {
-      if (!document.getElementById('company_name').value || !document.getElementById('contact_name').value) {
-        showToast('请填写必填信息', 'error');
-        return;
+      if (isDouyinMode) {
+        // 抖音投流表单验证
+        const requiredFields = [
+          { id: 'dy_company_name', name: '企业名称' },
+          { id: 'dy_contact_name', name: '联系人' },
+          { id: 'dy_contact_phone', name: '联系电话' },
+          { id: 'dy_shop_link', name: '抖店链接' },
+          { id: 'dy_category', name: '品类划分' },
+          { id: 'dy_coop_duration', name: '合作时间' },
+          { id: 'dy_total_spend', name: '投流金额' },
+          { id: 'dy_future_coop_duration', name: '未来合作时间' },
+          { id: 'dy_future_spend_plan', name: '未来投流计划' },
+          { id: 'dy_shop_age', name: '抖店成立时间' },
+          { id: 'dy_shop_rating', name: '店铺评分' },
+          { id: 'dy_revenue_ratio', name: '收入占比' },
+          { id: 'dy_has_advance_coop', name: '垫资合作' },
+          { id: 'dy_has_default', name: '违约记录' },
+          { id: 'dy_has_deduction_auth', name: '扣款权限' },
+          { id: 'dy_has_freeze_auth', name: '冻结/取现权限' },
+          { id: 'dy_roi', name: 'ROI' },
+          { id: 'dy_gmv', name: 'GMV' }
+        ];
+        
+        for (const field of requiredFields) {
+          const el = document.getElementById(field.id);
+          if (!el || !el.value) {
+            showToast(\`请填写\${field.name}\`, 'error');
+            el?.focus();
+            return;
+          }
+        }
+      } else {
+        // 通用表单验证
+        if (!document.getElementById('company_name').value || !document.getElementById('contact_name').value) {
+          showToast('请填写必填信息', 'error');
+          return;
+        }
       }
     }
     
@@ -537,28 +862,78 @@ export const submitPageContent = `
   }
 
   function generateConfirmSummary() {
+    checkDouyinMode();
     const industry = document.querySelector('input[name="industry"]:checked')?.value;
     const industryMap = { 
       ecommerce: '电商', overseas: '海外', 'light-asset': '轻资产', retail: '零售',
-      catering: '餐饮', education: '教育培训', healthcare: '医疗健康', entertainment: '文娱', service: '生活服务'
+      catering: '餐饮', education: '教育培训', healthcare: '医疗健康', entertainment: '文娱', 
+      service: '生活服务', 'douyin-ecommerce': '抖音投流'
     };
     
-    document.getElementById('confirm-summary').innerHTML = \`
-      <div class="grid grid-cols-2 gap-4">
-        <div><span class="text-gray-500">行业：</span>\${industryMap[industry] || industry}</div>
-        <div><span class="text-gray-500">企业：</span>\${document.getElementById('company_name').value}</div>
-        <div><span class="text-gray-500">联系人：</span>\${document.getElementById('contact_name').value}</div>
-        <div><span class="text-gray-500">电话：</span>\${document.getElementById('contact_phone').value}</div>
-        <div><span class="text-gray-500">融资金额：</span>\${document.getElementById('funding_amount').value}万元</div>
-        <div><span class="text-gray-500">信用代码：</span>\${document.getElementById('credit_code').value || '-'}</div>
-      </div>
-      <div class="mt-4 pt-4 border-t">
-        <p class="text-gray-500 mb-2">主营业务：</p>
-        <p class="text-sm">\${document.getElementById('main_business').value.substring(0, 200)}...</p>
-      </div>
-    \`;
+    if (isDouyinMode) {
+      // 抖音投流确认摘要
+      const categoryMap = {
+        food: '食品饮料', beauty: '美妆护肤', clothing: '服饰鞋包', home: '家居家装',
+        electronics: '数码电子', baby: '母婴用品', health: '健康保健', sports: '运动户外', other: '其他'
+      };
+      
+      document.getElementById('confirm-summary').innerHTML = \`
+        <div class="bg-gradient-to-r from-pink-50 to-white rounded-lg p-4 mb-4 border border-pink-100">
+          <h4 class="font-semibold text-[#FF2D55] mb-3 flex items-center">
+            <i class="fab fa-tiktok mr-2"></i>抖音投流申请确认
+          </h4>
+          <div class="grid grid-cols-2 gap-3 text-sm">
+            <div><span class="text-gray-500">企业名称：</span>\${document.getElementById('dy_company_name').value}</div>
+            <div><span class="text-gray-500">品类：</span>\${categoryMap[document.getElementById('dy_category').value] || '-'}</div>
+            <div><span class="text-gray-500">联系人：</span>\${document.getElementById('dy_contact_name').value}</div>
+            <div><span class="text-gray-500">联系电话：</span>\${document.getElementById('dy_contact_phone').value}</div>
+            <div><span class="text-gray-500">抖店链接：</span><span class="truncate">\${document.getElementById('dy_shop_link').value}</span></div>
+            <div><span class="text-gray-500">店铺评分：</span>\${document.getElementById('dy_shop_rating').value}</div>
+          </div>
+        </div>
+        
+        <div class="grid grid-cols-3 gap-4 text-center mb-4">
+          <div class="bg-blue-50 rounded-lg p-3">
+            <p class="text-xs text-gray-500">已投流金额</p>
+            <p class="text-xl font-bold text-blue-600">\${document.getElementById('dy_total_spend').value}<span class="text-sm">万</span></p>
+          </div>
+          <div class="bg-green-50 rounded-lg p-3">
+            <p class="text-xs text-gray-500">计划投流金额</p>
+            <p class="text-xl font-bold text-green-600">\${document.getElementById('dy_future_spend_plan').value}<span class="text-sm">万</span></p>
+          </div>
+          <div class="bg-purple-50 rounded-lg p-3">
+            <p class="text-xs text-gray-500">ROI</p>
+            <p class="text-xl font-bold text-purple-600">\${document.getElementById('dy_roi').value}</p>
+          </div>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-3 text-sm">
+          <div><span class="text-gray-500">合作时间：</span>\${document.getElementById('dy_coop_duration').value}个月</div>
+          <div><span class="text-gray-500">GMV：</span>\${document.getElementById('dy_gmv').value}万元</div>
+          <div><span class="text-gray-500">抖店成立：</span>\${document.getElementById('dy_shop_age').value}个月</div>
+          <div><span class="text-gray-500">收入占比：</span>\${document.getElementById('dy_revenue_ratio').value}%</div>
+        </div>
+      \`;
+    } else {
+      // 通用确认摘要
+      document.getElementById('confirm-summary').innerHTML = \`
+        <div class="grid grid-cols-2 gap-4">
+          <div><span class="text-gray-500">行业：</span>\${industryMap[industry] || industry}</div>
+          <div><span class="text-gray-500">企业：</span>\${document.getElementById('company_name').value}</div>
+          <div><span class="text-gray-500">联系人：</span>\${document.getElementById('contact_name').value}</div>
+          <div><span class="text-gray-500">电话：</span>\${document.getElementById('contact_phone').value}</div>
+          <div><span class="text-gray-500">融资金额：</span>\${document.getElementById('funding_amount').value}万元</div>
+          <div><span class="text-gray-500">信用代码：</span>\${document.getElementById('credit_code').value || '-'}</div>
+        </div>
+        <div class="mt-4 pt-4 border-t">
+          <p class="text-gray-500 mb-2">主营业务：</p>
+          <p class="text-sm">\${document.getElementById('main_business').value.substring(0, 200)}...</p>
+        </div>
+      \`;
+    }
   }
 
+  // 通用提交
   async function submitDeal() {
     const deal = {
       company_name: document.getElementById('company_name').value,
@@ -582,6 +957,102 @@ export const submitPageContent = `
       setTimeout(() => window.location.href = '/deals', 2000);
     } catch (e) {}
   }
+
+  // 抖音投流专属提交
+  async function submitDouyinDeal() {
+    // 收集所有抖音投流字段
+    const douyinData = {
+      // 基本信息
+      company_name: document.getElementById('dy_company_name').value,
+      contact_name: document.getElementById('dy_contact_name').value,
+      contact_phone: document.getElementById('dy_contact_phone').value,
+      shop_link: document.getElementById('dy_shop_link').value,
+      
+      // 品类与合作
+      category: document.getElementById('dy_category').value,
+      coop_duration: parseInt(document.getElementById('dy_coop_duration').value) || 0,
+      total_spend: parseFloat(document.getElementById('dy_total_spend').value) || 0,
+      account_count: parseInt(document.getElementById('dy_account_count').value) || 0,
+      account_balance: parseFloat(document.getElementById('dy_account_balance').value) || 0,
+      category_deposit: parseFloat(document.getElementById('dy_category_deposit').value) || 0,
+      
+      // 未来计划
+      future_coop_duration: parseInt(document.getElementById('dy_future_coop_duration').value) || 0,
+      future_spend_plan: parseFloat(document.getElementById('dy_future_spend_plan').value) || 0,
+      
+      // 店铺与品牌
+      shop_age: parseInt(document.getElementById('dy_shop_age').value) || 0,
+      brand_age: parseInt(document.getElementById('dy_brand_age').value) || 0,
+      shop_rating: parseFloat(document.getElementById('dy_shop_rating').value) || 0,
+      revenue_ratio: parseFloat(document.getElementById('dy_revenue_ratio').value) || 0,
+      revenue_growth: parseFloat(document.getElementById('dy_revenue_growth').value) || 0,
+      
+      // 历史合作与合规
+      has_advance_coop: document.getElementById('dy_has_advance_coop').value === 'yes',
+      coop_history: document.getElementById('dy_coop_history').value,
+      has_default: document.getElementById('dy_has_default').value === 'yes',
+      has_deduction_auth: document.getElementById('dy_has_deduction_auth').value === 'yes',
+      has_freeze_auth: document.getElementById('dy_has_freeze_auth').value === 'yes',
+      exclusive_coop: document.getElementById('dy_exclusive_coop').value === 'yes',
+      
+      // 投放效果指标
+      roi: parseFloat(document.getElementById('dy_roi').value) || 0,
+      gmv: parseFloat(document.getElementById('dy_gmv').value) || 0,
+      cpm: parseFloat(document.getElementById('dy_cpm').value) || 0,
+      ctr: parseFloat(document.getElementById('dy_ctr').value) || 0,
+      completion_rate: parseFloat(document.getElementById('dy_completion_rate').value) || 0,
+      organic_growth: parseFloat(document.getElementById('dy_organic_growth').value) || 0,
+      
+      // 商品质量指标
+      return_rate: parseFloat(document.getElementById('dy_return_rate').value) || 0,
+      gross_margin: parseFloat(document.getElementById('dy_gross_margin').value) || 0,
+      repurchase_rate: parseFloat(document.getElementById('dy_repurchase_rate').value) || 0
+    };
+
+    // 构建提交数据
+    const categoryMap = {
+      food: '食品饮料', beauty: '美妆护肤', clothing: '服饰鞋包', home: '家居家装',
+      electronics: '数码电子', baby: '母婴用品', health: '健康保健', sports: '运动户外', other: '其他'
+    };
+    
+    const deal = {
+      company_name: douyinData.company_name,
+      credit_code: '',
+      industry: 'douyin-ecommerce',
+      main_business: \`抖音投流业务 - \${categoryMap[douyinData.category] || '其他'}品类
+店铺评分：\${douyinData.shop_rating}
+已合作\${douyinData.coop_duration}个月，累计投流\${douyinData.total_spend}万元
+计划未来\${douyinData.future_coop_duration}个月投流\${douyinData.future_spend_plan}万元
+ROI: \${douyinData.roi}, GMV: \${douyinData.gmv}万元\`,
+      funding_amount: douyinData.future_spend_plan,
+      contact_name: douyinData.contact_name,
+      contact_phone: douyinData.contact_phone,
+      website: douyinData.shop_link,
+      project_documents: document.getElementById('project_documents')?.value || '',
+      financial_data: JSON.stringify(douyinData)
+    };
+
+    try {
+      const result = await apiCall('/api/deals', {
+        method: 'POST',
+        body: JSON.stringify(deal)
+      });
+      showToast('抖音投流申请提交成功！标的ID: ' + result.data.id, 'success');
+      setTimeout(() => window.location.href = '/deals/' + result.data.id, 2000);
+    } catch (e) {
+      showToast('提交失败，请重试', 'error');
+    }
+  }
+
+  // 页面加载时检查行业选择
+  document.addEventListener('DOMContentLoaded', () => {
+    // 监听所有行业选择变化
+    document.querySelectorAll('input[name="industry"]').forEach(radio => {
+      radio.addEventListener('change', function() {
+        handleIndustryChange(this.value);
+      });
+    });
+  });
 </script>
 `
 
