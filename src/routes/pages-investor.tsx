@@ -444,10 +444,11 @@ export const investorPortalPageContent = `
     }
   }
   
-  // 加载演示数据（当API不可用时）- 全部30个DRO标的
+  // 加载演示数据（当API不可用时）- 全部50个DRO标的
   function loadDemoData() {
-    // 演示数据 - 30个DRO收入分成标的，覆盖不同行业、地区、分成频率
+    // 演示数据 - 50个DRO收入分成标的，覆盖实体门店30个 + 创新领域20个
     investorData.deals = [
+      // ========== 实体门店标的（30个）==========
       // 基础10个标的
       { id: 'DGT-2026-001', company_name: '蜜雪冰城（深圳南山科技园店）', industry: 'catering', invested_amount: 35, total_cashflow: 12, cashflow_frequency: 'daily', region: '广东', city: '深圳', issuer: '蜜雪冰城股份', description: '新式茶饮头部品牌深圳高人流量科技园店，日均销售额稳定', start_date: '2025-10-15' },
       { id: 'DGT-2026-002', company_name: '老乡鸡（上海徐汇日月光店）', industry: 'catering', invested_amount: 80, total_cashflow: 28, cashflow_frequency: 'daily', region: '上海', city: '上海', issuer: '老乡鸡餐饮', description: '中式快餐头部品牌上海核心商圈店，稳定客流', start_date: '2025-09-20' },
@@ -459,7 +460,7 @@ export const investorPortalPageContent = `
       { id: 'DGT-2026-008', company_name: '唱吧麦颂KTV（南京新街口旗舰店）', industry: 'entertainment', invested_amount: 200, total_cashflow: 44, cashflow_frequency: 'monthly', region: '江苏', city: '南京', issuer: '唱吧麦颂', description: '互联网KTV头部品牌，线上引流+线下体验模式', start_date: '2025-09-10' },
       { id: 'DGT-2026-009', company_name: '途虎养车工场店（重庆渝北龙湖店）', industry: 'service', invested_amount: 180, total_cashflow: 51, cashflow_frequency: 'monthly', region: '重庆', city: '重庆', issuer: '途虎养车', description: '汽车后市场头部品牌，线上线下一体化服务', start_date: '2025-08-25' },
       { id: 'DGT-2026-010', company_name: '海底捞（西安大雁塔店）', industry: 'catering', invested_amount: 300, total_cashflow: 135, cashflow_frequency: 'monthly', region: '陕西', city: '西安', issuer: '海底捞国际', description: '火锅头部品牌西安核心景区旗舰店，旅游+本地双客流', start_date: '2025-05-20' },
-      // 扩展20个标的
+      // 扩展20个门店标的
       { id: 'DGT-2026-011', company_name: '鲍师傅糕点（苏州观前街店）', industry: 'catering', invested_amount: 45, total_cashflow: 22, cashflow_frequency: 'daily', region: '江苏', city: '苏州', issuer: '鲍师傅糕点', description: '中式糕点头部品牌，常年排队爆款店', start_date: '2026-01-11' },
       { id: 'DGT-2026-012', company_name: '孩子王（郑州正弘城店）', industry: 'retail', invested_amount: 150, total_cashflow: 61, cashflow_frequency: 'daily', region: '河南', city: '郑州', issuer: '孩子王', description: '母婴零售龙头品牌区域旗舰店', start_date: '2026-01-11' },
       { id: 'DGT-2026-013', company_name: '通策医疗口腔（长沙五一广场店）', industry: 'service', invested_amount: 200, total_cashflow: 72, cashflow_frequency: 'weekly', region: '湖南', city: '长沙', issuer: '通策医疗', description: '口腔医疗上市公司旗下门诊', start_date: '2026-01-12' },
@@ -479,10 +480,38 @@ export const investorPortalPageContent = `
       { id: 'DGT-2026-027', company_name: '名创优品（南宁万象城店）', industry: 'retail', invested_amount: 60, total_cashflow: 13, cashflow_frequency: 'daily', region: '广西', city: '南宁', issuer: '名创优品', description: '生活好物零售上市公司', start_date: '2026-01-15' },
       { id: 'DGT-2026-028', company_name: '宠物家（哈尔滨中央大街店）', industry: 'service', invested_amount: 50, total_cashflow: 15, cashflow_frequency: 'weekly', region: '黑龙江', city: '哈尔滨', issuer: '宠物家', description: '宠物服务连锁品牌', start_date: '2026-01-15' },
       { id: 'DGT-2026-029', company_name: '巴奴毛肚火锅（贵阳花果园店）', industry: 'catering', invested_amount: 180, total_cashflow: 45, cashflow_frequency: 'monthly', region: '贵州', city: '贵阳', issuer: '巴奴火锅', description: '毛肚火锅头部品牌', start_date: '2026-01-15' },
-      { id: 'DGT-2026-030', company_name: '谜探剧本杀（武汉楚河汉街店）', industry: 'entertainment', invested_amount: 85, total_cashflow: 26, cashflow_frequency: 'monthly', region: '湖北', city: '武汉', issuer: '谜探文娱', description: '沉浸式剧本杀连锁品牌', start_date: '2026-01-15' }
+      { id: 'DGT-2026-030', company_name: '谜探剧本杀（武汉楚河汉街店）', industry: 'entertainment', invested_amount: 85, total_cashflow: 26, cashflow_frequency: 'monthly', region: '湖北', city: '武汉', issuer: '谜探文娱', description: '沉浸式剧本杀连锁品牌', start_date: '2026-01-15' },
+      // ========== 创新领域标的（20个）==========
+      // 票务/演出
+      { id: 'DGT-2026-031', company_name: '薛之谦2026巡回演唱会（华东站）', industry: 'concert', invested_amount: 500, total_cashflow: 342, cashflow_frequency: 'weekly', region: '华东', city: '上海', issuer: '大麦网', description: '顶流歌手华东三城巡演，预计6场演出，票房分成', start_date: '2026-01-16' },
+      { id: 'DGT-2026-041', company_name: '草莓音乐节2026成都站', industry: 'concert', invested_amount: 200, total_cashflow: 111, cashflow_frequency: 'weekly', region: '四川', city: '成都', issuer: '摩登天空', description: '中国最大户外音乐节品牌，3天10万人次', start_date: '2026-01-17' },
+      // 抖音投流
+      { id: 'DGT-2026-032', company_name: 'UR快时尚抖音投流项目', industry: 'douyin-ads', invested_amount: 200, total_cashflow: 131, cashflow_frequency: 'weekly', region: '广东', city: '广州', issuer: 'UR品牌', description: '本土快时尚头部品牌，按GMV分成，ROI目标3.5', start_date: '2026-01-16' },
+      { id: 'DGT-2026-042', company_name: '三只松鼠抖音年货节投流', industry: 'douyin-ads', invested_amount: 120, total_cashflow: 58, cashflow_frequency: 'weekly', region: '安徽', city: '芜湖', issuer: '三只松鼠', description: '休闲零食头部品牌，年货节千川投放', start_date: '2026-01-17' },
+      // 充电桩/新能源
+      { id: 'DGT-2026-033', company_name: '特来电京沪高速充电站（10站）', industry: 'new-energy', invested_amount: 300, total_cashflow: 31, cashflow_frequency: 'daily', region: '华东', city: '京沪沿线', issuer: '特来电', description: '充电桩运营龙头，高速服务区10站打包', start_date: '2026-01-16' },
+      { id: 'DGT-2026-039', company_name: '正泰分布式光伏（浙江10厂房）', industry: 'new-energy', invested_amount: 350, total_cashflow: 49, cashflow_frequency: 'monthly', region: '浙江', city: '嘉兴', issuer: '正泰新能源', description: '光伏龙头企业，工业厂房屋顶5MW装机', start_date: '2026-01-16' },
+      { id: 'DGT-2026-043', company_name: '宁德时代工商业储能（苏州3站）', industry: 'new-energy', invested_amount: 280, total_cashflow: 17, cashflow_frequency: 'daily', region: '江苏', city: '苏州', issuer: '宁德时代', description: '动力电池龙头，峰谷套利+需量管理', start_date: '2026-01-17' },
+      { id: 'DGT-2026-045', company_name: '哈啰两轮车换电站（20站）', industry: 'new-energy', invested_amount: 160, total_cashflow: 27, cashflow_frequency: 'daily', region: '浙江', city: '杭州', issuer: '哈啰出行', description: '两轮车换电龙头，骑手刚需场景', start_date: '2026-01-17' },
+      { id: 'DGT-2026-047', company_name: '星星充电目的地充电桩（北京20酒店）', industry: 'new-energy', invested_amount: 120, total_cashflow: 16, cashflow_frequency: 'weekly', region: '北京', city: '北京', issuer: '星星充电', description: '民营充电龙头，高端酒店目的地充电', start_date: '2026-01-17' },
+      // SaaS/科技
+      { id: 'DGT-2026-034', company_name: '有赞电商SaaS订阅收入分成', industry: 'tech', invested_amount: 400, total_cashflow: 20, cashflow_frequency: 'monthly', region: '浙江', city: '杭州', issuer: '有赞', description: '电商SaaS龙头港股公司，按ARR分成', start_date: '2026-01-16' },
+      { id: 'DGT-2026-040', company_name: '三七互娱小程序游戏联运', industry: 'tech', invested_amount: 180, total_cashflow: 30, cashflow_frequency: 'weekly', region: '广东', city: '深圳', issuer: '三七互娱', description: '游戏发行头部A股公司，买量投放分成', start_date: '2026-01-17' },
+      // MCN/娱乐
+      { id: 'DGT-2026-035', company_name: '无忧传媒达人孵化计划（10人）', industry: 'mcn', invested_amount: 150, total_cashflow: 72, cashflow_frequency: 'monthly', region: '浙江', city: '杭州', issuer: '无忧传媒', description: '头部MCN机构，达人GMV+广告分成', start_date: '2026-01-16' },
+      { id: 'DGT-2026-044', company_name: 'BLG电竞战队收入分成', industry: 'esports', invested_amount: 300, total_cashflow: 200, cashflow_frequency: 'monthly', region: '上海', city: '上海', issuer: 'B站电竞', description: 'LPL顶级战队，联盟分成+赞助+直播', start_date: '2026-01-17' },
+      { id: 'DGT-2026-050', company_name: 'A-SOUL虚拟偶像运营分成', industry: 'vtuber', invested_amount: 200, total_cashflow: 125, cashflow_frequency: 'monthly', region: '上海', city: '上海', issuer: '乐华娱乐', description: '中国最成功虚拟偶像团体，直播+演出分成', start_date: '2026-01-18' },
+      // 知识付费/内容
+      { id: 'DGT-2026-036', company_name: '得到App《商业洞察力》课程', industry: 'education', invested_amount: 80, total_cashflow: 75, cashflow_frequency: 'monthly', region: '北京', city: '北京', issuer: '得到', description: '知识付费头部平台，按课程销售分成', start_date: '2026-01-16' },
+      { id: 'DGT-2026-037', company_name: '华语经典金曲版税分成基金', industry: 'music-royalty', invested_amount: 600, total_cashflow: 30, cashflow_frequency: 'monthly', region: '全国', city: '北京', issuer: '音著协', description: '50首经典金曲版税权，稳健型长期投资', start_date: '2026-01-16' },
+      { id: 'DGT-2026-046', company_name: '爱奇艺分账剧《重生之都市修仙》', industry: 'media', invested_amount: 180, total_cashflow: 160, cashflow_frequency: 'monthly', region: '浙江', city: '横店', issuer: '爱奇艺', description: '网剧分账模式，按有效播放量分成', start_date: '2026-01-17' },
+      { id: 'DGT-2026-048', company_name: '小宇宙播客广告分成（10档）', industry: 'media', invested_amount: 100, total_cashflow: 60, cashflow_frequency: 'monthly', region: '北京', city: '北京', issuer: '小宇宙', description: '中国最大播客平台，头部播客广告分成', start_date: '2026-01-18' },
+      // 电商
+      { id: 'DGT-2026-038', company_name: '宝尊电商代运营（3品牌）', industry: 'ecommerce', invested_amount: 250, total_cashflow: 200, cashflow_frequency: 'monthly', region: '上海', city: '上海', issuer: '宝尊电商', description: '品牌电商代运营龙头美股公司，按GMV分成', start_date: '2026-01-16' },
+      { id: 'DGT-2026-049', company_name: '完美日记私域小程序GMV分成', industry: 'ecommerce', invested_amount: 150, total_cashflow: 90, cashflow_frequency: 'weekly', region: '广东', city: '广州', issuer: '逸仙电商', description: '新锐美妆头部品牌，私域复购率40%', start_date: '2026-01-18' }
     ];
     
-    // 基于30个标的计算统计数据
+    // 基于50个标的计算统计数据
     const totalInvested = investorData.deals.reduce((sum, d) => sum + d.invested_amount, 0);
     const totalCashflow = investorData.deals.reduce((sum, d) => sum + d.total_cashflow, 0);
     const cities = [...new Set(investorData.deals.map(d => d.city))];
@@ -500,13 +529,13 @@ export const investorPortalPageContent = `
     
     investorData.stats = {
       totalCashflow: totalCashflow,
-      yesterdayCashflow: 28.5,  // 模拟昨日收益
+      yesterdayCashflow: 58.5,  // 模拟昨日收益（50标的收益更高）
       totalInvested: totalInvested,
-      investedDeals: 30,
-      activeDeals: 30,
+      investedDeals: 50,
+      activeDeals: 50,
       avgReturnRate: parseFloat(((totalCashflow / totalInvested) * 100).toFixed(1)),
       issuers: issuers.length,
-      assets: 30,
+      assets: 50,
       countries: 1,
       cities: cities.length,
       regions: regionPercent
@@ -519,7 +548,7 @@ export const investorPortalPageContent = `
     for (let i = 30; i >= 0; i--) {
       const date = new Date(today);
       date.setDate(date.getDate() - i);
-      const dailyAmount = Math.random() * 50 + 15;  // 每日15-65万（30标的收益更多）
+      const dailyAmount = Math.random() * 80 + 30;  // 每日30-110万（50标的收益更多）
       cumulative += dailyAmount;
       investorData.cashflows.push({
         date: date.toISOString().split('T')[0],
@@ -528,7 +557,7 @@ export const investorPortalPageContent = `
       });
     }
     
-    // 基于30个标的生成交易记录（动态生成）
+    // 基于50个标的生成交易记录（动态生成）
     investorData.transactions = investorData.deals.map((deal, index) => ({
       id: 'TRX-' + String(index + 1).padStart(3, '0'),
       deal_name: deal.company_name.replace(/（.*）/, ''),
@@ -539,12 +568,12 @@ export const investorPortalPageContent = `
       type: 'invest'
     }));
     
-    // 演示公告（更新为与30个标的相关）
+    // 演示公告（更新为与50个标的相关）
     investorData.announcements = [
-      { id: 'ANN-001', title: '2026年1月收益分配公告', category: 'distribution', priority: 'high', publish_date: '2026-01-15', content: '本月收益分配将于1月20日完成，30个标的收益均按时结算，请投资人关注账户变动。' },
-      { id: 'ANN-002', title: '新资产批量上线通知', category: 'asset', priority: 'high', publish_date: '2026-01-12', content: '平台新增20个优质DRO标的，覆盖餐饮、零售、服务、教育、文娱等多个行业，欢迎查看项目详情。' },
-      { id: 'ANN-003', title: '马子禄牛肉面项目IRR超预期', category: 'asset', priority: 'high', publish_date: '2026-01-10', content: '兰州正宁路店项目表现优异，预计IRR达65%，为平台表现最佳标的之一。' },
-      { id: 'ANN-004', title: '平台规则更新说明', category: 'platform', priority: 'normal', publish_date: '2026-01-08', content: '三种分成频率（每日/每周/每月）结算规则已更新，请查阅最新版本。' },
+      { id: 'ANN-001', title: '2026年1月收益分配公告', category: 'distribution', priority: 'high', publish_date: '2026-01-15', content: '本月收益分配将于1月20日完成，50个标的收益均按时结算，请投资人关注账户变动。' },
+      { id: 'ANN-002', title: '创新领域标的批量上线通知', category: 'asset', priority: 'high', publish_date: '2026-01-16', content: '平台新增20个创新领域DRO标的，覆盖演唱会票务、抖音投流、充电桩、SaaS、MCN、电竞等新赛道，欢迎查看项目详情。' },
+      { id: 'ANN-003', title: '薛之谦巡演项目IRR超预期', category: 'asset', priority: 'high', publish_date: '2026-01-17', content: '华东站巡演项目票房表现优异，预计IRR达37%，为平台票务类最佳标的。' },
+      { id: 'ANN-004', title: '新增充电桩/新能源赛道说明', category: 'platform', priority: 'normal', publish_date: '2026-01-16', content: '新增新能源赛道5个标的，涵盖充电桩、光伏、储能、换电等细分领域，分成频率包含每日、每周、每月三种。' },
       { id: 'ANN-005', title: '春节期间服务安排通知', category: 'platform', priority: 'normal', publish_date: '2026-01-05', content: '春节期间（1月28日-2月4日）平台正常运营，每日分成标的照常T+1结算。' }
     ];
     

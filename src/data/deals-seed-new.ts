@@ -1181,12 +1181,17 @@ export const workflowConfig = {
 };
 
 // ============================================
-// 导入扩展标的（20个）
+// 导入扩展标的（20个实体门店）
 // ============================================
 import { extendedDeals, extendedDealsSummary } from './deals-seed-extended';
 
 // ============================================
-// 导出基础标的（10个）
+// 导入创新标的（20个非实体门店：票务、抖音投流、充电桩等）
+// ============================================
+import { innovativeDeals, innovativeDealsSummary } from './deals-seed-innovative';
+
+// ============================================
+// 导出基础标的（10个实体门店）
 // ============================================
 export const baseDeals = [
   deal_01_tea,      // 蜜雪冰城-深圳-每日
@@ -1202,15 +1207,23 @@ export const baseDeals = [
 ];
 
 // ============================================
-// 导出所有标的（30个 = 基础10个 + 扩展20个）
+// 导出实体门店标的（30个 = 基础10个 + 扩展20个）
 // ============================================
-export const allDeals = [
+export const storeDeals = [
   ...baseDeals,
   ...extendedDeals
 ];
 
 // ============================================
-// 基础标的摘要信息
+// 导出所有标的（50个 = 实体门店30个 + 创新领域20个）
+// ============================================
+export const allDeals = [
+  ...storeDeals,
+  ...innovativeDeals
+];
+
+// ============================================
+// 基础标的摘要信息（10个）
 // ============================================
 export const baseDealsSummary = [
   { id: "DGT-2026-001", name: "蜜雪冰城深圳科技园店", industry: "餐饮-茶饮", city: "深圳", amount: 35, share: "8%", frequency: "每日", irr: "18%" },
@@ -1226,9 +1239,17 @@ export const baseDealsSummary = [
 ];
 
 // ============================================
-// 全部标的摘要信息（30个）
+// 实体门店标的摘要信息（30个）
 // ============================================
-export const dealsSummary = [
+export const storeDealsSummary = [
   ...baseDealsSummary,
   ...extendedDealsSummary
+];
+
+// ============================================
+// 全部标的摘要信息（50个 = 实体30个 + 创新20个）
+// ============================================
+export const dealsSummary = [
+  ...storeDealsSummary,
+  ...innovativeDealsSummary
 ];
