@@ -387,7 +387,7 @@ const baseLayout = (title: string, content: string, activeNav: string = '') => h
                   <i class="fas fa-file-upload mr-3 text-[#5A7A64]"></i>提交融资申请
                 </a>
                 <a href="/deals" class="flex items-center px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 rounded-b-xl">
-                  <i class="fas fa-folder-open mr-3 text-[#8B6B4A]"></i>我的标的
+                  <i class="fas fa-folder-open mr-3 text-[#8B6B4A]"></i>标的管理
                 </a>
               </div>
             </div>
