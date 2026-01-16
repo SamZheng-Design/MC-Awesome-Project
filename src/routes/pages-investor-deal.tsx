@@ -426,7 +426,7 @@ export const investorDealDetailPageContent = `
       </span>
     \`;
     
-    document.getElementById('info-invested-amount').textContent = '¥' + formatNumber(currentDeal.invested_amount) + '万';
+    document.getElementById('info-invested-amount').textContent = '¥' + formatInvestmentAmount(currentDeal.invested_amount);
     document.getElementById('info-frequency').textContent = frequencyMap[currentDeal.cashflow_frequency] || currentDeal.cashflow_frequency;
     document.getElementById('info-issuer').textContent = currentDeal.issuer || '-';
     document.getElementById('info-region').textContent = (currentDeal.region || '') + ' ' + (currentDeal.city || '');
@@ -434,8 +434,8 @@ export const investorDealDetailPageContent = `
     document.getElementById('info-start-date').textContent = currentDeal.start_date || '-';
     
     // 统计数据
-    document.getElementById('deal-invested').textContent = '¥' + formatNumber(currentDeal.invested_amount) + '万';
-    document.getElementById('deal-total-return').textContent = '¥' + formatNumber(currentDeal.total_cashflow) + '万';
+    document.getElementById('deal-invested').textContent = '¥' + formatInvestmentAmount(currentDeal.invested_amount);
+    document.getElementById('deal-total-return').textContent = '¥' + formatCashflowAmount(currentDeal.total_cashflow);
     const returnRate = currentDeal.invested_amount > 0 ? ((currentDeal.total_cashflow / currentDeal.invested_amount) * 100).toFixed(1) : 0;
     document.getElementById('deal-return-rate').textContent = returnRate + '%';
     
@@ -711,11 +711,42 @@ export const investorDealDetailPageContent = `
   // 辅助函数
   // ============================================
   
-  function formatNumber(num) {
-    if (num >= 10000) {
-      return (num / 10000).toFixed(2) + '亿';
+  // 格式化金额显示
+  // 参数unit表示输入数据的单位：'yuan'=元, 'wan'=万元
+  // 返回适合显示的字符串，自动选择万元或亿元
+  function formatNumber(num, unit = 'yuan') {
+    if (!num || num === 0) return '0';
+    
+    // 统一转换为元
+    let valueInYuan = num;
+    if (unit === 'wan') {
+      valueInYuan = num * 10000; // 万元转元
     }
-    return num.toLocaleString('zh-CN', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+    
+    // 转换为万元
+    const valueInWan = valueInYuan / 10000;
+    
+    // 根据金额大小选择显示单位
+    if (valueInWan >= 10000) {
+      // >= 1亿，显示亿元
+      return (valueInWan / 10000).toFixed(2) + '亿';
+    } else if (valueInWan >= 1) {
+      // >= 1万，显示万元
+      return valueInWan.toFixed(2) + '万';
+    } else {
+      // < 1万，显示元
+      return valueInYuan.toLocaleString('zh-CN', { minimumFractionDigits: 0, maximumFractionDigits: 2 }) + '元';
+    }
+  }
+  
+  // 格式化投资金额（数据库存储单位为元）
+  function formatInvestmentAmount(num) {
+    return formatNumber(num, 'yuan');
+  }
+  
+  // 格式化回款金额（数据库存储单位为元）
+  function formatCashflowAmount(num) {
+    return formatNumber(num, 'yuan');
   }
 <\/script>
 `

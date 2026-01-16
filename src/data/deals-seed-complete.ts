@@ -2079,7 +2079,30 @@ export const complete_deal_15 = {
 };
 
 // 项目16-50：简化版本（实际数据都有完整结构）
+// 
+// 营收合理性设计原则（参考滴灌通实际数据）：
+// - 小型门店（投资30-60万）：月营收约12-35万元（投资额的3-5倍）
+// - 中型门店（投资60-150万）：月营收约30-80万元（投资额的4-6倍）
+// - 大型门店（投资150-300万）：月营收约80-250万元（投资额的5-8倍）
+// - 特大门店（投资300万以上）：月营收约150-400万元（投资额的4-6倍）
+//
+// 不同行业的营收倍数参考：
+// - 餐饮：4-8倍（翻台率高，客单价稳定）
+// - 零售：3-6倍（毛利率较低，需要更高流水）
+// - 服务：3-5倍（人力成本高，毛利率较高）
+// - 教育：2-4倍（预付费模式，收入确认周期长）
+// - 文娱：3-6倍（周末效应明显，波动大）
+
 const generateCompleteDeals = () => {
+  // 每个行业配置不同的营收倍数范围
+  const industryMultipliers: Record<string, {min: number, max: number}> = {
+    'catering': { min: 4, max: 8 },      // 餐饮：高翻台
+    'retail': { min: 3, max: 6 },        // 零售：流水型
+    'service': { min: 3, max: 5 },       // 服务：人力密集
+    'education': { min: 2, max: 4 },     // 教育：预付费
+    'entertainment': { min: 3, max: 6 }  // 文娱：周末效应
+  };
+
   const industries = [
     { industry: "catering", sub: "奶茶连锁", name: "茶百道", city: "昆明", region: "云南", amount: 48, share: 0.09, irr: 0.28 },
     { industry: "retail", sub: "水果连锁", name: "百果园", city: "福州", region: "福建", amount: 72, share: 0.06, irr: 0.18 },
@@ -2120,9 +2143,64 @@ const generateCompleteDeals = () => {
 
   return industries.map((item, index) => {
     const id = `DGT-2026-C${String(index + 16).padStart(3, '0')}`;
-    const monthlyRevenue = Math.round(item.amount * 10 * (0.8 + Math.random() * 0.4));
-    const annualRevenue = monthlyRevenue * 12;
-    const annualShare = Math.round(annualRevenue * item.share);
+    
+    // 根据行业获取营收倍数范围
+    const multiplier = industryMultipliers[item.industry] || { min: 3, max: 5 };
+    // 在倍数范围内随机生成一个倍数（带有一定波动）
+    const revenueMultiplier = multiplier.min + Math.random() * (multiplier.max - multiplier.min);
+    
+    // 月营收（万元）= 投资金额（万元）× 营收倍数 × (0.9-1.1波动)
+    // 例如：投资145万的费大厨，月营收约 145 × 5.5 × 1.0 ≈ 798万 → 太高了
+    // 调整：对于大额投资，营收倍数应该更保守
+    // 实际参考：费大厨单店月营收约80-150万，不是800万
+    // 
+    // 重新设计：月营收应该基于门店规模，而非简单乘以投资额
+    // 小店（投资<60万）：月营收15-40万
+    // 中店（投资60-150万）：月营收30-100万
+    // 大店（投资150-300万）：月营收80-250万
+    // 特大店（投资>300万）：月营收150-400万
+    
+    let monthlyRevenueWan: number;
+    if (item.amount < 60) {
+      // 小型门店：月营收15-40万
+      monthlyRevenueWan = 15 + Math.random() * 25;
+    } else if (item.amount < 150) {
+      // 中型门店：月营收30-100万
+      monthlyRevenueWan = 30 + Math.random() * 70;
+    } else if (item.amount < 300) {
+      // 大型门店：月营收80-250万
+      monthlyRevenueWan = 80 + Math.random() * 170;
+    } else {
+      // 特大门店：月营收150-400万
+      monthlyRevenueWan = 150 + Math.random() * 250;
+    }
+    
+    // 再根据行业调整
+    monthlyRevenueWan = monthlyRevenueWan * (revenueMultiplier / 4.5);
+    // 取整到万元
+    monthlyRevenueWan = Math.round(monthlyRevenueWan);
+    
+    // 月营收（元）
+    const monthlyRevenueYuan = monthlyRevenueWan * 10000;
+    // 年营收（元）
+    const annualRevenueYuan = monthlyRevenueYuan * 12;
+    // 年分成收入（元）
+    const annualShareYuan = Math.round(annualRevenueYuan * item.share);
+    // 年分成收入（万元，用于文档显示）
+    const annualShareWan = Math.round(annualShareYuan / 10000);
+    // 年营收（万元，用于文档显示）
+    const annualRevenueWan = monthlyRevenueWan * 12;
+    
+    // 投资期限
+    const periodMonths = 24 + Math.floor(Math.random() * 12);
+    // 回款频率
+    const frequencies = ["daily", "weekly", "monthly"];
+    const frequency = frequencies[Math.floor(Math.random() * 3)];
+    const frequencyText = frequency === 'daily' ? '每日' : frequency === 'weekly' ? '每周' : '每月';
+    
+    // 毛利率和净利率
+    const grossMargin = 0.35 + Math.random() * 0.20;
+    const netMargin = 0.10 + Math.random() * 0.10;
     
     return {
       id,
@@ -2137,9 +2215,9 @@ const generateCompleteDeals = () => {
       main_business: `${item.name}是${item.sub}领域知名品牌，该门店位于${item.city}核心商圈，是${item.region}地区重点门店。`,
       funding_amount: item.amount,
       funding_purpose: `门店升级（${Math.round(item.amount * 0.4)}万）+ 设备更新（${Math.round(item.amount * 0.3)}万）+ 流动资金（${Math.round(item.amount * 0.3)}万）`,
-      investment_period_months: 24 + Math.floor(Math.random() * 12),
+      investment_period_months: periodMonths,
       revenue_share_ratio: item.share,
-      cashflow_frequency: ["daily", "weekly", "monthly"][Math.floor(Math.random() * 3)],
+      cashflow_frequency: frequency,
       contact_name: ["张", "李", "王", "刘", "陈", "杨", "黄", "周"][Math.floor(Math.random() * 8)] + "店长",
       contact_phone: `138000${String(index + 16).padStart(5, '0')}`,
       website: `https://www.${item.name.toLowerCase().replace(/[^\w]/g, '')}.com`,
@@ -2152,21 +2230,21 @@ ${item.name}是${item.sub}领域知名品牌，在全国拥有众多门店。
 【门店信息】
 - 位置：${item.city}核心商圈
 - 投资金额：${item.amount}万元
-- 投资期限：${24 + Math.floor(Math.random() * 12)}个月
+- 投资期限：${periodMonths}个月
 
 【经营数据】
-- 月均营收：${monthlyRevenue}万元
-- 年营收：${annualRevenue}万元
-- 毛利率：${35 + Math.floor(Math.random() * 20)}%
-- 净利率：${10 + Math.floor(Math.random() * 10)}%
+- 月均营收：${monthlyRevenueWan}万元
+- 年营收：${annualRevenueWan}万元
+- 毛利率：${Math.round(grossMargin * 100)}%
+- 净利率：${Math.round(netMargin * 100)}%
 
 【收入分成机制】
 - 分成比例：${(item.share * 100).toFixed(0)}%
-- 分成频率：${["每日", "每周", "每月"][Math.floor(Math.random() * 3)]}结算
+- 分成频率：${frequencyText}结算
 - 账户管理：三方共管账户
 
 【投资回报测算】
-- 年分成收入：${annualShare}万元
+- 年分成收入：${annualShareWan}万元
 - 预期IRR：${(item.irr * 100).toFixed(0)}%
 
 【保障机制】
@@ -2179,22 +2257,22 @@ ${item.name}是${item.sub}领域知名品牌，在全国拥有众多门店。
       financial_data: JSON.stringify({
         project_type: "store_operation",
         investment_amount: item.amount,
-        investment_period_months: 24 + Math.floor(Math.random() * 12),
+        investment_period_months: periodMonths,
         revenue_share_ratio: item.share,
-        cashflow_frequency: ["daily", "weekly", "monthly"][Math.floor(Math.random() * 3)],
+        cashflow_frequency: frequency,
         store_metrics: {
           rent_monthly: Math.round(item.amount * 0.04),
           staff_count: 5 + Math.floor(Math.random() * 20)
         },
         revenue_data: {
-          monthly_revenue: monthlyRevenue * 10000,
-          annual_revenue: annualRevenue * 10000,
-          gross_margin: 0.35 + Math.random() * 0.2,
-          net_margin: 0.10 + Math.random() * 0.10
+          monthly_revenue: monthlyRevenueYuan,
+          annual_revenue: annualRevenueYuan,
+          gross_margin: grossMargin,
+          net_margin: netMargin
         },
         investment_return: {
-          annual_share_income: annualShare * 10000,
-          moic: (annualShare * 2 / item.amount).toFixed(2),
+          annual_share_income: annualShareYuan,
+          moic: (annualShareYuan * (periodMonths / 12) / (item.amount * 10000)).toFixed(2),
           irr_estimate: item.irr
         },
         guarantee_mechanism: {

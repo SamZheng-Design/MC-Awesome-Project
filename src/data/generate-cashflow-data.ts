@@ -7,6 +7,7 @@
  * 2. 真实回款：根据分成比例和频率生成回款记录
  * 3. 波动模拟：营收有季节性和随机波动
  * 4. 状态多样：包含已完成、进行中、部分延迟等状态
+ * 5. 频率分布：70% daily, 20% weekly, 10% monthly - 使图表数据更稳定连续
  */
 
 // 回款记录类型
@@ -314,6 +315,51 @@ export function calculateTotalCashflow(records: CashflowRecord[]): number {
     .reduce((sum, r) => sum + r.amount, 0);
 }
 
+/**
+ * 根据目标比例为标的分配回款频率
+ * 目标分布：70% daily, 20% weekly, 10% monthly
+ * 使用确定性算法确保每次生成结果一致，同时满足目标比例
+ */
+function assignCashflowFrequency(dealIndex: number, totalDeals: number): 'daily' | 'weekly' | 'monthly' {
+  // 计算各频率的标的数量
+  const dailyCount = Math.round(totalDeals * 0.70);
+  const weeklyCount = Math.round(totalDeals * 0.20);
+  // monthly 获取剩余的
+  
+  // 根据索引确定频率类型
+  // 前70%为daily，接下来20%为weekly，最后10%为monthly
+  if (dealIndex < dailyCount) {
+    return 'daily';
+  } else if (dealIndex < dailyCount + weeklyCount) {
+    return 'weekly';
+  } else {
+    return 'monthly';
+  }
+}
+
+/**
+ * 使用 Fisher-Yates 洗牌算法打乱数组
+ * 使用基于deal id的确定性种子，确保每次生成结果一致
+ */
+function shuffleWithSeed(array: any[], seed: number): any[] {
+  const result = [...array];
+  let currentIndex = result.length;
+  
+  // 简单的伪随机数生成器
+  const seededRandom = () => {
+    seed = (seed * 1103515245 + 12345) & 0x7fffffff;
+    return seed / 0x7fffffff;
+  };
+  
+  while (currentIndex > 0) {
+    const randomIndex = Math.floor(seededRandom() * currentIndex);
+    currentIndex--;
+    [result[currentIndex], result[randomIndex]] = [result[randomIndex], result[currentIndex]];
+  }
+  
+  return result;
+}
+
 // 生成所有标的的投后数据
 export function generateAllPostInvestmentData(deals: any[]) {
   const currentDate = new Date('2026-01-15'); // 当前日期
@@ -324,6 +370,22 @@ export function generateAllPostInvestmentData(deals: any[]) {
   // 默认投资人
   const defaultInvestorId = 'INV-DGT-001';
   
+  // 为了使频率分配更加随机（而不是按顺序分配），
+  // 我们先创建一个打乱顺序的索引数组
+  // 使用确定性种子确保每次生成结果一致
+  const seed = 20260116; // 固定种子
+  const shuffledIndices = shuffleWithSeed(
+    deals.map((_, i) => i),
+    seed
+  );
+  
+  // 创建索引到频率的映射
+  const indexToFrequency = new Map<number, 'daily' | 'weekly' | 'monthly'>();
+  shuffledIndices.forEach((originalIndex, shuffledPosition) => {
+    const frequency = assignCashflowFrequency(shuffledPosition, deals.length);
+    indexToFrequency.set(originalIndex, frequency);
+  });
+  
   deals.forEach((deal, index) => {
     // 生成投资日期
     const investmentDate = generateInvestmentDate(index, deals.length);
@@ -332,8 +394,17 @@ export function generateAllPostInvestmentData(deals: any[]) {
     const transaction = generateInvestmentTransaction(deal, investmentDate, defaultInvestorId);
     allTransactions.push(transaction);
     
+    // 获取按比例分配的频率（覆盖原始deal中的频率设置）
+    const assignedFrequency = indexToFrequency.get(index) || 'daily';
+    
+    // 创建带有分配频率的deal副本
+    const dealWithAssignedFrequency = {
+      ...deal,
+      cashflow_frequency: assignedFrequency
+    };
+    
     // 生成回款记录
-    const cashflows = generateCashflowRecords(deal, investmentDate, currentDate);
+    const cashflows = generateCashflowRecords(dealWithAssignedFrequency, investmentDate, currentDate);
     allCashflows.push(...cashflows);
     
     // 计算累计回款
@@ -346,9 +417,17 @@ export function generateAllPostInvestmentData(deals: any[]) {
       invested_amount: (deal.funding_amount || 50) * 10000,
       invested_date: formatDate(investmentDate),
       investor_id: defaultInvestorId,
-      total_cashflow: Math.round(totalCashflow * 100) / 100
+      total_cashflow: Math.round(totalCashflow * 100) / 100,
+      cashflow_frequency: assignedFrequency // 保存分配的频率
     });
   });
+  
+  // 计算实际频率分布统计
+  const frequencyStats = {
+    daily: dealUpdates.filter(d => d.cashflow_frequency === 'daily').length,
+    weekly: dealUpdates.filter(d => d.cashflow_frequency === 'weekly').length,
+    monthly: dealUpdates.filter(d => d.cashflow_frequency === 'monthly').length
+  };
   
   return {
     cashflows: allCashflows,
@@ -363,6 +442,13 @@ export function generateAllPostInvestmentData(deals: any[]) {
         daily: allCashflows.filter(c => c.period_type === 'daily').length,
         weekly: allCashflows.filter(c => c.period_type === 'weekly').length,
         monthly: allCashflows.filter(c => c.period_type === 'monthly').length
+      },
+      // 新增：按标的统计的频率分布
+      dealsByFrequency: frequencyStats,
+      frequencyDistribution: {
+        daily: `${(frequencyStats.daily / deals.length * 100).toFixed(1)}%`,
+        weekly: `${(frequencyStats.weekly / deals.length * 100).toFixed(1)}%`,
+        monthly: `${(frequencyStats.monthly / deals.length * 100).toFixed(1)}%`
       }
     }
   };

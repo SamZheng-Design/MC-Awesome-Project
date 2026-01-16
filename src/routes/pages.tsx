@@ -6,6 +6,8 @@ import { workflowPageContent, submitPageContent, dealsPageContent } from './page
 import { dealDetailPageContent } from './pages-deal-detail'
 import { investorPortalPageContent } from './pages-investor'
 import { investorDealDetailPageContent } from './pages-investor-deal'
+import { investorDealsListPageContent } from './pages-investor-deals-list'
+import { investorTransactionsListPageContent } from './pages-investor-transactions-list'
 
 const pages = new Hono()
 
@@ -683,7 +685,8 @@ pages.get('/', (c) => {
             evaluation: { label: '评估中', cls: 'gs-badge-warning' },
             review: { label: '待审核', cls: 'gs-badge-primary' },
             completed: { label: '已完成', cls: 'gs-badge-success' },
-            rejected: { label: '已拒绝', cls: 'gs-badge-danger' }
+            rejected: { label: '已拒绝', cls: 'gs-badge-danger' },
+            invested: { label: '已投资', cls: 'gs-badge-success' }
           };
           
           const industryMap = {
@@ -767,6 +770,16 @@ pages.get('/deals/:id', (c) => {
 pages.get('/investor/deal/:id', (c) => {
   const id = c.req.param('id')
   return c.html(baseLayout('投后详情 - ' + id, investorDealDetailPageContent, 'investor'))
+})
+
+// 投资人 - 已投资标的全部列表页面
+pages.get('/investor/deals', (c) => {
+  return c.html(baseLayout('已投资标的', investorDealsListPageContent, 'investor'))
+})
+
+// 投资人 - 交易记录全部列表页面
+pages.get('/investor/transactions', (c) => {
+  return c.html(baseLayout('交易记录', investorTransactionsListPageContent, 'investor'))
 })
 
 export default pages
